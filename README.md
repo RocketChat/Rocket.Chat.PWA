@@ -1,3 +1,27 @@
+# Rocket.Chat PWA Client 
+
+## For mobile:
+
+![](https://raw.githubusercontent.com/Sing-Li/bbug/master/images/pwaclientmobile.png)
+
+## And desktop:
+
+![](https://raw.githubusercontent.com/Sing-Li/bbug/master/images/pwaclientbig.png)
+
+### Objectives:
+
+* bandwidth efficient
+* simplified UI and features subset 
+* targetted specifically for a special high impact project (details to follow soon)
+* deploy Web Components for modular rapid application development
+* take advantage of web workers
+* be an exmemplary PWA project
+* be the first ever non-Meteor, messenger styled client that works great with Rocket.Chat engine
+* engage a community of active contributors
+
+
+### based on
+
 ![](https://cloud.githubusercontent.com/assets/110953/7877439/6a69d03e-0590-11e5-9fac-c614246606de.png)
 ## Polymer Starter Kit
 
