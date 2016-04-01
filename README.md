@@ -1,4 +1,4 @@
-# Rocket.Chat PWA Client 
+# Rocket.Chat PWA 
 
 ## For mobile:
 
