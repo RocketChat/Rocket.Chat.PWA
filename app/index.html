@@ -55,7 +55,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        in this file. All other imports should go in elements.html -->
   <link rel="import" href="elements/elements.html">
 
-
   <!-- For shared styles, shared-styles.html import in elements.html -->
   <style is="custom-style" include="shared-styles"></style>
 </head>
@@ -69,37 +68,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-drawer-panel id="paperDrawerPanel" responsive-width="840px">
       <!-- Drawer Scroll Header Panel -->
-      <paper-scroll-header-panel drawer fixed>
+			<paper-scroll-header-panel drawer fixed>
 
-        <!-- Drawer Toolbar -->
-        <paper-toolbar id="drawerToolbar">
-          <span class="menu-name">Online (35)</span>
-        </paper-toolbar>
+				<!-- Drawer Toolbar -->
+				<paper-toolbar id="drawerToolbar">
+					<iron-ajax url="data/loggedin.json" last-response="{{loggedin}}" auto></iron-ajax>
+					<rocketchat-avatar user="{{loggedin}}"></rocketchat-avatar>
+					<span class="menu-name">{{loggedin.name}}</span>
+					<iron-icon icon="icons:settings"></iron-icon>
+				</paper-toolbar>
 
-        <!-- Drawer Content -->
-        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="chats" href="{{baseUrl}}chats">
-            <iron-icon icon="communication:chat-bubble"></iron-icon>
-            <span>Chats</span>
-          </a>
+				<!-- Drawer Content -->
+				<paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
 
-          <a data-route="groups" href="{{baseUrl}}groups">
-            <iron-icon icon="social:people-outline"></iron-icon>
-            <span>Groups</span>
-          </a>
-          <a data-route="friends" href="{{baseUrl}}friends">
-            <iron-icon icon="social:person"></iron-icon>
-            <span>Friends</span>
-          </a>
+					<a data-route="chats" href$="{{baseUrl}}channels">
+						<iron-icon icon="communication:forum"></iron-icon>
+						<span>Channels</span>
+					</a>
 
-          <a data-route="users" href="{{baseUrl}}users">
-            <iron-icon icon="social:group"></iron-icon>
-            <span>Users</span>
-          </a>
+					<a data-route="direct" href$="{{baseUrl}}private">
+						<iron-icon icon="communication:chat-bubble"></iron-icon>
+						<span>Private Messages</span>
+					</a>
 
+					<a data-route="groups" href$="{{baseUrl}}groups">
+						<iron-icon icon="social:people-outline"></iron-icon>
+						<span>Groups</span>
+					</a>
 
-        </paper-menu>
-      </paper-scroll-header-panel>
+					<a data-route="users" href$="{{baseUrl}}users">
+						<iron-icon icon="social:group"></iron-icon>
+						<span>Users</span>
+					</a>
+				</paper-menu>
+			</paper-scroll-header-panel>
 
       <!-- Main Area -->
       <paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
@@ -123,9 +125,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="chats">
+            <section data-route="channels">
 
-                <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
+              <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
+              <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
+                <template>
+                  <div>
+                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
+                      <img class="avatar" src="[[item.image]]">
+                      <div class="pad">
+                        <div class="primary">
+                          [[item.name]]
+                        </div>
+                        <div class="secondary dim">[[item.date]]</div>
+                        <div class="secondary dim">[[item.shortText]]</div>
+                      </div>
+                    </div>
+                    <div class="border"></div>
+                  </div>
+                </template>
+              </iron-list>
+
+            </section>
+
+						<section data-route="private">
+
+              <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
               <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
                 <template>
                   <div>
@@ -153,7 +178,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template>
                   <div>
                     <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <img class="avatar" src="[[item.image]]">
+                      <!--<img class="avatar" src="[[item.image]]">-->
+											<rocketchat-avatar user="[[item]]"></rocketchat-avatar>
+
                       <div class="pad">
                         <div class="primary">
                           [[item.name]]
@@ -191,28 +218,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             </section>
 
-            <section data-route="friends">
-              <iron-ajax url="data/friends.json" last-response="{{frienddata}}" auto></iron-ajax>
-
-              <iron-list id="itemsList" items="[[frienddata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <img class="avatar" src="[[item.image]]">
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <div class="secondary dim">[[item.shortText]]</div>
-                      </div>
-                    </div>
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
-
-
-            </section>
           </iron-pages>
         </div>
       </paper-scroll-header-panel>

@@ -131,8 +131,31 @@
     "phone": "(887) 497-3612",
     "color": "rgb(195,89,110)"
   },
-  {
+	{
     "index": 6,
+    "name": "Neils Obi",
+    "first": "Stacie",
+    "last": "Bartlett",
+    "image": "https://s3.amazonaws.com/uifaces/faces/twitter/carlyson/73.jpg",
+    "expanded": false,
+		"messageType": "action",
+    "guid": "17aac57d-4644-44d8-8a6b-b2eedd3d42dc",
+    "integer": 49,
+    "date": "Sun Mar 14 1999 23:13:33 GMT-0800 (PST)",
+    "shortText": "Does a jig",
+    "mediumText": "Lorem dolor sint labore minim eu ullamco cupidatat ea velit minim. Sint eiusmod dolor nisi adipisicing pariatur esse sint anim labore consectetur irure exercitation cillum. Quis labore nulla occaecat incididunt qui ex dolor voluptate sunt eiusmod sunt proident occaecat excepteur. Dolore quis magna adipisicing esse enim occaecat.",
+    "longText": "Aute labore ipsum id proident occaecat cillum magna commodo excepteur Lorem et ea incididunt. Labore reprehenderit minim ipsum id aliquip fugiat elit. Sit in esse aute mollit id elit sint amet minim commodo id. Esse tempor aliqua enim amet anim commodo non anim nisi.\r\n",
+    "address": "4 Luquer Street",
+    "city": "Newcastle",
+    "state": "Iowa",
+    "zip": 72190,
+    "country": "Uruguay",
+    "email": "staciebartlett@scentric.com",
+    "phone": "(957) 412-3261",
+    "color": "rgb(164,84,221)"
+  },
+  {
+    "index": 7,
     "name": "Neils Obi",
     "first": "Stacie",
     "last": "Bartlett",
