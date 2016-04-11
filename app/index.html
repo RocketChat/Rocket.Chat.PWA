@@ -81,19 +81,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<!-- Drawer Content -->
 				<paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
 
-					<a data-route="chats" href$="{{baseUrl}}channels">
+					<a data-route="chats" href$="{{baseUrl}}chats">
 						<iron-icon icon="communication:forum"></iron-icon>
-						<span>Channels</span>
-					</a>
-
-					<a data-route="direct" href$="{{baseUrl}}private">
-						<iron-icon icon="communication:chat-bubble"></iron-icon>
-						<span>Private Messages</span>
+						<span>Chats</span>
 					</a>
 
 					<a data-route="groups" href$="{{baseUrl}}groups">
-						<iron-icon icon="social:people-outline"></iron-icon>
+						<iron-icon icon="communication:chat-bubble"></iron-icon>
 						<span>Groups</span>
+					</a>
+
+					<a data-route="friends" href$="{{baseUrl}}friends">
+						<iron-icon icon="social:people-outline"></iron-icon>
+						<span>Friends</span>
 					</a>
 
 					<a data-route="users" href$="{{baseUrl}}users">
@@ -125,7 +125,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
-            <section data-route="channels">
+            <section data-route="chats">
 
               <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
               <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
@@ -148,7 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             </section>
 
-						<section data-route="private">
+						<section data-route="friends">
 
               <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
               <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
@@ -160,8 +160,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <div class="primary">
                           [[item.name]]
                         </div>
+                        <!--
                         <div class="secondary dim">[[item.date]]</div>
                         <div class="secondary dim">[[item.shortText]]</div>
+                        -->
                       </div>
                     </div>
                     <div class="border"></div>
@@ -185,7 +187,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <div class="primary">
                           [[item.name]]
                         </div>
+                        <!--
                         <div class="secondary dim">[[item.shortText]]</div>
+                        -->
                       </div>
                     </div>
                     <div class="border"></div>
