@@ -66,6 +66,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template is="dom-bind" id="app">
 
+    <rocketchat-connection url="wss://demo.rocket.chat" username="email@rocket.chat" password="password" room="GENERAL" messages="{{messages}}"></rocketchat-connection>
+
     <paper-drawer-panel id="paperDrawerPanel" responsive-width="840px">
       <!-- Drawer Scroll Header Panel -->
 			<paper-scroll-header-panel drawer fixed>
@@ -73,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<!-- Drawer Toolbar -->
 				<paper-toolbar id="drawerToolbar">
 					<iron-ajax url="data/loggedin.json" last-response="{{loggedin}}" auto></iron-ajax>
-					<rocketchat-avatar user="{{loggedin}}"></rocketchat-avatar>
+					<rocketchat-avatar image="{{loggedin.image}}" status="{{loggedin.status}}"></rocketchat-avatar>
 					<span class="menu-name">{{loggedin.name}}</span>
 					<iron-icon icon="icons:settings"></iron-icon>
 				</paper-toolbar>
@@ -126,25 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="chats">
-
-              <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
-              <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <img class="avatar" src="[[item.image]]">
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <div class="secondary dim">[[item.date]]</div>
-                        <div class="secondary dim">[[item.shortText]]</div>
-                      </div>
-                    </div>
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
+              <rocketchat-channel messages="{{messages}}"></rocketchat-channel>
 
             </section>
 
@@ -181,7 +165,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <div>
                     <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
                       <!--<img class="avatar" src="[[item.image]]">-->
-											<rocketchat-avatar user="[[item]]"></rocketchat-avatar>
+											<rocketchat-avatar image="[[item.image]]"></rocketchat-avatar>
 
                       <div class="pad">
                         <div class="primary">
@@ -253,6 +237,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/iddp.js"></script>
   <!-- endbuild-->
 </body>
 

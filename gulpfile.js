@@ -15,6 +15,8 @@ require('es6-promise').polyfill();
 
 // Include Gulp & tools we'll use
 var gulp = require('gulp');
+var browserify = require('gulp-browserify');
+var rename = require('gulp-rename');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
@@ -121,8 +123,16 @@ gulp.task('images', function() {
   return imageOptimizeTask('app/images/**/*', dist('images'));
 });
 
+gulp.task('browserify', function () {
+  return gulp.src(['app/scripts/ddp.js'])
+    .pipe(browserify({
+      insertGlobals: true
+    }))
+    .pipe(gulp.dest('app/scripts'));
+});
+
 // Copy all files at the root level (app)
-gulp.task('copy', function() {
+gulp.task('copy', ['browserify'], function() {
   var app = gulp.src([
     'app/*',
     '!app/test',
