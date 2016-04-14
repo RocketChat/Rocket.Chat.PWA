@@ -19,6 +19,34 @@
 * be the first ever non-Meteor, messenger styled client that works great with the Rocket.Chat engine
 * engage a community of active contributors
 
+### Latest Update (April 13, 2016):
+
+* login to your Rocket.Chat server
+* fetches and display 100 messages from GENERAL channel
+
+####  Experiment with the code, assuming you already have original PWA project code git cloned:
+(please first see Polymer starter kit instructions in the following section if you do not have the project code cloned yet)
+
+```
+git pull  
+git checkout add-basic-ddp
+npm install
+```
+
+Edit the app/index.html file, change the parameterization of the `<rocketchat-connection>` web component to match your test user and server.
+
+```
+<rocketchat-connection url="ws://localhost:3000" username="user@doman.com" password="password" room="GENERAL" messages="{{messages}}"></rocketchat-connection>
+```
+
+Pay attention to `ws://` for non-SSL connection; and `wss://` for SSL enabled ones.
+
+Try the app:
+
+```
+gulp serve
+```
+
 
 ### Based on
 
