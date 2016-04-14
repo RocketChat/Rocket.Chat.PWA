@@ -1,1 +1,5 @@
-window.ddp = require('ddp.js').default;
+import {createClass} from "asteroid";
+
+const Asteroid = createClass();
+
+window.Asteroid = Asteroid;

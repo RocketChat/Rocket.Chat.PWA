@@ -66,7 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template is="dom-bind" id="app">
 
-    <rocketchat-connection url="wss://demo.rocket.chat" username="email@rocket.chat" password="password" room="GENERAL" messages="{{messages}}"></rocketchat-connection>
+    <rocketchat-connection url="wss://demo.rocket.chat" username="user@rocket.chat" password="password" room="GENERAL" messages="{{messages}}"></rocketchat-connection>
 
     <paper-drawer-panel id="paperDrawerPanel" responsive-width="840px">
       <!-- Drawer Scroll Header Panel -->
@@ -129,7 +129,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="chats">
               <rocketchat-channel messages="{{messages}}"></rocketchat-channel>
-
             </section>
 
 						<section data-route="friends">

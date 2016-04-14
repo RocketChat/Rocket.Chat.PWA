@@ -50,45 +50,29 @@
 
         connect: function () {
           return new Promise((resolve, reject) => {
-            var connection = new ddp({
+            var connection = new Asteroid({
               endpoint: this.url+ 'websocket',
               SocketConstructor: WebSocket
             });
 
-            connection.on('connected', () => {
+            connection.ddp.on('connected', () => {
+              console.log('Connected!')
               this.connection = connection;
+
               resolve();
             });
 
-            connection.on('changed', function (message) {
+            connection.ddp.on('changed', function (message) {
               console.log(message);
             });
 
-            connection.on('added', function (message) {
+            connection.ddp.on('added', function (message) {
               console.log(message);
             });
 
-            connection.on("ready", function (message) {
+            connection.ddp.on("ready", function (message) {
               console.log(message)
-            })
-
-            //connection.sub('settings');
-            connection.sub('stream-notify-all');
-            connection.sub('stream-notify-room');
-            connection.sub('stream-notify-user');
-            connection.sub('scopedRoles', 'Users');
-            connection.sub('scopedRoles', 'Subscriptions');
-            connection.sub('roles');
-            //connection.sub('permissions');
-            connection.sub('integrations');
-            connection.sub('oauthApps');
-            connection.sub('subscription');
-            connection.sub('userData');
-            //connection.sub('activeUsers');
-            connection.sub('meteor_autoupdate_clientVersions');
-            connection.sub('stream-messages', null);
-
-            //connection.sub('room', 'cGENERAL');
+            });
 
           });
         },
@@ -96,32 +80,44 @@
         login: function () {
           return new Promise((resolve, reject) => {
 
-            var id = this.connection.method('login', [{
-              user: {
-                email: this.username
-              },
-              password: this.password
-            }]);
+            this.connection.loginWithPassword({email: this.username, password: this.password}).then(result => {
+              console.log(result);
 
-            this.connection.on('result', (message) => {
-              if (message.id === id) {
-                console.log('Login: ', message);
-                resolve();
-              }
-            })
+              resolve();
+            }).catch(err => {
+              console.log(err)
+              reject();
+            });
           });
+        },
+
+        subscribe: function () {
+          var roomId = this.roomId;
+
+          //connection.sub('settings');
+          this.connection.subscribe('stream-notify-all');
+          this.connection.subscribe('stream-notify-room');
+          this.connection.subscribe('stream-notify-user');
+          this.connection.subscribe('scopedRoles', 'Users');
+          this.connection.subscribe('scopedRoles', 'Subscriptions');
+          this.connection.subscribe('roles');
+          //connection.sub('permissions');
+          this.connection.subscribe('integrations');
+          this.connection.subscribe('oauthApps');
+          this.connection.subscribe('subscription');
+          this.connection.subscribe('userData');
+          //connection.sub('activeUsers');
+          this.connection.subscribe('meteor_autoupdate_clientVersions');
+          this.connection.subscribe('stream-messages', null);
+
+          this.connection.subscribe('room', 'cgeneral');
         },
 
         loadHistory: function (roomId) {
           return new Promise((resolve, reject) => {
 
-            var methodId = this.connection.method('loadHistory', [roomId, null, 100, new Date()]);
-
-            this.connection.on('result', (message) => {
-              if (message.id === methodId) {
-                this.connection.sub('room', ['c'+roomId]);
-                resolve(message.result.messages);
-              }
+            this.connection.call('loadHistory', roomId, null, 100, new Date()).then(results => {
+              resolve(results.messages);
             });
 
           });
@@ -132,9 +128,10 @@
 
             this.login().then(() => {
               console.log('Successfully Logged In');
+              this.subscribe();
               this.loadHistory(this.room).then((messages) => {
                 this.addMessages(messages);
-              });
+              }).catch(err => console.log(err));
 
             }).catch((err) => console.log('Error Logging In', err));
           }).catch((err) => console.log('Error Connecting', err));
