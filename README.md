@@ -31,6 +31,7 @@
 git pull  
 git checkout add-basic-ddp
 npm install
+npm install browserify
 ```
 
 Edit the app/index.html file, change the parameterization of the `<rocketchat-connection>` web component to match your test user and server.
