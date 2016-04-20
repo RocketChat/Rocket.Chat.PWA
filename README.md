@@ -19,6 +19,18 @@
 * be the first ever non-Meteor, messenger styled client that works great with the Rocket.Chat engine
 * engage a community of active contributors
 
+### Latest Update (April 20, 2016):
+
+New web components available:
+
+* `<rocketchat-chatslist>`
+* `<rocketchat-friendslist>`
+* `<rocketchat-groupslist>`
+* `<rocketchat-userslist>`
+* `<rocketchat-avatar>`
+
+Beginning of a components based modular construction kit for new Rocket.Chat user interfaces. 
+
 ### Latest Update (April 13, 2016):
 
 * login to your Rocket.Chat server
