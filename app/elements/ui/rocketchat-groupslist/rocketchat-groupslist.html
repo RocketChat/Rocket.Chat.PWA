@@ -1,0 +1,119 @@
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-list.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-ajax.html">
+
+<dom-module id="rocketchat-groupslist">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #itemsList,
+      #selectedItemsList {
+        @apply(--layout-flex);
+      }
+      .item {
+        @apply(--layout-horizontal);
+        cursor: pointer;
+        padding: 16px 22px;
+        border-bottom: 1px solid #DDD;
+      }
+      .item:focus,
+      .item.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .item.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .item.selected {
+        background-color: var(--google-grey-300);
+        border-bottom: 1px solid #ccc;
+      }
+      .avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        box-sizing: border-box;
+        background-color: #ddd;
+      }
+      .pad {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        padding: 0 16px;
+      }
+      .primary {
+        font-size: 16px;
+      }
+      .secondary {
+        font-size: 14px;
+      }
+      .dim {
+        color: gray;
+      }
+      .star {
+        width: 24px;
+        height: 24px;
+      }
+      span {
+        @apply(--paper-font-body1);
+      }
+    </style>
+    <iron-ajax url="{{datasource}}" last-response="{{groupdata}}" auto></iron-ajax>
+    <iron-list id="itemsList" items="[[groupdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
+      <template>
+        <div>
+          <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
+
+            <img class="avatar" src="[[item.image]]">
+            <div class="pad">
+              <div class="primary">
+                [[item.name]]
+              </div>
+              <div class="secondary dim">[[item.shortText]]</div>
+            </div>
+
+
+            <div class="border"></div>
+          </div>
+      </template>
+    </iron-list>
+
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'rocketchat-groupslist',
+
+        properties: {
+          image: {
+            type: String,
+          },
+          status: {
+            type: String,
+            value: 'disabled'
+          },
+          datasource: {
+            type: String
+          }
+        },
+
+        _computedClass: function (isSelected) {
+          var classes = 'item';
+          if (isSelected) {
+            classes += ' selected';
+          }
+          return classes;
+        },
+        ready: function() {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>

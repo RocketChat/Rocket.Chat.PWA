@@ -1,8 +1,8 @@
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../rocketchat-avatar/rocketchat-avatar.html">
+<link rel="import" href="../ui/rocketchat-avatar/rocketchat-avatar.html">
 
-<dom-module id="rocketchat-channel">
+<dom-module id="rocketchat-chatslist">
   <template>
     <style>
       .message {
@@ -25,7 +25,7 @@
 
           <template is="dom-if" if="{{!message.t}}">
             <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[message.u.username]]" class$="[[_computedClass(selected)]]">
-              <rocketchat-avatar image="https://demo.rocket.chat/avatar/[[message.u.username]].jpg?dc=0"></rocketchat-avatar>
+              <rocketchat-avatar image="http://localhost:3000/avatar/[[message.u.username]].jpg?dc=0"></rocketchat-avatar>
               <div class="message-top">
                 <span>[[message.u.username]]: </span>
                 <div class="secondary dim">[[message.msg]]</div>
@@ -45,7 +45,7 @@
       'use strict';
 
       Polymer({
-        is: 'rocketchat-channel',
+        is: 'rocketchat-chatslist',
 
         properties: {
           messages: {
