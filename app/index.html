@@ -102,6 +102,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						<iron-icon icon="social:group"></iron-icon>
 						<span>Users</span>
 					</a>
+
+          <a data-route="canvas" href$="{{baseUrl}}canvas">
+            <iron-icon icon="social:group"></iron-icon>
+            <span>IoT</span>
+          </a>
+
+
 				</paper-menu>
 			</paper-scroll-header-panel>
 
@@ -145,6 +152,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <section data-route="groups">
               <rocketchat-groupslist datasource="data/groups.json" />
 
+
+            </section>
+            <section data-route="canvas">
+              <rocketchat-iotcanvas imgsrc="https://raw.githubusercontent.com/Sing-Li/bbug/master/images/pictrl.png" />
 
             </section>
 

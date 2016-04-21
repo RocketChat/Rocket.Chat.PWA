@@ -1,9 +1,8 @@
-
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
 
-<dom-module id="rocketchat-friendslist">
+
+<dom-module id="rocketchat-iotcanvas">
   <template>
     <style>
       :host {
@@ -61,22 +60,10 @@
         @apply(--paper-font-body1);
       }
     </style>
-    <iron-ajax url="{{datasource}}" last-response="{{chatdata}}" auto></iron-ajax>
-    <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-      <template>
-        <div>
-          <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-            <img class="avatar" src="[[item.image]]">
-            <div class="pad">
-              <div class="primary">
-                [[item.name]]
-              </div>
-            </div>
-          </div>
-          <div class="border"></div>
-        </div>
-      </template>
-    </iron-list>
+  <div class="pad">
+    <bold>Touch any area of image and trigger slash commands to set to IoT bots:</bold>
+    <iron-image  src="{{imgsrc}}"></iron-image>
+    </div>
 
   </template>
 
@@ -85,7 +72,7 @@
       'use strict';
 
       Polymer({
-        is: 'rocketchat-friendslist',
+        is: 'rocketchat-iotcanvas',
 
         properties: {
           image: {
@@ -95,17 +82,9 @@
             type: String,
             value: 'disabled'
           },
-          datasource: {
+          imgsrc: {
             type: String
           }
-        },
-
-        _computedClass: function (isSelected) {
-          var classes = 'item';
-          if (isSelected) {
-            classes += ' selected';
-          }
-          return classes;
         },
         ready: function() {
 
