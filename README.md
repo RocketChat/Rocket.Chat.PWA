@@ -19,6 +19,11 @@
 * be the first ever non-Meteor, messenger styled client that works great with the Rocket.Chat engine
 * engage a community of active contributors
 
+### Latest Update (April 21, 2016):
+
+New web components available:
+* `<rocketcaht-iotcanvas>`
+
 ### Latest Update (April 20, 2016):
 
 New web components available:
