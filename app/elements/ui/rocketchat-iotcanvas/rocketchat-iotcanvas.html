@@ -1,0 +1,69 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+
+
+<dom-module id="rocketchat-iotcanvas">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .pad {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        padding: 0 16px;
+      }
+      .primary {
+        font-size: 16px;
+      }
+      .secondary {
+        font-size: 14px;
+      }
+      .dim {
+        color: gray;
+      }
+      .star {
+        width: 24px;
+        height: 24px;
+      }
+      span {
+        @apply(--paper-font-body1);
+      }
+    </style>
+  <div class="pad">
+    <bold>Touch any area of image and trigger slash commands to set to IoT bots:</bold>
+    <iron-image  src="{{imgsrc}}"   on-tap="imageTouched"></iron-image>
+    </div>
+
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'rocketchat-iotcanvas',
+        imageTouched: function(ev) {
+          alert('map from x-y to bot slash cmds! x is ' + ev.detail.x + ' and y is ' + ev.detail.y);
+        },
+        properties: {
+          status: {
+            type: String,
+            value: 'disabled'
+          },
+          zonemap: {
+            type: String,
+            value: 'quarters'
+          },
+          imgsrc: {
+            type: String
+          }
+        },
+        ready: function() {
+
+        }
+      });
+    })();
+  </script>
+</dom-module>

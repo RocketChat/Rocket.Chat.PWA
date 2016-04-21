@@ -59,12 +59,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style is="custom-style" include="shared-styles"></style>
 </head>
 
-<body unresolved>
+<body unresolved touch="auto">
   <!-- build:remove -->
   <span id="browser-sync-binding"></span>
   <!-- endbuild -->
 
   <template is="dom-bind" id="app">
+
+    <rocketchat-connection url="ws://yourhost:3000" username="user@yoursystem.com" password="yourpassword" room="GENERAL" messages="{{messages}}"></rocketchat-connection>
 
     <paper-drawer-panel id="paperDrawerPanel" responsive-width="840px">
       <!-- Drawer Scroll Header Panel -->
@@ -73,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<!-- Drawer Toolbar -->
 				<paper-toolbar id="drawerToolbar">
 					<iron-ajax url="data/loggedin.json" last-response="{{loggedin}}" auto></iron-ajax>
-					<rocketchat-avatar user="{{loggedin}}"></rocketchat-avatar>
+					<rocketchat-avatar image="{{loggedin.image}}" status="{{loggedin.status}}"></rocketchat-avatar>
 					<span class="menu-name">{{loggedin.name}}</span>
 					<iron-icon icon="icons:settings"></iron-icon>
 				</paper-toolbar>
@@ -100,6 +102,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						<iron-icon icon="social:group"></iron-icon>
 						<span>Users</span>
 					</a>
+
+          <a data-route="canvas" href$="{{baseUrl}}canvas">
+            <iron-icon icon="social:group"></iron-icon>
+            <span>IoT</span>
+          </a>
+
+
 				</paper-menu>
 			</paper-scroll-header-panel>
 
@@ -125,100 +134,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
             <section data-route="chats">
-
-              <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
-              <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <img class="avatar" src="[[item.image]]">
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <div class="secondary dim">[[item.date]]</div>
-                        <div class="secondary dim">[[item.shortText]]</div>
-                      </div>
-                    </div>
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
-
+              <rocketchat-chatslist messages="{{messages}}"></rocketchat-chatslist>
             </section>
 
 						<section data-route="friends">
-
-              <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
-              <iron-list id="itemsList" items="[[chatdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <img class="avatar" src="[[item.image]]">
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <!--
-                        <div class="secondary dim">[[item.date]]</div>
-                        <div class="secondary dim">[[item.shortText]]</div>
-                        -->
-                      </div>
-                    </div>
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
+              <rocketchat-friendslist datasource="data/chats.json" />
 
             </section>
 
             <section data-route="users">
-              <iron-ajax url="data/users.json" last-response="{{userdata}}" auto></iron-ajax>
 
-              <iron-list id="itemsList" items="[[userdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-                      <!--<img class="avatar" src="[[item.image]]">-->
-											<rocketchat-avatar user="[[item]]"></rocketchat-avatar>
-
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <!--
-                        <div class="secondary dim">[[item.shortText]]</div>
-                        -->
-                      </div>
-                    </div>
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
-            </section>
+              <rocketchat-userslist datasource="data/users.json" />
+             </section>
 
             <section data-route="groups">
-              <iron-ajax url="data/groups.json" last-response="{{groupdata}}" auto></iron-ajax>
-
-              <iron-list id="itemsList" items="[[groupdata]]" selected-items="{{selectedItems}}" selection-enabled multi-selection>
-                <template>
-                  <div>
-                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.name]]" class$="[[_computedClass(selected)]]">
-
-                    <img class="avatar" src="[[item.image]]">
-                      <div class="pad">
-                        <div class="primary">
-                          [[item.name]]
-                        </div>
-                        <div class="secondary dim">[[item.shortText]]</div>
-                      </div>
+              <rocketchat-groupslist datasource="data/groups.json" />
 
 
-                    <div class="border"></div>
-                  </div>
-                </template>
-              </iron-list>
+            </section>
+            <section data-route="canvas">
+              <rocketchat-iotcanvas imgsrc="https://raw.githubusercontent.com/Sing-Li/bbug/master/images/pictrl.png" />
 
             </section>
 
@@ -253,6 +190,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/iddp.js"></script>
   <!-- endbuild-->
 </body>
 

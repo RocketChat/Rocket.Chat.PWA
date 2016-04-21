@@ -64,6 +64,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setFocus(app.route);
     });
 
+    page('/canvas', function() {
+      app.route = 'canvas';
+      app.params = {"title": "Users", "sub": 'Available online users'};
+      setFocus(app.route);
+    });
+
+
     /*
     page('/users/:name', function(data) {
       app.route = 'user-info';

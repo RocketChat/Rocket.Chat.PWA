@@ -1,0 +1,66 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ui/rocketchat-avatar/rocketchat-avatar.html">
+
+<dom-module id="rocketchat-chatslist">
+  <template>
+    <style>
+      .message {
+        margin: 25px 0px;
+      }
+      .message-top {
+        display: flex;
+      }
+    </style>
+
+    <!--
+    <iron-ajax url="data/chats.json" last-response="{{chatdata}}" auto></iron-ajax>
+    <iron-list id="itemsList" items="{{messages}}" as="message" selected-items="{{selectedItems}}" selection-enabled>
+
+    </iron-list>
+    -->
+    <div id="itemsList">
+      <template is="dom-repeat" items="{{messages}}" as="message" sort="_sortByDate">
+        <div class="message">
+
+          <template is="dom-if" if="{{!message.t}}">
+            <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[message.u.username]]" class$="[[_computedClass(selected)]]">
+              <rocketchat-avatar image="http://localhost:3000/avatar/[[message.u.username]].jpg?dc=0"></rocketchat-avatar>
+              <div class="message-top">
+                <span>[[message.u.username]]: </span>
+                <div class="secondary dim">[[message.msg]]</div>
+              </div>
+            </div>
+          </template>
+
+          <div class="border"></div>
+        </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'rocketchat-chatslist',
+
+        properties: {
+          messages: {
+            type: Array,
+            notify: true,
+          }
+        },
+
+        ready: function() {
+
+        },
+        _sortByDate: function(message1, message2) {
+          return message1.ts.$date - message2.ts.$date;
+        }
+      });
+    })();
+  </script>
+</dom-module>

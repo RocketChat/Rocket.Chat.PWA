@@ -15,6 +15,9 @@ require('es6-promise').polyfill();
 
 // Include Gulp & tools we'll use
 var gulp = require('gulp');
+var browserify = require('browserify');
+var babelify = require('babelify');
+var rename = require('gulp-rename');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
