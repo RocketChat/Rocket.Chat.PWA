@@ -9,35 +9,6 @@
         display: block;
       }
 
-      #itemsList,
-      #selectedItemsList {
-        @apply(--layout-flex);
-      }
-      .item {
-        @apply(--layout-horizontal);
-        cursor: pointer;
-        padding: 16px 22px;
-        border-bottom: 1px solid #DDD;
-      }
-      .item:focus,
-      .item.selected:focus {
-        outline: 0;
-        background-color: #ddd;
-      }
-      .item.selected .star {
-        color: var(--paper-blue-600);
-      }
-      .item.selected {
-        background-color: var(--google-grey-300);
-        border-bottom: 1px solid #ccc;
-      }
-      .avatar {
-        height: 40px;
-        width: 40px;
-        border-radius: 20px;
-        box-sizing: border-box;
-        background-color: #ddd;
-      }
       .pad {
         @apply(--layout-flex);
         @apply(--layout-vertical);
@@ -62,7 +33,7 @@
     </style>
   <div class="pad">
     <bold>Touch any area of image and trigger slash commands to set to IoT bots:</bold>
-    <iron-image  src="{{imgsrc}}"></iron-image>
+    <iron-image  src="{{imgsrc}}"   on-tap="imageTouched"></iron-image>
     </div>
 
   </template>
@@ -73,14 +44,17 @@
 
       Polymer({
         is: 'rocketchat-iotcanvas',
-
+        imageTouched: function(ev) {
+          alert('map from x-y to bot slash cmds! x is ' + ev.detail.x + ' and y is ' + ev.detail.y);
+        },
         properties: {
-          image: {
-            type: String,
-          },
           status: {
             type: String,
             value: 'disabled'
+          },
+          zonemap: {
+            type: String,
+            value: 'quarters'
           },
           imgsrc: {
             type: String
