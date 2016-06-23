@@ -1,0 +1,112 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+<dom-module id="rk-room-view">
+  <style include="iron-flex"></style>
+
+
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 16px;
+        height: 800px;
+      
+      }
+     
+      iron-list {
+          @apply(--layout-fit);
+      }
+      #itemsList,
+      #selectedItemsList {
+        @apply(--layout-flex);
+      }
+      .item {
+        @apply(--layout-horizontal);
+        cursor: pointer;
+        padding: 16px 22px;
+        border-bottom: 1px solid #DDD;
+      }
+      .item:focus,
+      .item.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .item.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .item.selected {
+        background-color: var(--google-grey-300);
+        border-bottom: 1px solid #ccc;
+      }
+      .avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        box-sizing: border-box;
+        background-color: #ddd;
+      }
+      .pad {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+        padding: 0 16px;
+      }
+      .primary {
+        font-size: 16px;
+      }
+      .secondary {
+        font-size: 14px;
+      }
+      .dim {
+        color: gray;
+      }
+      .star {
+        width: 24px;
+        height: 24px;
+      }
+
+    </style>
+     
+             <!-- Defines the element's style and local DOM -->
+            <iron-ajax url="../data/messages.json" last-response="{{msgdata}}" auto></iron-ajax>
+              <iron-list id="itemsList" items="[[msgdata]]" as="item">
+                <template>
+                  <div class="item">
+                     <img class="avatar" src="[[item.avatar]]">
+                      <div class="pad">
+                        <div class="primary">
+                          [[item.u.username]]
+                        </div>
+                        <div class="secondary dim">[[item.msg]]</div>
+                      </div>
+                    
+                    <div class="border"></div>
+                  </div>
+                </template>
+              </iron-list>
+
+  </template>
+
+
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'rk-room-view',
+      properties: {
+          messages: {
+            type: Array,
+            notify: true,
+          }
+        },
+        ready: function() {
+        },
+        _sortByDate: function(message1, message2) {
+          return message1.ts.$date - message2.ts.$date;
+        }
+    });
+  </script>
+
+</dom-module>

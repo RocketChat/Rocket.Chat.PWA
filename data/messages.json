@@ -1,0 +1,43 @@
+[
+  {
+    "avatar": "http://localhost:3000/avatar/sing.jpg?dc=0",
+    "u": {"username": "sing"},
+    "msg" : "Hello"
+  },
+{
+    "avatar": "http://localhost:3000/avatar/joe.jpg?dc=0",
+    "u": {"username": "joe"},
+    "msg" : "Hey, long time no see!"
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/sing.jpg?dc=0",
+    "u": {"username": "sing"},
+    "msg" : "What brings you to Rocket.Chat?"
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/joe.jpg?dc=0",
+    "u": {"username": "joe"},
+    "msg" : "I :heart: how it is so easy to use!"
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/sing.jpg?dc=0",
+    "u": {"username": "sing"},
+    "msg" : "You are not kidding!"
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/joe.jpg?dc=0",
+    "u": {"username": "joe"},
+    "msg" : "Do you use it in your company?"
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/sing.jpg?dc=0",
+    "u": {"username": "sing"},
+    "msg" : "Yep.  We switched from a paid service a few months ago."
+  },
+  {
+    "avatar": "http://localhost:3000/avatar/joe.jpg?dc=0",
+    "u": {"username": "joe"},
+    "msg" : "Looks even better than paid service, and we have total control and data privacy!"
+  }
+  
+]

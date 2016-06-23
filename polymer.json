@@ -1,0 +1,11 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/rocket-chat-pwa.html",
+  "fragments": [
+    "src/rk-chats-list.html",
+    "src/rk-friends-list.html",
+    "src/rk-groups-list.html",
+    "src/rk-users-list.html",
+    "src/rk-room-view.html"
+  ]
+}
