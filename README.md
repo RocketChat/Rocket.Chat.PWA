@@ -2,6 +2,8 @@
 
 # Rocket.Chat PWA 
 
+JOIN the Rocket.Chat web components builder community now!   [CLICK HERE](https://demo.rocket.chat/channel/pwa_web_components)
+
 ## For mobile:
 
 ![](https://raw.githubusercontent.com/Sing-Li/bbug/master/images/pwaclientmobile.png)
