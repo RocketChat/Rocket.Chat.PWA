@@ -71,19 +71,21 @@
     </style>
      
              <!-- Defines the element's style and local DOM -->
+            <!--
             <iron-ajax url="../data/messages.json" last-response="{{msgdata}}" auto></iron-ajax>
-              <iron-list id="itemsList" items="[[msgdata]]" as="item">
+            -->
+            
+            <rk-events-core url="ws://localhost:3000" username="someusername" password="somepass" room="GENERAL" received-messages="{{msgdata}}" on-received-messages-changed="msgHandler"></rk-events-core>
+
+              <iron-list id='itemsList' items="[[msgdata]]" as="item">
                 <template>
+                  
                   <div class="item">
-                     <img class="avatar" src="[[item.avatar]]">
+                     <img class="avatar" src="http://localhost:3000/avatar/sing.jpg?dc=0">
                       <div class="pad">
-                        <div class="primary">
-                          [[item.u.username]]
-                        </div>
+                        <div class="primary">[[item.u.username]]</div>
                         <div class="secondary dim">[[item.msg]]</div>
-                      </div>
-                    
-                    <div class="border"></div>
+                      </div>[[item]]<div class="border"></div>
                   </div>
                 </template>
               </iron-list>
@@ -96,16 +98,23 @@
     Polymer({
       is: 'rk-room-view',
       properties: {
-          messages: {
-            type: Array,
-            notify: true,
-          }
-        },
-        ready: function() {
-        },
-        _sortByDate: function(message1, message2) {
-          return message1.ts.$date - message2.ts.$date;
+        msgdata: {
+          type: Array,
+          notify: true
         }
+      },
+      msgHandler: function(oldVal, newVal) {
+        console.log("HAHA");
+        let tp = JSON.stringify(this.msgdata);
+        console.log(tp);
+        
+      // this.$$('iron-list').items = tp;
+        
+      //  this.$$("iron-list").notifyResize();
+      },
+      ready: function() {
+        console.log("I am ready!");
+      }
     });
   </script>
 

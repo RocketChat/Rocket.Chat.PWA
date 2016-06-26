@@ -25,24 +25,40 @@
           room: {
             type: String,
           },
-          messages: {
-            type: Array,
+          handleAs: {
+            type: String,
+            value: 'json'
+          },
+          receivedMessages: {
+            type: Object,
             notify: true,
-
+            readOnly: true
           }
         },
 
-        addMessages: function (messages) {
-          if (!Array.isArray(this.messages)) {
-            console.log(messages)
-            this.messages = messages;
-            console.log(this.messages);
-          } else {
+        addMessages:  function (msgs, instance)  {
+          console.log("CCCCCAALEEDDD");
+          
+           // messages.forEach((message) => {
+           //   this.push('messages', message);
+           // });
 
-            messages.forEach((message) => {
-              this.push('messages', message);
-            });
-          }
+           // this._messages = messages;
+            console.log("ADD MSG");
+            let  tp = [];
+            for (let message of msgs) {
+              console.log("ONE");
+              console.log(JSON.stringify(message));
+              tp.push( message[1]);
+            }
+          //  let oldmsg = this.messages;
+          //  this.messages = tp;
+          //  this.notifySplices('messages', [{ index: 0, removed: oldmsg, added: this.messages.count, object: this.messages, type: "splice"}]);
+        
+          this._setReceivedMessages( tp);
+
+        
+          
         },
 
         connect: function () {
@@ -63,11 +79,14 @@
               console.log(message);
             });
 
-            connection.ddp.on('added', function (message) {
+            connection.ddp.on('added',  function (message) {
               console.log(message);
-              const coll = connection.collections.get(message.collection);
-              console.log(JSON.stringify(coll));
-            });
+              if (message.collection == 'rocketchat_message') {
+                const coll = connection.collections.get(message.collection) || Immutable.Map();
+                //console.log(JSON.stringify(coll));
+                 this.addMessages(coll, this);
+              }
+            }.bind(this) );
 
             connection.ddp.on("ready", function (message) {
               console.log(message)
@@ -108,6 +127,7 @@
           //connection.sub('activeUsers');
           this.connection.subscribe('meteor_autoupdate_clientVersions');
           this.connection.subscribe('stream-messages', null);
+          this.connection.subscribe('messages', 'GENERAL');
 
           this.connection.subscribe('room', 'cgeneral');
         },
@@ -128,9 +148,9 @@
             this.login().then(() => {
               console.log('Successfully Logged In');
               this.subscribe();
-              this.loadHistory(this.room).then((messages) => {
-                this.addMessages(messages);
-              }).catch(err => console.log(err));
+              //this.loadHistory(this.room).then((messages) => {
+              //  this.addMessages(messages);
+             // }).catch(err => console.log(err));
 
             }).catch((err) => console.log('Error Logging In', err));
           }).catch((err) => console.log('Error Connecting', err));
