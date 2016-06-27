@@ -33,32 +33,32 @@
             type: Object,
             notify: true,
             readOnly: true
+          },
+          _immutableMap: {
+            type: Object,
+            value: null
           }
         },
 
         addMessages:  function (msgs, instance)  {
           console.log("CCCCCAALEEDDD");
-          
-           // messages.forEach((message) => {
-           //   this.push('messages', message);
-           // });
 
-           // this._messages = messages;
-            console.log("ADD MSG");
-            let  tp = [];
-            for (let message of msgs) {
-              console.log("ONE");
-              console.log(JSON.stringify(message));
-              tp.push( message[1]);
+          if (this._immutableMap) {
+            if (Immutable.is(this._immutableMap, msgs)) {
+              console.log("IMMUTABLE equal;");
+              return;
             }
-          //  let oldmsg = this.messages;
-          //  this.messages = tp;
-          //  this.notifySplices('messages', [{ index: 0, removed: oldmsg, added: this.messages.count, object: this.messages, type: "splice"}]);
-        
-          this._setReceivedMessages( tp);
-
-        
+          } else {
+            this.set('_immutableMap', msgs);
+            console.log("IMMUTABLE null");
+            return;
+          }
           
+          console.log("IMMUTABLE to JS ARRAY");
+          var msgsJSArray = msgs.toIndexedSeq().toJS();
+          console.log(JSON.stringify(msgsJSArray));        
+          this._setReceivedMessages( msgsJSArray);
+
         },
 
         connect: function () {
@@ -84,7 +84,9 @@
               if (message.collection == 'rocketchat_message') {
                 const coll = connection.collections.get(message.collection) || Immutable.Map();
                 //console.log(JSON.stringify(coll));
-                 this.addMessages(coll, this);
+              
+                  this.addMessages(coll, this);
+               
               }
             }.bind(this) );
 
