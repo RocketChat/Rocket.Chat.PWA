@@ -59,20 +59,15 @@ Install [polymer-cli](https://github.com/Polymer/polymer-cli):
 
     npm install -g polymer-cli
 
+Install [bower](https://github.com/bower/bower):
+
+    npm install -g bower
 ##### Initialize project from template
 
-    mkdir my-app
-    cd my-app
-    polymer init app-drawer-template
-
-### Start the development server
-
-This command serves the app at `http://localhost:8080` and provides basic URL
-routing for the app:
-
-    polymer serve
-
-
+    git clone https://github.com/(Your-Username)/Rocket.Chat.PWA.git
+    cd Rocket.Chat.PWA
+    bower install
+   
 ### Build
 
 This command performs HTML, CSS, and JS minification on the application
@@ -86,6 +81,15 @@ generated using fragment bundling, suitable for serving from non
 H2/push-compatible servers or to clients that do not support H2/Push.
 
     polymer build
+
+### Start the development server
+
+This command serves the app at `http://localhost:8080` and provides basic URL
+routing for the app:
+
+    polymer serve
+
+
 
 ### Test the build
 
