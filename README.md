@@ -101,6 +101,12 @@ be served by a push-compatible server:
 This command serves the minified version of the app generated using fragment bundling:
 
     polymer serve build/bundled
+    
+### Demo
+
+Go to this URL to checkout the latest version of this app: www.pwa-rocket-chat.firebase.com
+
+
 
 ### Extend
 
