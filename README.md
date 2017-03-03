@@ -104,7 +104,7 @@ This command serves the minified version of the app generated using fragment bun
     
 ### Demo
 
-Go to this URL to checkout the latest version of this app: www.pwa-rocket-chat.firebase.com
+Go to this URL to checkout the latest version of this app: pwa-rocket-chat.firebaseapp.com
 
 
 
