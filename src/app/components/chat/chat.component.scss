@@ -1,0 +1,27 @@
+.home-page{
+  position: absolute;
+  width:100%;
+  height: 100%
+}
+
+.home-menu-content{
+  background-color: #044b76;
+  //background-color: #13679a;
+}
+
+.home-menu-header{
+  background-color: #04436a;
+}
+
+.home-menu-footer{
+  background-color: #04436a;
+}
+
+.menu-item{
+  color:#89aabe;
+  background-color: #044b76;
+}
+
+.menu-item > .item-inner {
+  border-width: 0;
+}

@@ -1,0 +1,18 @@
+<ion-menu type="push" [content]="content">
+  <ion-header class="home-menu-header">
+    <ion-title>Menu</ion-title>
+  </ion-header>
+  <ion-content class="home-menu-content">
+    <ion-list>
+      <button ion-item class="menu-item" *ngFor="let channel of channels" (click)="gotoChannel(channel)">{{channel}}</button>
+    </ion-list>
+  </ion-content>
+  <ion-footer class="home-menu-footer">
+    <button ion-button (click)="logout()">Logout</button>
+  </ion-footer>
+</ion-menu>
+
+<div class="home-page" #content>
+  <router-outlet></router-outlet>
+</div>
+

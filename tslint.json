@@ -64,8 +64,6 @@
     "one-line": [
       true,
       "check-open-brace",
-      "check-catch",
-      "check-else",
       "check-whitespace"
     ],
     "prefer-const": true,
@@ -111,7 +109,6 @@
     "component-selector": [
       true,
       "element",
-      "app",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

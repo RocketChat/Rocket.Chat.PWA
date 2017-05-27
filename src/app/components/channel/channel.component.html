@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-title># {{channel}}</ion-title>
+</ion-header>
+<ion-content padding>
+  <ion-scroll scrollY="true" class="messages">
+    <div *ngFor="let message of messages">
+      <div class="message-text">{{message.content}}</div>
+      <!--<div class="message-timestamp">{{ message.createdAt }}</div>-->
+    </div>
+  </ion-scroll>
+</ion-content>
+<ion-footer>
+  <ion-row class="message-row">
+    <ion-input class="message-input" type="text" placeholder="Message" [(ngModel)]="model.message"></ion-input>
+    <button class="send-button" ion-item (click)="sendMessage()">
+      <ion-icon name="paper-plane"></ion-icon>
+    </button>
+  </ion-row>
+</ion-footer>

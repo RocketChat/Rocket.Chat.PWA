@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class RocketChatPage {
+export class RocketchatPwaPage {
   navigateTo() {
     return browser.get('/');
   }
