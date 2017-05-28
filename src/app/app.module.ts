@@ -13,6 +13,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
+import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 import { ApolloModule } from 'apollo-angular';
 import { getClient } from './graphql/client/apollo-client';
 import { GetChatDummyService } from './graphql/get-chat-dummy.service';
@@ -25,6 +26,7 @@ import { GetChatDummyService } from './graphql/get-chat-dummy.service';
     PageNotFoundComponent,
     ChannelComponent,
     WelcomePageComponent,
+    ChatMessageComponent,
   ],
   imports: [
     BrowserModule,

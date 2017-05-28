@@ -2,13 +2,14 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(to top, #022235, #04436a)
 }
 
 .login-card{
-  margin: 100px auto;
+  margin: 50px;
   max-width: 500px;
 }
 
@@ -19,7 +20,5 @@
 }
 
 .login-logo{
-  position: absolute;
   width: 50%;
-  top: 50px;
 }

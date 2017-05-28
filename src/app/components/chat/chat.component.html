@@ -3,7 +3,7 @@
     <ion-title>Menu</ion-title>
   </ion-header>
   <ion-content class="home-menu-content">
-    <ion-list>
+    <ion-list no-lines no-padding>
       <button ion-item class="menu-item" *ngFor="let channel of channels" (click)="gotoChannel(channel)">{{channel}}</button>
     </ion-list>
   </ion-content>
