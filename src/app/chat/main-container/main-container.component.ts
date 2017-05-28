@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { MenuController } from 'ionic-angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'chat',

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
-import { GetChatDummyService } from '../../graphql/get-chat-dummy.service';
+import { GetChatDummyService } from '../../../graphql/get-chat-dummy.service';
 
 @Component({
   moduleId : module.id,
-  templateUrl : 'login.component.html',
-  styleUrls : ['login.component.scss']
+  templateUrl : './login.component.html',
+  styleUrls : ['./login.component.scss']
 })
 
 export class LoginComponent implements OnInit {

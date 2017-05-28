@@ -1,17 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp } from 'ionic-angular';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
-import { LoginComponent } from './components/login/login.component';
-import { AuthGuard } from './services/auth-guard.service';
-import { AuthenticationService } from './services/authentication.service';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ApolloModule } from 'apollo-angular';
-import { getClient } from './graphql/client/apollo-client';
+import { LoginComponent } from './shared/components/login/login.component';
+import { AuthGuard } from './shared/services/auth-guard.service';
+import { AuthenticationService } from './shared/services/authentication.service';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { GetChatDummyService } from './graphql/get-chat-dummy.service';
 import { ChatModule } from './chat/chat.module';
 import { SharedModule } from './shared/shared.module';
