@@ -14,6 +14,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ChannelComponent } from './components/channel/channel.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
+import { ApolloModule } from 'apollo-angular';
+import { getClient } from './graphql/client/apollo-client';
+import { GetChatDummyService } from './graphql/get-chat-dummy.service';
 
 @NgModule({
   declarations: [
@@ -26,13 +29,14 @@ import { ChatMessageComponent } from './components/chat-message/chat-message.com
     ChatMessageComponent,
   ],
   imports: [
-    IonicModule.forRoot(AppComponent),
     BrowserModule,
     FormsModule,
     HttpModule,
+    IonicModule.forRoot(AppComponent),
+    ApolloModule.forRoot(getClient),
     AppRouting,
   ],
-  providers: [AuthGuard, AuthenticationService],
+  providers: [AuthGuard, AuthenticationService, GetChatDummyService],
   bootstrap: [IonicApp]
 })
 export class AppModule { }
