@@ -1,13 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'channel',
   templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss']
+  styleUrls: ['./channel.component.scss'],
 })
 export class ChannelComponent implements OnInit, OnDestroy {
 
+  @ViewChild('chatContent') chatContent: any;
   public channel;
   private routeParamsSub;
   public model = {message: undefined};
@@ -32,6 +33,7 @@ export class ChannelComponent implements OnInit, OnDestroy {
     if (this.model.message) {
       this.messages.push({content: this.model.message, createdAt: new Date().toString()});
       this.model.message = undefined;
+      this.chatContent.scrollToBottom(300);
     }
   }
 }
