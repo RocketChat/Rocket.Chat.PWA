@@ -5,11 +5,11 @@ import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['chat.component.scss'],
+  templateUrl: './main-container.component.html',
+  styleUrls: ['./main-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatComponent implements AfterViewInit {
+export class MainContainerComponent implements AfterViewInit {
 
   public channels = ['channel1', 'channel2', 'kentak', 'tomer'];
 
