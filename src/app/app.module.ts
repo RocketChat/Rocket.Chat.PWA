@@ -10,7 +10,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 import { GetChatDummyService } from './graphql/get-chat-dummy.service';
 import { ChatModule } from './chat/chat.module';
 import { SharedModule } from './shared/shared.module';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './shared/components/login-page/login-page.component';
 
 @NgModule({
   declarations: [
