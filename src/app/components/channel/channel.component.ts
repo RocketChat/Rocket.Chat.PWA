@@ -11,11 +11,26 @@ export class ChannelComponent implements OnInit, OnDestroy {
   @ViewChild('chatContent') chatContent: any;
   public channel;
   private routeParamsSub;
-  public model = {message: undefined};
+  public model = { message: undefined };
   public messages = [
-    { content: 'asasdasda', createdAt: '8:30AM' },
-    { content: 'aksjaksjndaksjnd', createdAt: '12:35PM' },
-    { content: 'sdfsdfsdf', createdAt: '4:20PM' }
+    {
+      content: 'kentak is pitushky',
+      creationTime: new Date().getTime() - (Math.random() * 100000000),
+      avatar: 'http://dreamicus.com/data/face/face-01.jpg',
+      user: { name: 'GushBasar' }
+    },
+    {
+      content: 'kentak is kentak',
+      creationTime: new Date().getTime() - (Math.random() * 100000000),
+      avatar: 'http://dreamicus.com/data/face/face-01.jpg',
+      user: { name: 'GushBasar' }
+    },
+    {
+      content: 'fried chicken is kentak',
+      creationTime: new Date().getTime() - (Math.random() * 100000000),
+      avatar: 'http://dreamicus.com/data/face/face-01.jpg',
+      user: { name: 'GushBasar' }
+    }
   ];
 
   constructor(private route: ActivatedRoute) {
@@ -29,11 +44,22 @@ export class ChannelComponent implements OnInit, OnDestroy {
     this.routeParamsSub.unsubscribe();
   }
 
+  ionViewDidEnter() {
+    this.chatContent.scrollToBottom(300);
+  }
+
   sendMessage() {
     if (this.model.message) {
-      this.messages.push({content: this.model.message, createdAt: new Date().toString()});
+      this.messages.push({
+        content: this.model.message,
+        creationTime: new Date().getTime(),
+        user: { name: 'GushBasar' },
+        avatar: 'http://dreamicus.com/data/face/face-01.jpg'
+      });
       this.model.message = undefined;
-      this.chatContent.scrollToBottom(300);
+      setTimeout(() => {
+        this.chatContent.scrollToBottom(300);
+      });
     }
   }
 }
