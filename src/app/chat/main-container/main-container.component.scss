@@ -4,6 +4,11 @@
   height: 100%
 }
 
+@media screen and (min-width: 576px) {
+  .menu-content-open {
+    padding-right: 304px;
+  }
+}
 .home-menu-content{
   background-color: #044b76;
   //background-color: #13679a;
