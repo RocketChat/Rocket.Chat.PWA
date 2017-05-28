@@ -1,15 +1,15 @@
 <ion-header>
   <ion-title># {{channel}}</ion-title>
 </ion-header>
-<ion-content #chatContent padding>
-  <ion-infinite-scroll position="top">
-    <ion-infinite-scroll-content loadingSpinner="bubbles">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+<ion-content #chatContent>
+  <!--<ion-infinite-scroll position="top">-->
+    <!--<ion-infinite-scroll-content loadingSpinner="bubbles">-->
+    <!--</ion-infinite-scroll-content>-->
+  <!--</ion-infinite-scroll>-->
 
   <ion-list no-lines no-padding>
     <ion-item *ngFor="let message of messages">
-      <div>{{message.content}}</div>
+      <chat-message [message]="message"></chat-message>
     </ion-item>
   </ion-list>
 

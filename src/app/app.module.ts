@@ -13,6 +13,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
+import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     PageNotFoundComponent,
     ChannelComponent,
     WelcomePageComponent,
+    ChatMessageComponent,
   ],
   imports: [
     IonicModule.forRoot(AppComponent),

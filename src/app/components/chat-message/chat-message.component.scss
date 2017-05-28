@@ -1,0 +1,32 @@
+.message-row {
+  display: flex;
+}
+
+.message-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.message-headers {
+  display: flex;
+  font-size: 13px;
+}
+
+.message-sender {
+  margin-right: 10px;
+  color: black;
+
+}
+
+.message-timestamp {
+  margin-right: 10px;
+  color: #a0a0a0;
+}
+
+.message-text {
+  color: #444;
+  margin-top: 5px;
+  font-size: 15px;
+}
