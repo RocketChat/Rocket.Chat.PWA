@@ -5,12 +5,12 @@ import { ToastController } from 'ionic-angular';
 import { GetChatDummyService } from '../../graphql/get-chat-dummy.service';
 
 @Component({
-  moduleId : module.id,
-  templateUrl : 'login.component.html',
-  styleUrls : ['login.component.scss']
+  moduleId: module.id,
+  templateUrl: 'login-page.component.html',
+  styleUrls: ['login-page.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
   model: any = {};
   loading = false;
   returnUrl: string;

@@ -28,6 +28,7 @@
     "core-js": "^2.4.1",
     "global": "^4.3.2",
     "graphql-tag": "^2.2.0",
+    "font-awesome": "^4.7.0",
     "ionic-angular": "^3.2.1",
     "ionicons": "^3.0.0",
     "moment": "^2.18.1",

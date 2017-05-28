@@ -1,17 +1,21 @@
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MenuController } from 'ionic-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['chat.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  templateUrl: './chat-page.component.html',
+  styleUrls: ['chat-page.component.scss'],
 })
-export class ChatComponent implements AfterViewInit {
+export class ChatPageComponent implements AfterViewInit {
 
-  public channels = ['channel1', 'channel2', 'kentak', 'tomer'];
+  public channels = [
+    { title: 'channel1', privateChannel: true },
+    { title: 'channel2' },
+    { title: 'kentak', direct: true },
+    { title: 'tomer', direct: true }
+  ];
 
   constructor(private menuCtrl: MenuController,
               private router: Router,
@@ -21,10 +25,6 @@ export class ChatComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.menuCtrl.open();
-  }
-
-  gotoChannel(channelId) {
-    this.router.navigate(['channel', channelId], { relativeTo: this.route });
   }
 
   logout() {

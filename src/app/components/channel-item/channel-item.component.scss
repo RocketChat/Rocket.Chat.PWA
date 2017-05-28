@@ -1,0 +1,38 @@
+.channel-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  padding: 5px 10px 5px 5px;
+}
+
+.channel-item:hover {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.channel-icon {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  margin: 3px;
+}
+
+.channel-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.hide-channel-icon, .exit-channel-icon {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  &:hover {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.hide-channel-icon {
+  margin-right: 10px;
+}

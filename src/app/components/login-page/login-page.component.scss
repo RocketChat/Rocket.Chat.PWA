@@ -20,5 +20,8 @@
 }
 
 .login-logo{
-  width: 50%;
+  width: 80%;
+  @media (min-width: 600px) {
+    width: 50%;
+  }
 }
