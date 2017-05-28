@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'channel',
+  selector: 'channel-view',
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.scss'],
 })
-export class ChannelComponent implements OnInit, OnDestroy {
+export class ChannelViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContent') chatContent: any;
   public channel;

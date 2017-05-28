@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
-import { ChannelComponent } from './channel/channel.component';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { MainContainerComponent } from './main-container/main-container.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { ChannelViewComponent } from './channel-view/channel-view.component';
 
 const routes: Routes = [{
-  path : 'main', component : MainContainerComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
+  path : 'main', component : MainPageComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
   children : [
     {
       path : 'channel/:id',
-      component : ChannelComponent
+      component : ChannelViewComponent
     },
     {
       path : 'welcome',

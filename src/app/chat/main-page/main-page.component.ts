@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   styleUrls: ['./main-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MainContainerComponent implements AfterViewInit {
+export class MainPageComponent implements AfterViewInit {
 
   public channels = ['channel1', 'channel2', 'kentak', 'tomer'];
 
