@@ -15,6 +15,7 @@ import { ChannelComponent } from './components/channel/channel.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { ApolloModule } from 'apollo-angular';
 import { getClient } from './graphql/client/apollo-client';
+import { GetChatDummyService } from './graphql/get-chat-dummy.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { getClient } from './graphql/client/apollo-client';
     ApolloModule.forRoot(getClient),
     AppRouting,
   ],
-  providers: [AuthGuard, AuthenticationService],
+  providers: [AuthGuard, AuthenticationService, GetChatDummyService],
   bootstrap: [IonicApp]
 })
 export class AppModule { }
