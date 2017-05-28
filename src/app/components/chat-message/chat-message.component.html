@@ -1,0 +1,10 @@
+<div class="message-row">
+  <img class="message-img" src="{{message.avatar}}">
+  <div class="message-block">
+    <div class="message-headers">
+      <div class="message-sender">{{message.user.name}}</div>
+      <div class="message-timestamp">{{moment(message.creationTime).format('LT')}}</div>
+    </div>
+    <div class="message-text">{{message.content}}</div>
+  </div>
+</div>
