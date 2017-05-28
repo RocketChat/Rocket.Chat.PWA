@@ -4,14 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
-  selector: 'chat',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector : 'chat',
+  templateUrl : './main-page.component.html',
+  styleUrls : ['./main-page.component.scss'],
+  encapsulation : ViewEncapsulation.None
 })
 export class MainPageComponent implements AfterViewInit {
-
-  public channels = ['channel1', 'channel2', 'kentak', 'tomer'];
+  public channels = [
+    {title : 'channel1', privateChannel : true},
+    {title : 'channel2'},
+    {title : 'kentak', direct : true},
+    {title : 'tomer', direct : true}
+  ];
 
   constructor(private menuCtrl: MenuController,
               private router: Router,
