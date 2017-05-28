@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { chatQuery } from './chat/chat.query';
+import { DocumentNode } from 'graphql';
 
+const chatQuery: DocumentNode = require('graphql-tag/loader!./chat/chat.query.graphql');
 // Will be removed
 @Injectable()
 export class GetChatDummyService {
@@ -9,6 +10,7 @@ export class GetChatDummyService {
   constructor(private apollo: Apollo) { }
 
   queryChat(){
+
     return this.apollo.watchQuery({query: chatQuery});
   }
 
