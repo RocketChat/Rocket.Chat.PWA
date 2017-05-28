@@ -5,8 +5,8 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 
 @Component({
   selector: 'chat',
-  templateUrl: './main-container.component.html',
-  styleUrls: ['./main-container.component.scss'],
+  templateUrl: './main-page.component.html',
+  styleUrls: ['./main-page.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class MainPageComponent implements AfterViewInit {
