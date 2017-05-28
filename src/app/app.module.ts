@@ -13,6 +13,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
+import { ApolloModule } from 'apollo-angular';
+import { getClient } from './graphql/client/apollo-client';
 
 @NgModule({
   declarations: [
@@ -24,10 +26,11 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
     WelcomePageComponent,
   ],
   imports: [
-    IonicModule.forRoot(AppComponent),
     BrowserModule,
     FormsModule,
     HttpModule,
+    IonicModule.forRoot(AppComponent),
+    ApolloModule.forRoot(getClient),
     AppRouting,
   ],
   providers: [AuthGuard, AuthenticationService],
