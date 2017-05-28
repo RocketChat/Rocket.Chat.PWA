@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import { graphiqlExpress, graphqlExpress } from 'graphql-server-express';
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
 import Schema from './schema';
@@ -14,6 +15,7 @@ const executableSchema = makeExecutableSchema({
 addMockFunctionsToSchema({ schema: executableSchema });
 
 const app = express();
+app.use(cors());
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema : executableSchema,
   debug : true,
