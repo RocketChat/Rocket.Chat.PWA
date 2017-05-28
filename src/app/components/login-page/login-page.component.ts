@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
+import { GetChatDummyService } from '../../graphql/get-chat-dummy.service';
 
 @Component({
   moduleId: module.id,
@@ -17,12 +18,15 @@ export class LoginPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private chatDummy: GetChatDummyService) {
   }
 
   ngOnInit() {
     this.authenticationService.logout();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    this.chatDummy.queryChat().subscribe((data) => console.log(data));
   }
 
   login() {
@@ -32,8 +36,8 @@ export class LoginPageComponent implements OnInit {
     }
     else {
       const toast = this.toastCtrl.create({
-        message: 'Invalid username or password',
-        duration: 5000
+        message : 'Invalid username or password',
+        duration : 5000
       });
       toast.present();
     }

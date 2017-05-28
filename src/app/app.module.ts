@@ -15,6 +15,9 @@ import { ChannelViewComponent } from './components/channel-view/channel-view.com
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 import { ChannelItemComponent } from './components/channel-item/channel-item.component';
+import { ApolloModule } from 'apollo-angular';
+import { getClient } from './graphql/client/apollo-client';
+import { GetChatDummyService } from './graphql/get-chat-dummy.service';
 
 @NgModule({
   declarations: [
@@ -29,12 +32,13 @@ import { ChannelItemComponent } from './components/channel-item/channel-item.com
   ],
   imports: [
     IonicModule.forRoot(AppComponent, { mode: 'md' }),
+    ApolloModule.forRoot(getClient),
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRouting,
   ],
-  providers: [AuthGuard, AuthenticationService],
+  providers: [AuthGuard, AuthenticationService, GetChatDummyService],
   bootstrap: [IonicApp]
 })
 export class AppModule {
