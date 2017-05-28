@@ -6,27 +6,29 @@ import { IonicApp, IonicModule } from 'ionic-angular';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
-import { LoginComponent } from './components/login/login.component';
-import { ChatComponent } from './components/chat/chat.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ChatPageComponent } from './components/chat-page/chat-page.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthenticationService } from './services/authentication.service';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ChannelComponent } from './components/channel/channel.component';
+import { ChannelViewComponent } from './components/channel-view/channel-view.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
+import { ChannelItemComponent } from './components/channel-item/channel-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    ChatComponent,
+    LoginPageComponent,
+    ChatPageComponent,
     PageNotFoundComponent,
-    ChannelComponent,
+    ChannelViewComponent,
     WelcomePageComponent,
     ChatMessageComponent,
+    ChannelItemComponent,
   ],
   imports: [
-    IonicModule.forRoot(AppComponent),
+    IonicModule.forRoot(AppComponent, { mode: 'md' }),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -35,4 +37,5 @@ import { ChatMessageComponent } from './components/chat-message/chat-message.com
   providers: [AuthGuard, AuthenticationService],
   bootstrap: [IonicApp]
 })
-export class AppModule { }
+export class AppModule {
+}

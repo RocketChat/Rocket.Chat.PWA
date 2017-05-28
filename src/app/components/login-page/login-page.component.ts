@@ -5,11 +5,11 @@ import { ToastController } from 'ionic-angular';
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'login.component.html',
-  styleUrls: ['login.component.scss']
+  templateUrl: 'login-page.component.html',
+  styleUrls: ['login-page.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
   model: any = {};
   loading = false;
   returnUrl: string;

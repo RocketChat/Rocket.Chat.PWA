@@ -1,4 +1,7 @@
-<ion-header>
+<ion-header class="channel-view-header">
+  <button ion-item class="menu-button" menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
   <ion-title># {{channel}}</ion-title>
 </ion-header>
 <ion-content #chatContent>
@@ -18,7 +21,7 @@
   <ion-row class="message-row">
     <ion-input #messageInput class="message-input" type="text" placeholder="Message"
                [(ngModel)]="model.message" (keyup.enter)="sendMessage()"></ion-input>
-    <button class="send-button" ion-item (click)="sendMessage()">
+    <button item-right class="send-button" ion-item (click)="sendMessage()">
       <ion-icon name="paper-plane"></ion-icon>
     </button>
   </ion-row>

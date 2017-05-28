@@ -1,0 +1,25 @@
+.channel-view-header {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.menu-button {
+  width: 48px;
+}
+
+.menu-button:hover{
+  background-color: rgb(200,200,200);
+}
+
+.message-row {
+  display: flex;
+}
+
+.message-input {
+
+}
+
+.send-button {
+  background: #f4f4f4;
+  width: 48px;
+}
