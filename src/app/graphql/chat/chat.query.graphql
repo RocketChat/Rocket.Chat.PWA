@@ -1,0 +1,13 @@
+query GetChat{
+  me{
+    username
+    email
+
+  }
+  messages(channelId: "sdd", SearchRegex: ""){
+    content
+    user{
+      username
+    }
+  }
+}
