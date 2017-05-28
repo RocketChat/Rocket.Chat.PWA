@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'channel-view',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss'],
+  templateUrl: './channel-view.component.html',
+  styleUrls: ['./channel-view.component.scss'],
 })
 export class ChannelViewComponent implements OnInit, OnDestroy {
 

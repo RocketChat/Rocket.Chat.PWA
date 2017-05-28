@@ -23,10 +23,6 @@ export class MainPageComponent implements AfterViewInit {
     this.menuCtrl.open();
   }
 
-  gotoChannel(channelId) {
-    this.router.navigate(['channel', channelId], { relativeTo: this.route });
-  }
-
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['login']);
