@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { MainPageComponent } from './main-page/main-page.component';
-import { ChannelViewComponent } from './channel-view/channel-view.component';
+import { ChatViewComponent } from './chat-view/channel-chat.component';
 
 const routes: Routes = [{
   path : 'main', component : MainPageComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
   children : [
     {
       path : 'channel/:id',
-      component : ChannelViewComponent
+      component : ChatViewComponent
     },
     {
       path : 'welcome',

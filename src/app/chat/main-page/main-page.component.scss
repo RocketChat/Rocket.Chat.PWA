@@ -6,12 +6,12 @@
 
 @media screen and (min-width: 576px) {
   .menu-content-open {
-    padding-right: 304px;
+    width: calc(100% - 304px) !important;
   }
 }
+
 .home-menu-content{
   background-color: #044b76;
-  //background-color: #13679a;
 }
 
 .home-menu-header{
