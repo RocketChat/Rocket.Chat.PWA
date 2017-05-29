@@ -13,6 +13,14 @@
 </ion-menu>
 
 <div class="home-page" #content>
+  <ion-header>
+    <ion-toolbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{title}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <router-outlet></router-outlet>
 </div>
 
