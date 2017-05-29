@@ -1,10 +1,9 @@
-<ion-menu type="push" [content]="content">
+<ion-menu type="push" [content]="content" [enabled]="true">
   <ion-header class="home-menu-header">
     <ion-title>Menu</ion-title>
   </ion-header>
   <ion-content class="home-menu-content">
     <ion-list no-lines no-padding>
-      <!--<button ion-item class="menu-item" *ngFor="let channel of channels" (click)="gotoChannel(channel)">{{channel}}</button>-->
       <channel-item class="menu-item" *ngFor="let channel of channels" [channel]="channel"></channel-item>
     </ion-list>
   </ion-content>

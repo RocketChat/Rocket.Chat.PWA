@@ -1,11 +1,11 @@
 .home-page{
   position: absolute;
   width:100%;
-  height: 100%;
+  height: 100%
 }
 
-.home-page.menu-content-open{
-  @media (min-width: 600px) {
+@media screen and (min-width: 576px) {
+  .menu-content-open {
     width: calc(100% - 304px) !important;
   }
 }

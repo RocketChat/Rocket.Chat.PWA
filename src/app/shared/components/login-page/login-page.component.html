@@ -1,5 +1,5 @@
 <div class="login-page">
-  <img class="login-logo" src="./assets/rocketchat.logo.svg">
+  <img padding class="login-logo" src="./assets/images/rocketchat.logo.svg">
   <ion-card class="login-card" center>
     <ion-card-header>
       Login
@@ -7,12 +7,12 @@
 
     <ion-item>
       <ion-label floating>Username</ion-label>
-      <ion-input type="text" [(ngModel)]="model.username"></ion-input>
+      <ion-input type="text" [(ngModel)]="model.username" required></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input type="password" [(ngModel)]="model.password"></ion-input>
+      <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
     </ion-item>
     <ion-row class="login-buttons">
       <button ion-button (click)="login()">Login</button>

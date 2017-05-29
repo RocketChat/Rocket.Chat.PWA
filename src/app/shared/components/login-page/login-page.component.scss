@@ -13,7 +13,7 @@
   max-width: 500px;
 }
 
-.login-buttons{
+.login-buttons {
   display: flex;
   justify-content: center;
   margin: 10px;
@@ -21,7 +21,5 @@
 
 .login-logo{
   width: 80%;
-  @media (min-width: 600px) {
-    width: 50%;
-  }
+  max-width: 700px;
 }

@@ -1,8 +1,10 @@
-<ion-header class="channel-view-header">
-  <button ion-item class="menu-button" menuToggle>
-    <ion-icon name="menu"></ion-icon>
-  </button>
-  <ion-title># {{channel}}</ion-title>
+<ion-header>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title># {{channel}}</ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content #chatContent>
   <!--<ion-infinite-scroll position="top">-->
