@@ -1,15 +1,21 @@
 {
-  "name": "RocketChat",
-  "short_name": "RocketChat",
+  "name": "Rocket.Chat",
+  "short_name": "Rocket.Chat",
   "start_url": ".",
   "display": "fullscreen",
   "background_color": "#04436a",
+  "theme_color": "#04436a",
   "description": "Amazing chat app",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "assets/images/rocketchat-bubble.png",
-      "sizes": "48x48 72x72 96x96 128x128 256x256",
+      "src": "assets/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/android-chrome-384x384.png",
+      "sizes": "384x384",
       "type": "image/png"
     }
   ],

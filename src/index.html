@@ -6,8 +6,17 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#04436a">
+  <meta name="msapplication-TileColor" content="#04436a">
+  <meta name="msapplication-TileImage" content="assets/images/mstile-150x150.png">
+  <meta name="msapplication-config" content="assets/images/browserconfig.xml">
+
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+  <link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#5bbad5">
 </head>
 <body>
   <ion-app></ion-app>
@@ -21,7 +30,13 @@
   top: 0;
   left: 0;
   background: linear-gradient(to top, #022235, #04436a);">
-    <img class="splash-img" src="assets/images/rocketchat-bubble.png" style="width: 50%">
+    <img class="splash-img" src="assets/images/android-chrome-384x384.png" style="max-width: 250px">
+    <noscript>
+      <h4 style="font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;">
+        Sorry, JavaScript needs to be enabled in order to run this application.
+      </h4>
+    </noscript>
   </div>
+
 </body>
 </html>
