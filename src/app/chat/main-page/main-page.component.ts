@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injectable, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuController } from 'ionic-angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterState } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
+import 'rxjs/add/operator/switchMap';
+import { PageTitleService } from './page-title.service';
 
 @Component({
   selector : 'chat',
@@ -9,7 +11,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   styleUrls : ['./main-page.component.scss'],
   encapsulation : ViewEncapsulation.None
 })
-export class MainPageComponent implements AfterViewInit, OnInit {
+export class MainPageComponent implements AfterViewInit {
 
   public channels = [
     {title : 'channel1', privateChannel : true},
@@ -18,23 +20,11 @@ export class MainPageComponent implements AfterViewInit, OnInit {
     {title : 'tomer', direct : true}
   ];
 
-  private title = 'hello';
   constructor(private menuCtrl: MenuController,
+              private pageTitle: PageTitleService,
               private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService) {
-  }
-
-  ngOnInit(): void {
-    this.route.url.subscribe(x=>console.log('url',x));
-    // this.route.params.subscribe(x=>console.log('parmas',x));
-    // this.route.fragment.subscribe(x=>console.log('frag',x));
-    this.route.firstChild.url.subscribe(x => {
-      console.log('first', x.map(x=>x.path));
-      console.log(this.route);
-    });
-
-    console.log(this.route.children);
   }
 
   ngAfterViewInit(): void {
@@ -46,3 +36,4 @@ export class MainPageComponent implements AfterViewInit, OnInit {
     this.router.navigate(['login']);
   }
 }
+
