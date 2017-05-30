@@ -1,7 +1,7 @@
 {
   "name": "Rocket.Chat",
   "short_name": "Rocket.Chat",
-  "start_url": ".",
+  "start_url": "./",
   "display": "fullscreen",
   "background_color": "#04436a",
   "theme_color": "#04436a",
@@ -17,11 +17,6 @@
       "src": "assets/images/android-chrome-384x384.png",
       "sizes": "384x384",
       "type": "image/png"
-    }
-  ],
-  "related_applications": [
-    {
-      "platform": "web"
     }
   ]
 }
