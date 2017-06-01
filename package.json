@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "concurrently \"yarn server\" \"ng serve\" ",
     "build": "ng build -prod",
-    "sw": "workbox-cli generate:sw",
     "serve:dist": "http-server ./dist",
     "test": "ng test",
     "lint": "ng lint",
