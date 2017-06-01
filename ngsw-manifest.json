@@ -1,0 +1,43 @@
+{
+  "static.ignore": [
+    "^\/assets\/ignore.*$"
+  ],
+  "routing": {
+    "index": "/index.html",
+    "routes": {
+      "/": {
+        "match": "exact"
+      },
+      "^/login.*$": {
+        "match": "regex"
+      },
+      "^/main/.*$": {
+        "match": "regex"
+      }
+    }
+  },
+  "_commnet": "for external content cache (like fonts)",
+  "external": {
+  },
+  "dynamic": {
+    "group": [
+      {
+        "name": "graphql",
+        "urls": {
+          ".*\/graphql\/.*": {
+            "match": "regex"
+          }
+        },
+        "cache": {
+          "optimizeFor": "freshness",
+          "strategy": "fifo",
+          "maxAgeMs": 3600000,
+          "maxEntries": 2,
+          "networkTimeoutMs": 1000
+        }
+      }
+    ]
+  }
+
+
+}
