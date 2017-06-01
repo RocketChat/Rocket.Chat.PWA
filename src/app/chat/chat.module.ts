@@ -7,7 +7,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChannelItemComponent } from './channel-item/channel-item.component';
-import { ChatViewComponent } from './chat-view/channel-chat.component';
+import { ChatViewComponent } from './chat-view/chat-view.component';
 
 @NgModule({
   imports: [
@@ -21,6 +21,6 @@ import { ChatViewComponent } from './chat-view/channel-chat.component';
     WelcomePageComponent,
     ChatMessageComponent,
     ChannelItemComponent,
-  ]
+  ],
 })
 export class ChatModule { }
