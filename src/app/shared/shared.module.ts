@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule.forRoot(AppComponent),
+    IonicModule.forRoot(AppComponent, { mode: 'md' }),
     ApolloModule.forRoot(getClient),
   ],
   exports: [
@@ -21,4 +21,4 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: []
 })
-export class SharedModule { }
+export class SharedModule {}

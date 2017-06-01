@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { InfiniteScroll, VirtualScroll } from 'ionic-angular';
 
 @Component({
   selector: 'channel-chat',
-  templateUrl: './channel-chat.component.html',
-  styleUrls: ['./channel-chat.component.scss'],
+  templateUrl: './channel-view.component.html',
+  styleUrls: ['./channel-view.component.scss'],
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
@@ -61,5 +62,12 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         this.chatContent.scrollToBottom(300);
       });
     }
+  }
+
+  doInfinite(infiniteScroll: InfiniteScroll) {
+    console.log('infinite scroll');
+    setTimeout(() => {
+      infiniteScroll.complete();
+    }, 1000);
   }
 }

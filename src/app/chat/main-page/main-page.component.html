@@ -1,4 +1,4 @@
-<ion-menu type="push" [content]="content" [enabled]="true">
+<ion-menu class="main-menu" type="push" [content]="content" [enabled]="true">
   <ion-header class="home-menu-header">
     <ion-title>Menu</ion-title>
   </ion-header>
@@ -11,7 +11,6 @@
     <button ion-button (click)="logout()">Logout</button>
   </ion-footer>
 </ion-menu>
-
 <div class="home-page" #content>
   <router-outlet></router-outlet>
 </div>
