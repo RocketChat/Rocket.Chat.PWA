@@ -1,13 +1,26 @@
 import {ApolloClient, createNetworkInterface} from 'apollo-client';
+import { addGraphQLSubscriptions, SubscriptionClient } from 'subscriptions-transport-ws';
 import { environment } from '../../../environments/environment';
 
-// TODO add subscriptions and consider using batching network interface
-const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: environment.server + '/graphql',
-  }),
+const networkInterface = createNetworkInterface({
+    uri: environment.server + '/graphql'
+});
+
+const wsClient = new SubscriptionClient(environment.server + '/graphql-sub', {
+  reconnect: true,
+  connectionParams: {
+  }
+});
+
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+  networkInterface,
+  wsClient
+);
+
+const apolloClient = new ApolloClient({
+  networkInterface: networkInterfaceWithSubscriptions
 });
 
 export function getClient(): ApolloClient {
-  return client;
+  return apolloClient;
 }

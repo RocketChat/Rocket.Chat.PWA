@@ -68,7 +68,7 @@ export interface Channel {
   members: Array<User> | null;
   owners: Array<User> | null;
   direct: boolean | null;
-  private: boolean | null;
+  privateChannel: boolean | null;
   readOnly: boolean | null;
   archived: boolean | null;
   favorite: boolean | null;
@@ -77,9 +77,10 @@ export interface Channel {
 
 export interface Message {
   id: string;
-  user: User;
+  author: User;
   content: string;
   creationTime: string;
+  channel: Channel;
   fromServer: boolean | null;
   tags: Array<string> | null;
   userRef: Array<User> | null;
@@ -218,19 +219,19 @@ export namespace GetChatQuery {
   export type Result = {
     me: Me;
     messages: Array<Messages>;
-  } 
+  }
 
   export type Me = {
     username: string;
     email: string;
-  } 
+  }
 
   export type Messages = {
     content: string;
     user: User;
-  } 
+  }
 
   export type User = {
     username: string;
-  } 
+  }
 }

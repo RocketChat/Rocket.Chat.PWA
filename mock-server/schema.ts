@@ -1,8 +1,12 @@
-export default `
+import { pubsub } from './subscriptions';
+import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+
+export const schema = `
 
 type scheme {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 type Mutation {
@@ -26,6 +30,10 @@ type Query {
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
 }
 
+type Subscription {
+    chatMessageAdded(channelId: String!): Message
+}
+
 input ChannelFilter {
     nameFilter: String
     privacy: Privacy
@@ -45,10 +53,11 @@ enum ChannelSort {
 }
 
 type Message {
-    id: String!
-    user: User!
-    content: String!
-    creationTime: String!
+    id: String
+    author: User
+    content: String
+    creationTime: String
+    channel: Channel
     fromServer: Boolean #when user joins a channel we get a message from server - text is grey
     tags: [String]
     userRef: [User]
@@ -68,19 +77,19 @@ input MessageIdentifier {
 }
 
 type Reaction {
-    username: String!
-    icon: String!
+    username: String
+    icon: String
 }
 
 
 type User {
-    username: String!
+    username: String
+    email: String
+    userPreferences: UserPreferences
     status: UserStatus
-    email: String!
     avatar: String
     name: String
     lastLogin: String
-    userPreferences: UserPreferences!
     channels: [Channel]
     directMessages: [Channel]
 }
@@ -153,20 +162,44 @@ type ChannelSettings {
 }
 
 type Channel {
-    id: String!
-    title: String!
+    id: String
+    title: String
     # topic: TODO
     # userNotificationSettings: ChannelSettings
-    description: String!
-    announcement: String!
-    numberOfMembers: Int!
+    description: String
+    announcement: String
+    numberOfMembers: Int
     members: [User]
     owners: [User]
     direct: Boolean
-    private: Boolean
+    privateChannel: Boolean
     readOnly: Boolean
     archived: Boolean
     favorite: Boolean
     unseenMessages: Int
 }
 `;
+
+export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
+
+export const rootResolvers = {
+  Query: () => {
+  },
+  Mutation: () => {
+  },
+  Subscription: {
+    chatMessageAdded: {
+      subscribe: () => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC)
+    }
+  },
+};
+
+const executableSchema = makeExecutableSchema({
+  typeDefs: schema,
+  resolvers: rootResolvers,
+  logger: { log: (e) => console.log(e) },
+});
+
+addMockFunctionsToSchema({ schema: executableSchema });
+
+export default executableSchema;
