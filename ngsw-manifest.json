@@ -16,7 +16,7 @@
       }
     }
   },
-  "_commnet": "for external content cache (like fonts)",
+  "_comment": "for external content cache (like fonts)",
   "external": {
   },
   "dynamic": {
@@ -38,6 +38,4 @@
       }
     ]
   }
-
-
 }
