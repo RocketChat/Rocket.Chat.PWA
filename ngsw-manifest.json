@@ -31,7 +31,7 @@
         "cache": {
           "optimizeFor": "freshness",
           "strategy": "fifo",
-          "maxAgeMs": 3600000,
+          "maxAgeMs": 2592000000,
           "maxEntries": 2,
           "networkTimeoutMs": 1000
         }
