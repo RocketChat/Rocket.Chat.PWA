@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageTitleService } from '../main-page/page-title.service';
 
 @Component({
-  selector: 'chat-view',
-  templateUrl: './chat-view.component.html',
-  styleUrls: ['./chat-view.component.scss'],
+  selector: 'channel-chat',
+  templateUrl: './channel-chat.component.html',
+  styleUrls: ['./channel-chat.component.scss'],
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
@@ -34,17 +33,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(private route: ActivatedRoute,
-              private titleSetter: PageTitleService) {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.routeParamsSub = this.route.params.subscribe(params => {
-      this.titleSetter.title = params['id'];
-
-      // TODO get data from the server
-      this.channel = params['id'];
-    });
+    this.routeParamsSub = this.route.params.subscribe(params => this.channel = params['id']);
   }
 
   ngOnDestroy() {

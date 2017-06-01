@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PageTitleService } from '../main-page/page-title.service';
 
 @Component({
   selector: 'welcome-page',
@@ -7,11 +6,9 @@ import { PageTitleService } from '../main-page/page-title.service';
 })
 export class WelcomePageComponent implements OnInit {
 
-  constructor(private titleSetter: PageTitleService) {
-  }
+  constructor() { }
 
   ngOnInit() {
-    this.titleSetter.title = 'Welcome';
   }
 
 }

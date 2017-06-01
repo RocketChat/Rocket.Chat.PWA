@@ -23,6 +23,5 @@ import { PageTitleService } from './main-page/page-title.service';
     ChatMessageComponent,
     ChannelItemComponent,
   ],
-  providers: [PageTitleService]
 })
 export class ChatModule { }

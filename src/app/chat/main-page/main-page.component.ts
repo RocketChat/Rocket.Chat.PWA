@@ -1,9 +1,7 @@
-import { AfterViewInit, Component, Injectable, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { MenuController } from 'ionic-angular';
-import { ActivatedRoute, Router, RouterState } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
-import 'rxjs/add/operator/switchMap';
-import { PageTitleService } from './page-title.service';
 
 @Component({
   selector : 'chat',
@@ -12,7 +10,6 @@ import { PageTitleService } from './page-title.service';
   encapsulation : ViewEncapsulation.None
 })
 export class MainPageComponent implements AfterViewInit {
-
   public channels = [
     {title : 'channel1', privateChannel : true},
     {title : 'channel2'},
@@ -21,7 +18,6 @@ export class MainPageComponent implements AfterViewInit {
   ];
 
   constructor(private menuCtrl: MenuController,
-              private pageTitle: PageTitleService,
               private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService) {
@@ -36,4 +32,3 @@ export class MainPageComponent implements AfterViewInit {
     this.router.navigate(['login']);
   }
 }
-
