@@ -9,7 +9,8 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 
-const PORT = 3000;
+const port = 3000;
+const SubscriptionServerPort = port + 10;
 const WS_GQL_PATH = '/subscriptions';
 
 const app = express();
@@ -18,16 +19,18 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema: schema,
   debug: true,
 }));
+
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql',
   subscriptionsEndpoint: `/graphql-sub`,
 }));
 
-app.listen(PORT, () => console.log('Mock server running on: ' + PORT));
 
-
+app.listen(port, () => console.log('Mock server running on: ' + port));
 const server = createServer(app);
-server.listen(PORT);
+server.listen(SubscriptionServerPort, () => {
+  console.log('Mock subscription server running on: ' + SubscriptionServerPort);
+});
 new SubscriptionServer(
   {
     schema,
@@ -39,6 +42,9 @@ new SubscriptionServer(
     server,
   }
 );
+
+
+
 
 pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, {
   chatMessageAdded: {

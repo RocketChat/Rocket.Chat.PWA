@@ -1,5 +1,6 @@
 import { pubsub } from './subscriptions';
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+import { withFilter } from 'graphql-subscriptions';
 
 export const schema = `
 
@@ -189,7 +190,9 @@ export const rootResolvers = {
   },
   Subscription: {
     chatMessageAdded: {
-      subscribe: () => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC)
+      subscribe: withFilter(() => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC), (payload, args) => {
+        return payload.chatMessageAdded.channelId === args.channelId;
+      })
     }
   },
 };
