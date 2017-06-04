@@ -1,17 +1,6 @@
 import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
-
-export const messageFragment: DocumentNode = gql` 
-  fragment MessageFragment on Message {
-    id
-    author {
-      username
-      avatar
-    }
-    content
-    creationTime
-  }
-`; // TODO: move to different file
+import { messageFragment } from '../../chat-message/graphql/chat-message.fragment';
 
 export const messagesQuery: DocumentNode = gql`
   query messages($channelId: String!, $paginationId: String, $count: Int, $searchRegex: String){

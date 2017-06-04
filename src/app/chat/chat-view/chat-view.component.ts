@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InfiniteScroll } from 'ionic-angular';
-import { chatMessagesSubscription, messagesQuery, sendMessageMutation } from './chat-view-model';
+import { chatMessagesSubscription, messagesQuery, sendMessageMutation } from './graphql/chat-view.model';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
