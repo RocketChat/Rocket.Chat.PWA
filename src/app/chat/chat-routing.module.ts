@@ -13,6 +13,10 @@ const routes: Routes = [{
       component : ChatViewComponent
     },
     {
+      path : 'direct/:id',
+      component : ChatViewComponent
+    },
+    {
       path : 'welcome',
       component : WelcomePageComponent
     },

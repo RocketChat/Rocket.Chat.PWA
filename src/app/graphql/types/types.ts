@@ -248,6 +248,7 @@ export namespace MyChannelsQuery {
     direct: boolean;
     title: string;
     unseenMessages: number;
+    private: boolean;
   } 
 }
 

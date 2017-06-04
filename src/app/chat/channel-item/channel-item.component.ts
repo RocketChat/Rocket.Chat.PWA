@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MyChannelsQuery } from '../../graphql/types/types';
 
 @Component({
   selector: 'channel-item',
@@ -8,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ChannelItemComponent implements OnInit {
   @Input()
-  channel: any;
+  channel: MyChannelsQuery.ChannelsByUser;
   channelSymbol: string;
 
 
@@ -16,14 +17,18 @@ export class ChannelItemComponent implements OnInit {
   }
 
   gotoChannel(channelId) {
-    this.router.navigate(['channel', channelId], { relativeTo: this.route });
+    if (this.channel.direct){
+      this.router.navigate(['direct', channelId], { relativeTo: this.route });
+    }else {
+      this.router.navigate(['channel', channelId], { relativeTo: this.route });
+    }
   }
 
   ngOnInit(): void {
     if (this.channel.direct) {
       this.channelSymbol = 'at';
     }
-    else if (this.channel.privateChannel) {
+    else if (this.channel.private) {
       this.channelSymbol = 'lock';
     }
     else {

@@ -43,7 +43,7 @@ export class MainSidenavComponent implements OnInit {
       .do(channels => this.directChannelsNum = channels.length);
 
     this.channels = this.myChannelService.getMyChannels()
-      .map(result => result.data.channelsByUser.filter(channel => channel.direct))
+      .map(result => result.data.channelsByUser.filter(channel => !channel.direct))
       .do(channels => this.channelsNum = channels.length);
 
   }
