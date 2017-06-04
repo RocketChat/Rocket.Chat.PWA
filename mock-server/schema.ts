@@ -16,9 +16,9 @@ type Mutation {
     setStatus(status: UserStatus!): User
     logout: Boolean #JSAccount
     createChannel(name: String!, private: Boolean = false, readOnly: Boolean = false, membersId: [String!]): Channel
-    sendMessage(channelId: String!, messageInput: MessageInput!): Message
+    sendMessage(channelId: String!, content: String!): Message
     deleteMessage(messageId: MessageIdentifier!): Boolean
-    editMessage(messageId: MessageIdentifier!, messageInput: MessageInput!): Message
+    editMessage(messageId: MessageIdentifier!, content: String!): Message
     addReactionToMassage(messageId: MessageIdentifier!, icon: String!): Message
     updateUserSettings(userSettings: UserSettings): User
     #updateUserChannelSettings(channelId: String!,settings: ChannelSettings )
@@ -26,7 +26,7 @@ type Mutation {
 
 type Query {
     me: User
-    messages(channelId: String!, paginationId: String, count: Int, SearchRegex: String): [Message]
+    messages(channelId: String!, paginationId: String, count: Int, searchRegex: String): [Message]
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
 }
@@ -66,12 +66,6 @@ type Message {
     reactions: [Reaction]
 }
 
-input MessageInput {
-    content: String!
-    userRef: [String] #userId
-    channelRef: [String] #channelId
-}
-
 input MessageIdentifier {
     channelId: String!
     messageId: String!
@@ -81,7 +75,6 @@ type Reaction {
     username: String
     icon: String
 }
-
 
 type User {
     username: String
@@ -183,15 +176,62 @@ type Channel {
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 
-export const rootResolvers = {
-  Query: () => {
+let counter = 0;
+const messages = [
+  {
+    id: counter++,
+    content: 'kentak is pitushky',
+    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
+    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
+    channel: {id: '1'},
   },
-  Mutation: () => {
+  {
+  id: counter++,
+    content: 'kentak is kentak',
+    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
+    avatar: 'http://dreamicus.com/data/face/face-01.jpg',
+    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
+    channel: {id: '1'},
+  },
+  {
+    id: counter++,
+    content: 'fried chicken is kentak',
+    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
+    avatar: 'http://dreamicus.com/data/face/face-01.jpg',
+    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
+    channel: {id: '1'},
+  }
+];
+
+export const rootResolvers = {
+  Query: {
+    messages: (root, args, context) => messages,
+  },
+  Mutation: {
+    sendMessage: (root, { channelId, content }, context) => {
+      const newMessage = {
+        id: counter++,
+        content,
+        creationTime: (new Date()).getTime().toString(),
+        author: {
+          username: 'tomer',
+          avatar: 'http://dreamicus.com/data/face/face-01.jpg'
+        },
+        channel: {
+          id: channelId,
+        }
+      };
+      messages.push(newMessage);
+      // console.log('publishing over pubsub:', newMessage);
+      pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, {chatMessageAdded: newMessage});
+      return newMessage;
+    }
   },
   Subscription: {
     chatMessageAdded: {
       subscribe: withFilter(() => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC), (payload, args) => {
-        return payload.chatMessageAdded.channelId === args.channelId;
+        // console.log('publication received !@#!@!@#!#', payload.chatMessageAdded, args);
+        return payload.chatMessageAdded.channel.id === args.channelId;
       })
     }
   },
@@ -203,6 +243,6 @@ const executableSchema = makeExecutableSchema({
   logger: { log: (e) => console.log(e) },
 });
 
-addMockFunctionsToSchema({ schema: executableSchema });
+// addMockFunctionsToSchema({ schema: executableSchema });
 
 export default executableSchema;

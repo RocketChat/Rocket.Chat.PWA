@@ -6,7 +6,7 @@ const networkInterface = createNetworkInterface({
     uri: environment.server + '/graphql'
 });
 
-const wsClient = new SubscriptionClient(environment.server + '/graphql-sub', {
+const wsClient = new SubscriptionClient(environment.subscriptionServer + '/subscriptions', {
   reconnect: true,
   connectionParams: {
   }

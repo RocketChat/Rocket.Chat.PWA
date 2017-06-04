@@ -5,6 +5,7 @@ import { AppComponent } from '../app.component';
 import { IonicModule } from 'ionic-angular';
 import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
+import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
 
 @NgModule({
   imports: [
@@ -17,8 +18,9 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     IonicModule,
-    ApolloModule
+    ApolloModule,
+    UnixTimeToStringPipe
   ],
-  declarations: []
+  declarations: [UnixTimeToStringPipe]
 })
 export class SharedModule {}
