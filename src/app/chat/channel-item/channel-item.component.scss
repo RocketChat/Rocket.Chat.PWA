@@ -34,6 +34,15 @@
   }
 }
 
+.button-icon {
+  height: auto;
+  ion-icon{
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 0 0.1em;
+  }
+}
+
 .hide-channel-icon {
   margin-right: 10px;
 }
