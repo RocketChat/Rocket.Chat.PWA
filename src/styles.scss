@@ -16,3 +16,10 @@ ion-app:empty + .loading-splash {
   border-radius: 5px;
   background-color: gainsboro;
 }
+
+.overflow-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
