@@ -6,9 +6,9 @@ import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'channel-chat',
-  templateUrl: './channel-view.component.html',
-  styleUrls: ['./channel-view.component.scss'],
+  selector: 'chat-view',
+  templateUrl: './chat-view.component.html',
+  styleUrls: ['./chat-view.component.scss'],
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 

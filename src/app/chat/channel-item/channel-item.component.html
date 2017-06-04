@@ -1,11 +1,17 @@
 <div class="channel-item" (click)="gotoChannel(channel.title)">
   <span class="channel-title">
-    <i class="channel-icon fa" [ngClass]="['fa-' + channelSymbol]" aria-hidden="true"></i>
+
+    <span *ngIf="channelSymbol === 'hashtag'; else iconBlock" class="channel-icon hashtag">#</span>
+    <template #iconBlock><ion-icon  class="channel-icon" [name]="channelSymbol" is-active="false"></ion-icon></template>
     <span>{{channel.title}}</span>
   </span>
   <span>
-    <i class="fa fa-eye-slash hide-channel-icon" aria-hidden="true" (click)="hideChannel()"></i>
-    <i class="fa fa-sign-out exit-channel-icon" aria-hidden="true" (click)="exitChannel()"></i>
+    <button class="button-icon" ion-button clear color="light" icon-only>
+      <ion-icon  name="eye-off" is-active="false" (click)="hideChannel()"></ion-icon>
+    </button>
+    <button class="button-icon" ion-button clear color="light" icon-only>
+       <ion-icon name="exit" (click)="hideChannel()"></ion-icon>
+    </button>
   </span>
 </div>
 

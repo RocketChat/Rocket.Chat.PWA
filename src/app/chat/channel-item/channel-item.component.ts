@@ -16,7 +16,7 @@ export class ChannelItemComponent implements OnInit {
   }
 
   gotoChannel(channelId) {
-    this.router.navigate(['channel', channelId], { relativeTo: this.route });
+    this.router.navigate(['channel', channelId]);
   }
 
   ngOnInit(): void {
