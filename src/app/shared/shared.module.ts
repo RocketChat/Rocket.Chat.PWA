@@ -5,6 +5,7 @@ import { AppComponent } from '../app.component';
 import { IonicModule } from 'ionic-angular';
 import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
+import { UserDataService } from './services/user-data/user-data.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     IonicModule,
     ApolloModule
   ],
+  providers: [UserDataService],
   declarations: []
 })
 export class SharedModule { }
