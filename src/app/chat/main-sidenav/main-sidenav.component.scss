@@ -1,0 +1,31 @@
+.home-menu-content{
+  background-color: #044b76;
+}
+
+.home-menu-header{
+  color:#89aabe;
+  .toolbar-background {
+    background: #04436a !important;
+  }
+  .toolbar-title {
+    color:#89aabe;
+  }
+}
+
+.home-menu-footer{
+  background-color: #04436a;
+}
+
+.menu-item{
+  color:#89aabe;
+  background-color: #044b76;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+}
+
+.text-title{
+  padding: 0.5em;
+}

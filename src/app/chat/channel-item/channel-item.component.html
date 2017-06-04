@@ -4,11 +4,11 @@
     <span>{{channel.title}}</span>
   </span>
   <span>
-    <button class="button-icon" ion-button clear color="light" icon-only>
-      <ion-icon  name="eye-off" is-active="false" (click)="hideChannel()"></ion-icon>
+    <button title="Hide channel" class="button-icon" ion-button clear color="light" icon-only>
+      <ion-icon  name="eye-off" is-active="false" (click)="hideChannel()" ></ion-icon>
     </button>
-    <button class="button-icon" ion-button clear color="light" icon-only>
-       <ion-icon name="exit" (click)="hideChannel()"></ion-icon>
+    <button title="Exit channel" class="button-icon" ion-button clear color="light" icon-only>
+       <ion-icon name="exit" (click)="exitChannel()" ></ion-icon>
     </button>
   </span>
 </div>
