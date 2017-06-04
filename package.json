@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently \"yarn server\" \"ng serve\" ",
-    "build": "ng build",
-    "serve:dist": "lite-server --baseDir=dist",
+    "build": "ng build -prod",
+    "serve:dist": "http-server ./dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -38,7 +38,7 @@
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.6",
+    "@angular/cli": "^1.1.0",
     "@angular/compiler-cli": "^4.1.0",
     "@types/express": "^4.0.35",
     "@types/jasmine": "2.5.38",
@@ -59,11 +59,12 @@
     "karma-coverage-istanbul-reporter": "^0.2.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "lite-server": "^2.3.0",
+    "http-server": "^0.10.0",
     "nodemon": "^1.11.0",
     "protractor": "~5.1.0",
     "ts-node": "^3.0.4",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.2.0",
+    "workbox-cli": "^1.0.0"
   }
 }
