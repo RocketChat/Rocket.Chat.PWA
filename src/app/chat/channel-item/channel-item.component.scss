@@ -11,12 +11,12 @@
 
 .channel-icon {
   color: rgba(255, 255, 255, 0.3);
-  font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 16px;
-  margin: 3px;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.hashtag {
+  font-weight: 700;
 }
 
 .channel-title {
@@ -26,11 +26,12 @@
   cursor: pointer;
 }
 
-.hide-channel-icon, .exit-channel-icon {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.3);
-  &:hover {
-    color: rgba(255, 255, 255, 0.6);
+.button-icon {
+  height: auto;
+  ion-icon{
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 0 0.1em;
   }
 }
 
