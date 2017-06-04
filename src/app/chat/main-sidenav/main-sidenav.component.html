@@ -1,17 +1,20 @@
 <ion-header class="home-menu-header">
   <ion-toolbar>
     <div class="toolbar-row">
-      <img class="rounded-img" src="{{user.avatar}}">
-      <span class="text-title">{{user.username}}</span>
+      <img class="rounded-img margin-left" src="{{user?.avatar}}">
+      <span class="text-title">{{user?.name}}</span>
     </div>
   </ion-toolbar>
 </ion-header>
 <ion-content class="home-menu-content">
-  <h6>CHANNELS (3)</h6>
+  <h4 class="sub-sidenav-header">CHANNELS ({{channelsNum}})</h4>
   <ion-list no-lines no-padding>
-    <channel-item class="menu-item" *ngFor="let channel of channels" [channel]="channel"></channel-item>
+    <channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel"></channel-item>
   </ion-list>
-  <h6>DIRECT MESSAGES (3)</h6>
+  <h4 class="sub-sidenav-header">DIRECT MESSAGES ({{directChannelsNum}})</h4>
+  <ion-list no-lines no-padding>
+    <channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel"></channel-item>
+  </ion-list>
 </ion-content>
 <ion-footer class="home-menu-footer">
   <button ion-button (click)="logout()">Logout</button>

@@ -1,23 +1,23 @@
-.home-menu-content{
+.home-menu-content {
   background-color: #044b76;
 }
 
-.home-menu-header{
-  color:#89aabe;
+.home-menu-header {
+  color: #89aabe;
   .toolbar-background {
     background: #04436a !important;
   }
   .toolbar-title {
-    color:#89aabe;
+    color: #89aabe;
   }
 }
 
-.home-menu-footer{
+.home-menu-footer {
   background-color: #04436a;
 }
 
-.menu-item{
-  color:#89aabe;
+.menu-item {
+  color: #89aabe;
   background-color: #044b76;
 }
 
@@ -26,6 +26,17 @@
   align-items: center;
 }
 
-.text-title{
+.text-title {
   padding: 0.5em;
+}
+
+.sub-sidenav-header {
+  color: #89aabe;
+  margin: 20px 10px 5px 10px;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.margin-left {
+  margin-left: 5px;
 }

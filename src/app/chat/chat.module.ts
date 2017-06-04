@@ -9,6 +9,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { ChannelItemComponent } from './channel-item/channel-item.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
 import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
+import { ChannelsService } from './services/channels/channels.service';
 
 @NgModule({
   imports: [
@@ -24,5 +25,6 @@ import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
     ChannelItemComponent,
     MainSidenavComponent,
   ],
+  providers: [ChannelsService],
 })
 export class ChatModule { }
