@@ -1,5 +1,6 @@
 /*class for aligning center*/
 .align-center{
-    text-align: center;
+    vertical-align: center;
+    text-align: center
     
 }
