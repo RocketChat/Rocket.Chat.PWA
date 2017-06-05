@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "manifest.json"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -50,6 +51,7 @@
       "config": "./karma.conf.js"
     }
   },
+  
   "defaults": {
     "styleExt": "css",
     "component": {}
