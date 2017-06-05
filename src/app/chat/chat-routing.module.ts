@@ -6,7 +6,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
 
 const routes: Routes = [{
-  path : 'main', component : MainPageComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
+  path : '', component : MainPageComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
   children : [
     {
       path : 'channel/:id',

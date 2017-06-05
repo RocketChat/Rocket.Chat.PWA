@@ -18,9 +18,9 @@ export class ChannelItemComponent implements OnInit {
 
   gotoChannel(channelId) {
     if (this.channel.direct){
-      this.router.navigate(['direct', channelId], { relativeTo: this.route });
+      this.router.navigate(['direct', channelId]);
     }else {
-      this.router.navigate(['channel', channelId], { relativeTo: this.route });
+      this.router.navigate(['channel', channelId]);
     }
   }
 
