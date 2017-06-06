@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { MenuController } from 'ionic-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
+import { PushNotificationsService } from '../../shared/services/push-notifications.service';
 
 @Component({
   selector : 'chat',
@@ -10,6 +11,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   encapsulation : ViewEncapsulation.None
 })
 export class MainPageComponent implements AfterViewInit {
+  private readonly TIME_TO_REQUEST_PUSH = 5000;
   public channels = [
     {title : 'channel1', privateChannel : true},
     {title : 'channel2'},
@@ -20,11 +22,14 @@ export class MainPageComponent implements AfterViewInit {
   constructor(private menuCtrl: MenuController,
               private router: Router,
               private route: ActivatedRoute,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private pushService: PushNotificationsService) {
   }
 
   ngAfterViewInit(): void {
     this.menuCtrl.open();
+
+    setTimeout(() => this.pushService.initPushNotification(), this.TIME_TO_REQUEST_PUSH);
   }
 
   logout() {

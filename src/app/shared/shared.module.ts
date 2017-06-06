@@ -5,11 +5,14 @@ import { AppComponent } from '../app.component';
 import { IonicModule } from 'ionic-angular';
 import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { PushNotificationsService } from './services/push-notifications.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ServiceWorkerModule,
     IonicModule.forRoot(AppComponent),
     ApolloModule.forRoot(getClient),
   ],
@@ -19,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     IonicModule,
     ApolloModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [PushNotificationsService]
 })
 export class SharedModule { }
