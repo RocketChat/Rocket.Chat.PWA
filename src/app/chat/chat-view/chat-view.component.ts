@@ -37,6 +37,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // TODO handle direct too
     this.routeParamsSub = this.route.params.subscribe(params => this.channel = params['id']);
   }
 

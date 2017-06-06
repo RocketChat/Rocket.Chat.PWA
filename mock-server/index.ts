@@ -4,6 +4,7 @@ import * as cors from 'cors';
 import { graphiqlExpress, graphqlExpress } from 'graphql-server-express';
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
 import Schema from './schema';
+import { mocks } from './mocks';
 
 const PORT = 3000;
 
@@ -12,7 +13,7 @@ const executableSchema = makeExecutableSchema({
   logger: { log: (e) => console.log(e) },
 });
 // Add mocks, modifies schema in place
-addMockFunctionsToSchema({ schema: executableSchema });
+addMockFunctionsToSchema({ schema: executableSchema , mocks});
 
 const app = express();
 app.use(cors());

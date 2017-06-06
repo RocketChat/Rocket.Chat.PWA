@@ -7,6 +7,7 @@ import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { PushNotificationsService } from './services/push-notifications.service';
+import { UserDataService } from './services/user-data/user-data.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { PushNotificationsService } from './services/push-notifications.service'
     ApolloModule
   ],
   declarations: [],
-  providers: [PushNotificationsService]
+  providers: [PushNotificationsService, UserDataService]
 })
 export class SharedModule { }

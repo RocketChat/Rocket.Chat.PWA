@@ -1,8 +1,8 @@
 .channel-item {
   display: flex;
   justify-content: space-between;
-  font-size: 15px;
-  padding: 5px 10px 5px 5px;
+  font-size: 1em;
+  padding: 0 5px;
 }
 
 .channel-item:hover {
@@ -37,4 +37,8 @@
 
 .hide-channel-icon {
   margin-right: 10px;
+}
+
+.title-container{
+  width: 210px;
 }
