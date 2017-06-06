@@ -2,7 +2,7 @@
   <span class="channel-title">
 
     <span *ngIf="channelSymbol === 'hashtag'; else iconBlock" class="channel-icon hashtag">#</span>
-    <template #iconBlock><ion-icon  class="channel-icon" [name]="channelSymbol" is-active="false"></ion-icon></template>
+    <ng-template #iconBlock><ion-icon  class="channel-icon" [name]="channelSymbol" is-active="false"></ion-icon></ng-template>
     <span>{{channel.title}}</span>
   </span>
   <span>
