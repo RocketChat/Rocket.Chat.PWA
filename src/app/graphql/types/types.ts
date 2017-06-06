@@ -234,3 +234,34 @@ export namespace GetChatQuery {
     username: string;
   } 
 }
+
+export namespace MyChannelsQuery {
+  export type Variables = {
+      userId: string;
+  }
+
+  export type Result = {
+    channelsByUser: Array<ChannelsByUser>;
+  } 
+
+  export type ChannelsByUser = {
+    direct: boolean;
+    title: string;
+    unseenMessages: number;
+    private: boolean;
+  } 
+}
+
+export namespace UserDataQuery {
+  export type Variables = {
+  }
+
+  export type Result = {
+    me: Me;
+  } 
+
+  export type Me = {
+    name: string;
+    avatar: string;
+  } 
+}
