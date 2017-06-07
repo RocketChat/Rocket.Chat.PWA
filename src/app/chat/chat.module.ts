@@ -8,12 +8,14 @@ import { SharedModule } from '../shared/shared.module';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChannelItemComponent } from './channel-item/channel-item.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    InfiniteScrollModule,
   ],
   declarations: [
     MainPageComponent,

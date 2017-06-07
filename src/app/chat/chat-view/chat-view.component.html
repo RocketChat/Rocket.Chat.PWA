@@ -3,21 +3,23 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title># {{channel}}</ion-title>
+    <ion-title># {{channel.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content #chatContent>
-  <!--<ion-infinite-scroll position="top">-->
-    <!--<ion-infinite-scroll-content loadingSpinner="bubbles">-->
-    <!--</ion-infinite-scroll-content>-->
-  <!--</ion-infinite-scroll>-->
-
-  <ion-list no-lines no-padding>
-    <ion-item *ngFor="let message of messages">
+<ion-content>
+  <div class="loading-spinner">
+    <ion-spinner name="bubbles" *ngIf="loadingMoreMessages"></ion-spinner>
+  </div>
+  <div #chatContent class="message-scroller"
+       infinite-scroll
+       [infiniteScrollUpDistance]="5"
+       [infiniteScrollThrottle]="0"
+       [scrollWindow]="false"
+       (scrolledUp)="onScrolledUp()">
+    <ion-item *ngFor="let message of messages" no-lines>
       <chat-message [message]="message"></chat-message>
     </ion-item>
-  </ion-list>
-
+  </div>
 </ion-content>
 <ion-footer>
   <ion-row class="message-row">

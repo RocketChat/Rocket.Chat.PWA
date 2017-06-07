@@ -26,7 +26,7 @@ type Mutation {
 
 type Query {
     me: User
-    messages(channelId: String!, paginationId: String, count: Int, searchRegex: String): [Message]
+    messages(channelId: String!, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
 }
@@ -51,6 +51,11 @@ enum Privacy {
 enum ChannelSort {
     NAME
     NUMBER_OF_MESSAGES
+}
+
+type MessagesWithCursor {
+  cursor: String
+  messages: [Message]
 }
 
 type Message {
@@ -177,41 +182,66 @@ type Channel {
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 
 let counter = 0;
-const messages = [
+const stubMessages = [
   {
-    id: counter++,
     content: 'kentak is pitushky',
     creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
     author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: {id: '1'},
+    channel: { id: '1' },
   },
   {
-  id: counter++,
     content: 'kentak is kentak',
     creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
     avatar: 'http://dreamicus.com/data/face/face-01.jpg',
     author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: {id: '1'},
+    channel: { id: '1' },
   },
   {
-    id: counter++,
     content: 'fried chicken is kentak',
     creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
     avatar: 'http://dreamicus.com/data/face/face-01.jpg',
     author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: {id: '1'},
+    channel: { id: '1' },
   }
 ];
 
+const createMessage = (id: number) => {
+  const randomIndex = Math.round(Math.random() * (stubMessages.length - 1));
+  const randomMessage: any = Object.assign({}, stubMessages[randomIndex]);
+  randomMessage.id = id.toString();
+  randomMessage.content += `#${id}`;
+  return randomMessage;
+};
+
+const messages = [];
+
+for (let i = 0; i < 10000; i++) {
+  messages.push(createMessage(i));
+}
+
 export const rootResolvers = {
   Query: {
-    messages: (root, args, context) => messages,
+    messages: (root, { cursor, count }, context) => {
+      let nextMessageIndex = 0;
+      if (cursor) {
+        nextMessageIndex = messages.findIndex((message) => message.id === cursor);
+      }
+      if (nextMessageIndex !== -1) {
+        let finalMessageIndex = count + nextMessageIndex;
+        finalMessageIndex = finalMessageIndex > messages.length ? messages.length : finalMessageIndex;
+        const nextCursor = finalMessageIndex === messages.length ? null : messages[finalMessageIndex].id;
+        return {
+          cursor: nextCursor,
+          messages: messages.slice(nextMessageIndex, finalMessageIndex).reverse(),
+        };
+      }
+    }
   },
   Mutation: {
     sendMessage: (root, { channelId, content }, context) => {
       const newMessage = {
-        id: counter++,
-        content,
+        id: (--counter).toString(),
+        content: content + `#${counter}`,
         creationTime: (new Date()).getTime().toString(),
         author: {
           username: 'tomer',
@@ -221,16 +251,14 @@ export const rootResolvers = {
           id: channelId,
         }
       };
-      messages.push(newMessage);
-      // console.log('publishing over pubsub:', newMessage);
-      pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, {chatMessageAdded: newMessage});
+      messages.unshift(newMessage);
+      pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
       return newMessage;
     }
   },
   Subscription: {
     chatMessageAdded: {
       subscribe: withFilter(() => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC), (payload, args) => {
-        // console.log('publication received !@#!@!@#!#', payload.chatMessageAdded, args);
         return payload.chatMessageAdded.channel.id === args.channelId;
       })
     }

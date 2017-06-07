@@ -32,14 +32,13 @@
     "graphql-tag": "^2.2.0",
     "ionic-angular": "^3.2.1",
     "ionicons": "^3.0.0",
-
     "moment": "^2.18.1",
+    "ngx-infinite-scroll": "^0.5.1",
     "rxjs": "^5.1.1",
     "subscriptions-transport-ws": "^0.7.0",
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
-    "lite-server": "^2.3.0",
     "@angular/cli": "^1.1.0",
     "@angular/compiler-cli": "^4.1.0",
     "@types/express": "^4.0.35",
@@ -61,6 +60,7 @@
     "karma-coverage-istanbul-reporter": "^0.2.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "lite-server": "^2.3.0",
     "nodemon": "^1.11.0",
     "protractor": "~5.1.0",
     "ts-node": "^3.0.4",
