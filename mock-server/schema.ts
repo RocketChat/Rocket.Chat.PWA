@@ -1,6 +1,5 @@
-import { pubsub } from './subscriptions';
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
-import { withFilter } from 'graphql-subscriptions';
+import { mocks } from './mocks';
 
 export const schema = `
 
@@ -179,98 +178,11 @@ type Channel {
 }
 `;
 
-export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
-
-let counter = 0;
-const stubMessages = [
-  {
-    content: 'kentak is pitushky',
-    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
-    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: { id: '1' },
-  },
-  {
-    content: 'kentak is kentak',
-    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
-    avatar: 'http://dreamicus.com/data/face/face-01.jpg',
-    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: { id: '1' },
-  },
-  {
-    content: 'fried chicken is kentak',
-    creationTime: (new Date().getTime() - Math.round((Math.random() * 100000000))).toString(),
-    avatar: 'http://dreamicus.com/data/face/face-01.jpg',
-    author: { username: 'GushBasar', avatar: 'http://dreamicus.com/data/face/face-01.jpg', },
-    channel: { id: '1' },
-  }
-];
-
-const createMessage = (id: number) => {
-  const randomIndex = Math.round(Math.random() * (stubMessages.length - 1));
-  const randomMessage: any = Object.assign({}, stubMessages[randomIndex]);
-  randomMessage.id = id.toString();
-  randomMessage.content += `#${id}`;
-  return randomMessage;
-};
-
-const messages = [];
-
-for (let i = 0; i < 10000; i++) {
-  messages.push(createMessage(i));
-}
-
-export const rootResolvers = {
-  Query: {
-    messages: (root, { cursor, count }, context) => {
-      let nextMessageIndex = 0;
-      if (cursor) {
-        nextMessageIndex = messages.findIndex((message) => message.id === cursor);
-      }
-      if (nextMessageIndex !== -1) {
-        let finalMessageIndex = count + nextMessageIndex;
-        finalMessageIndex = finalMessageIndex > messages.length ? messages.length : finalMessageIndex;
-        const nextCursor = finalMessageIndex === messages.length ? null : messages[finalMessageIndex].id;
-        return {
-          cursor: nextCursor,
-          messages: messages.slice(nextMessageIndex, finalMessageIndex).reverse(),
-        };
-      }
-    }
-  },
-  Mutation: {
-    sendMessage: (root, { channelId, content }, context) => {
-      const newMessage = {
-        id: (--counter).toString(),
-        content: content + `#${counter}`,
-        creationTime: (new Date()).getTime().toString(),
-        author: {
-          username: 'tomer',
-          avatar: 'http://dreamicus.com/data/face/face-01.jpg'
-        },
-        channel: {
-          id: channelId,
-        }
-      };
-      messages.unshift(newMessage);
-      pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
-      return newMessage;
-    }
-  },
-  Subscription: {
-    chatMessageAdded: {
-      subscribe: withFilter(() => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC), (payload, args) => {
-        return payload.chatMessageAdded.channel.id === args.channelId;
-      })
-    }
-  },
-};
-
 const executableSchema = makeExecutableSchema({
   typeDefs: schema,
-  resolvers: rootResolvers,
   logger: { log: (e) => console.log(e) },
 });
 
-// addMockFunctionsToSchema({ schema: executableSchema });
+addMockFunctionsToSchema({ schema: executableSchema, mocks });
 
 export default executableSchema;

@@ -2,6 +2,12 @@
   background-color: rgb(200, 200, 200);
 }
 
+.menu-icon-button{
+  @media screen and (min-width: 767px) {
+    display: none;
+  }
+}
+
 .message-row {
   display: flex;
 }

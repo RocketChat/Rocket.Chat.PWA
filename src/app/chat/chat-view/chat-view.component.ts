@@ -83,7 +83,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         creationTime: +new Date().toString(),
         author: {
           __typename: 'User',
-          username: 'tomer',  // TODO: replace user with real user
+          name: 'tomer',  // TODO: replace user with real user
           avatar: 'http://images.clipartpanda.com/animated-question-mark-for-powerpoint-1256186461796715642question-mark-icon.svg.hi.png'
         }
       }

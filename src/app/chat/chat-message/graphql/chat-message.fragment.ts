@@ -5,7 +5,7 @@ export const messageFragment: DocumentNode = gql`
   fragment MessageFragment on Message {
     id
     author {
-      username
+      name
       avatar
     }
     content
