@@ -6,11 +6,15 @@ import { IonicModule } from 'ionic-angular';
 import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
 import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { PushNotificationsService } from './services/push-notifications.service';
+import { UserDataService } from './services/user-data/user-data.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ServiceWorkerModule,
     IonicModule.forRoot(AppComponent, { mode: 'md' }),
     ApolloModule.forRoot(getClient),
   ],
@@ -21,6 +25,7 @@ import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
     ApolloModule,
     UnixTimeToStringPipe
   ],
-  declarations: [UnixTimeToStringPipe]
+  declarations: [UnixTimeToStringPipe],
+  providers: [PushNotificationsService, UserDataService],
 })
 export class SharedModule {}

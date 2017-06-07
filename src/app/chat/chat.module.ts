@@ -9,6 +9,8 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { ChannelItemComponent } from './channel-item/channel-item.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
+import { ChannelsService } from './services/channels/channels.service';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     WelcomePageComponent,
     ChatMessageComponent,
     ChannelItemComponent,
+    MainSidenavComponent,
   ],
+  providers: [ChannelsService],
 })
 export class ChatModule { }
