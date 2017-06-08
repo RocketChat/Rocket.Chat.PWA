@@ -136,7 +136,7 @@ export class ChatService {
     else {
       return Object.assign({}, prev, {
         messages: {
-          cursor: prev.cursor || null,
+          cursor: prev.messages.cursor || null,
           messagesArray: [...prev.messages.messagesArray, newMessage],
           __typename: prev.messages.__typename,
         }

@@ -15,7 +15,6 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public channel = { id: '1', name: '' };
   private routeParamsSub;
   private messagesSub;
-  public loading: boolean;
   public model = { message: undefined };
   private messagesCount = 100;
   private isFirstLoad = true;
@@ -29,15 +28,14 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
     const messagesObs = this.chatService.getMessages(this.channel.id, this.messagesCount);
 
-    this.messagesSub = messagesObs.subscribe(({ data, loading }) => {
+    this.messagesSub = messagesObs.subscribe(({ data }) => {
       this.messages = data.messages.messagesArray;
-      this.loading = loading;
       const chatContentNativeElement = this.chatContent.nativeElement;
-      if (!loading && (this.isFirstLoad || (!this.chatService.isLoadingMoreMessages() &&
-        chatContentNativeElement.scrollTop + chatContentNativeElement.clientHeight >= chatContentNativeElement.scrollHeight))) {
+      if (this.isFirstLoad || (!this.chatService.isLoadingMoreMessages() &&
+        chatContentNativeElement.scrollTop + chatContentNativeElement.clientHeight >= chatContentNativeElement.scrollHeight)) {
         setTimeout(() => {
           this.isFirstLoad = false;
-          this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight;
+          this.scrollToBottom();
         }, 0);
       }
     });
@@ -45,10 +43,15 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     this.chatService.subscribeToMessageAdded(this.channel.id);
   }
 
+  scrollToBottom() {
+    this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight;
+  }
+
   sendMessage() {
     if (this.model.message) {
       this.chatService.sendMessage(this.channel.id, this.model.message);
       this.model.message = undefined;
+      this.scrollToBottom();
     }
   }
 
