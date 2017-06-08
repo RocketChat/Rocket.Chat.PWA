@@ -6,6 +6,7 @@ import { sendMessageMutation } from '../../../graphql/queries/send-message.mutat
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
 import { MessagesQuery } from '../../../graphql/types/types';
+import { UserDataService } from '../../../shared/services/user-data/user-data.service';
 
 @Injectable()
 export class ChatService {
@@ -14,9 +15,14 @@ export class ChatService {
   private messagesSubscription: Subscription;
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
+  private user = { name: undefined, avatar: undefined };
 
   constructor(private apollo: Apollo,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private useDataService: UserDataService) {
+    useDataService.getUserData().subscribe((result) => {
+      this.user = result.data.me;
+    });
   }
 
   private optimisticSendMessage(content) {
@@ -30,8 +36,8 @@ export class ChatService {
         creationTime: +new Date().toString(),
         author: {
           __typename: 'User',
-          name: user.username,
-          avatar: 'http://images.clipartpanda.com/animated-question-mark-for-powerpoint-1256186461796715642question-mark-icon.svg.hi.png'
+          name: this.user.name || user.username,
+          avatar: this.user.avatar,
         }
       }
     };
