@@ -8,13 +8,13 @@ import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 
 const PORT = 3000;
-const SUBSCRIPTION_PORT = 5000;
+// const SUBSCRIPTION_PORT = 5000;
 const WS_GQL_PATH = '/subscriptions';
 
 const app = express();
 app.use(cors());
 app.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema: schema,
+  schema,
   debug: true,
 }));
 
@@ -23,12 +23,7 @@ app.use('/graphiql', graphiqlExpress({
 }));
 
 
-app.listen(PORT, () => console.log('Mock server running on: ' + PORT));
 const server = createServer(app);
-server.listen(SUBSCRIPTION_PORT, () => {
-  console.log('Mock subscription server running on: ' + SUBSCRIPTION_PORT);
-});
-
 new SubscriptionServer(
   {
     schema,
@@ -40,3 +35,7 @@ new SubscriptionServer(
     server,
   }
 );
+
+server.listen(PORT, () => {
+  console.log('Mock server running on: ' + PORT);
+});
