@@ -8,7 +8,6 @@ import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 
 const PORT = 3000;
-// const SUBSCRIPTION_PORT = 5000;
 const WS_GQL_PATH = '/subscriptions';
 
 const app = express();
