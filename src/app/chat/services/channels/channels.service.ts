@@ -15,6 +15,7 @@ export class ChannelsService {
     const variables: MyChannelsQuery.Variables = {
       userId: user.username
     };
+
     return this.apollo.watchQuery<MyChannelsQuery.Result>({query: myChannelsQuery, variables});
   }
 
