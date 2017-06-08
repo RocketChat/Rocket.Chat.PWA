@@ -20,12 +20,14 @@ export class ChatService {
   constructor(private apollo: Apollo,
               private authenticationService: AuthenticationService,
               private useDataService: UserDataService) {
+    // TODO: replace with JSAccounts
     useDataService.getUserData().subscribe((result) => {
       this.user = result.data.me;
     });
   }
 
   private optimisticSendMessage(content) {
+    // TODO: replace with JSAccounts
     const user: any = this.authenticationService.getUser() || {};
     return {
       __typename: 'Mutation',
