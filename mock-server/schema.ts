@@ -1,5 +1,5 @@
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
-import { mocks } from './mocks';
+import { mocks, subscriptionResolver } from './mocks';
 
 export const schema = `
 
@@ -54,7 +54,7 @@ enum ChannelSort {
 
 type MessagesWithCursor {
   cursor: String
-  messages: [Message]
+  messagesArray: [Message]
 }
 
 type Message {
@@ -180,9 +180,10 @@ type Channel {
 
 const executableSchema = makeExecutableSchema({
   typeDefs: schema,
+  resolvers: subscriptionResolver,
   logger: { log: (e) => console.log(e) },
 });
 
-addMockFunctionsToSchema({ schema: executableSchema, mocks });
+addMockFunctionsToSchema({ schema: executableSchema, mocks,  preserveResolvers: true});
 
 export default executableSchema;

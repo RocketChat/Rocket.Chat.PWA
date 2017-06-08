@@ -31,9 +31,10 @@ export const mocks = {
     avatar: () => faker.image.avatar(),
   }),
   Channel: () => ({
-    title: faker.random.word(),
-    direct: faker.random.boolean(),
-    unseenMessages: faker.random.boolean() ? faker.random.number(30) : 0,
+    id: () => faker.random.uuid(),
+    title: () => faker.random.word(),
+    direct: () => faker.random.boolean(),
+    unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
     channelsByUser: () => new MockList([3, 15]),
@@ -48,7 +49,7 @@ export const mocks = {
         const nextCursor = finalMessageIndex === messages.length ? null : messages[finalMessageIndex].id;
         return {
           cursor: nextCursor,
-          messages: messages.slice(nextMessageIndex, finalMessageIndex).reverse(),
+          messagesArray: messages.slice(nextMessageIndex, finalMessageIndex).reverse(),
         };
       }
     },
@@ -72,11 +73,14 @@ export const mocks = {
       return newMessage;
     }
   }),
-  Subscription: () => ({
+};
+
+export const subscriptionResolver = {
+  Subscription: {
     chatMessageAdded: {
       subscribe: withFilter(() => pubsub.asyncIterator(CHAT_MESSAGE_SUBSCRIPTION_TOPIC), (payload, args) => {
         return payload.chatMessageAdded.channel.id === args.channelId;
       })
     }
-  }),
+  }
 };

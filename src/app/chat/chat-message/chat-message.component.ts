@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import * as moment from 'moment';
 
 @Component({
   selector: 'chat-message',
@@ -10,8 +9,6 @@ export class ChatMessageComponent {
 
   @Input()
   message: any;
-  moment = moment;
 
-  constructor() {
-  }
+  constructor() {}
 }

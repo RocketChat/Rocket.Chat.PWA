@@ -11,6 +11,7 @@ import { ChatViewComponent } from './chat-view/chat-view.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
 import { ChannelsService } from './services/channels/channels.service';
+import { ChatService } from './services/chat/chat.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,10 @@ import { ChannelsService } from './services/channels/channels.service';
     ChannelItemComponent,
     MainSidenavComponent,
   ],
-  providers: [ChannelsService],
+  providers: [
+    ChannelsService,
+    ChatService,
+  ],
 })
-export class ChatModule { }
+export class ChatModule {
+}
