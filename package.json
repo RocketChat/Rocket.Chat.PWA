@@ -46,6 +46,7 @@
     "@types/faker": "^4.1.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "^7.0.22",
+    "@types/graphql": "^0.9.1",
     "body-parser": "^1.17.2",
     "codelyzer": "~2.0.0",
     "concurrently": "^3.4.0",

@@ -76,6 +76,7 @@ export class ChatService {
         }
       });
     }
+
     return this.messagesObservable;
   }
 
