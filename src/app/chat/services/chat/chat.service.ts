@@ -59,7 +59,7 @@ export class ChatService {
       });
   }
 
-  getMessagesObservable(channelId: string, count: number = 50): ApolloQueryObservable<MessagesQuery.Result> {
+  getMessages(channelId: string, count: number = 50): ApolloQueryObservable<MessagesQuery.Result> {
     if (!this.messagesObservable) {
       this.messagesObservable = this.apollo.watchQuery<MessagesQuery.Result>({
         query: messagesQuery,

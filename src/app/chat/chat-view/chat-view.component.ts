@@ -28,7 +28,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeParamsSub = this.route.params.subscribe(params => this.channel.name = params['id']); // TODO: remove
 
-    this.messagesObs = this.chatService.getMessagesObservable(this.channel.id, this.messagesCount);
+    this.messagesObs = this.chatService.getMessages(this.channel.id, this.messagesCount);
 
     this.messagesSub = this.messagesObs.subscribe(({ data, loading }) => {
       this.messages = data.messages.messagesArray;
