@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApolloQueryObservable } from 'apollo-angular';
 import { ChatService } from '../services/chat/chat.service';
-import { MessagesQuery } from '../../graphql/types/types';
 
 @Component({
   selector: 'chat-view',
   templateUrl: './chat-view.component.html',
   styleUrls: ['./chat-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
@@ -20,7 +19,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   private isFirstLoad = true;
   public messages;
 
-  constructor(private route: ActivatedRoute, public chatService: ChatService) {
+  constructor(private route: ActivatedRoute, public chatService: ChatService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -38,6 +37,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           this.scrollToBottom();
         }, 0);
       }
+      this.cd.markForCheck();
     });
 
     this.chatService.subscribeToMessageAdded(this.channel.id);

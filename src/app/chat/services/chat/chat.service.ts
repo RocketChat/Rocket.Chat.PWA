@@ -15,7 +15,7 @@ export class ChatService {
   private messagesSubscription: Subscription;
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
-  private user = { name: undefined, avatar: undefined };
+  private user;
 
   constructor(private apollo: Apollo,
               private authenticationService: AuthenticationService,
@@ -28,7 +28,8 @@ export class ChatService {
 
   private optimisticSendMessage(content) {
     // TODO: replace with JSAccounts
-    const user: any = this.authenticationService.getUser() || {};
+    const authUser = this.authenticationService.getUser() || {};
+    const user = this.user || {name: authUser.username, avatar: undefined};
     return {
       __typename: 'Mutation',
       sendMessage: {

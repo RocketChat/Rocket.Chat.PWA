@@ -12,12 +12,6 @@ import { PushNotificationsService } from '../../shared/services/push-notificatio
 })
 export class MainPageComponent implements AfterViewInit {
   private readonly TIME_TO_REQUEST_PUSH = 5000;
-  public channels = [
-    { title: 'channel1', privateChannel: true },
-    { title: 'channel2' },
-    { title: 'kentak', direct: true },
-    { title: 'tomer', direct: true }
-  ];
 
   constructor(private menuCtrl: MenuController,
               private router: Router,
