@@ -1,7 +1,3 @@
-declare module 'graphql' {
-  export function subscribe(): any;
-}
-
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
