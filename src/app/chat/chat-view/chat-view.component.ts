@@ -34,7 +34,10 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.routeParamsSub = this.route.params.subscribe(params => this.channel.name = params['id']); // TODO: remove
+    this.routeParamsSub = this.route.params.subscribe(params => {
+      this.channel.name = params['id'];
+      this.cd.markForCheck();
+    }); // TODO: remove
 
     const messagesObs = this.chatService.getMessages(this.channel.id, this.pageMessagesCount);
 

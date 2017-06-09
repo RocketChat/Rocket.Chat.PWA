@@ -3,6 +3,7 @@ import { MenuController } from 'ionic-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { PushNotificationsService } from '../../shared/services/push-notifications.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'chat',
@@ -20,14 +21,25 @@ export class MainPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (window.outerWidth < 767) {
-      this.menuCtrl.open();
-    }
-    else {
-      this.menuCtrl.enable(false);
-    }
+    Observable.fromEvent(window, 'resize').subscribe(() => this.modifySidenavToSize());
 
     setTimeout(() => this.pushService.initPushNotification(), this.TIME_TO_REQUEST_PUSH);
+  }
+
+  modifySidenavToSize() {
+    if (window.outerWidth < 767) {
+      this.menuCtrl.enable(true);
+    }
+    else {
+      if (!this.menuCtrl.isOpen()) {
+        this.menuCtrl.enable(true);
+        this.menuCtrl.open();
+      }
+
+      if (this.menuCtrl.isEnabled()) {
+        this.menuCtrl.enable(false);
+      }
+    }
   }
 
   logout() {
