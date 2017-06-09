@@ -12,10 +12,9 @@
   </div>
   <div #chatContent class="message-scroller"
        infinite-scroll
-       [infiniteScrollUpDistance]="5"
+       [infiniteScrollUpDistance]="10"
        [infiniteScrollThrottle]="0"
-       [scrollWindow]="false"
-       (scrolledUp)="onScrolledUp()">
+       [scrollWindow]="false">
     <ion-item *ngFor="let message of messages" no-lines>
       <chat-message [message]="message"></chat-message>
     </ion-item>

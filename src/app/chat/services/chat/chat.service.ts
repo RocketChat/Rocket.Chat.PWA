@@ -29,7 +29,7 @@ export class ChatService {
   private optimisticSendMessage(content) {
     // TODO: replace with JSAccounts
     const authUser = this.authenticationService.getUser() || {};
-    const user = this.user || {name: authUser.username, avatar: undefined};
+    const user = this.user || { name: authUser.username, avatar: undefined };
     return {
       __typename: 'Mutation',
       sendMessage: {
@@ -121,6 +121,7 @@ export class ChatService {
       updateQuery: (prev, { fetchMoreResult }) => {
         this.cursor = fetchMoreResult.messages.cursor;
         this.loadingMoreMessages = false;
+
         return Object.assign({}, prev, {
           messages: {
             cursor: this.cursor,
