@@ -12,7 +12,7 @@ const me = {
 };
 
 const createMessage = (channelId) => {
-  const message = {
+  return {
     id: faker.random.uuid(),
     content: faker.lorem.sentence(),
     creationTime: faker.date.past().getTime().toString(),
@@ -20,9 +20,8 @@ const createMessage = (channelId) => {
       name: faker.name.firstName() + '.' + faker.name.lastName(),
       avatar: faker.image.avatar(),
     },
-    channel: { id: faker.random.arrayElement(channels).id },
+    channel: { id: channelId },
   };
-  return message;
 };
 
 const createChannel = () => {
