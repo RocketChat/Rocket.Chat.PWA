@@ -76,43 +76,6 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       });
       this.cd.markForCheck();
     });
-
-
-
-    // Observable.fromEvent(this.chatContent.nativeElement, 'scroll').subscribe(() => {
-    //   if (this.chatContent.nativeElement.scrollTop < this.pagePixelLength * this.pagePercentLoadMoreTrigger) {
-    //     if (!this.chatService.isLoadingMoreMessages()) {
-    //       this.chatService.loadMoreMessages(this.channel.id, this.pageMessagesCount);
-    //     }
-    //   }
-    // });
-
-    // this.routeParamsSub = this.route.params.subscribe(params => {
-    //   this.channel.name = params['id'];
-    //   this.cd.markForCheck();
-    // }); // TODO: remove
-
-    // const messagesObs = this.chatService.getMessages(this.channel.id, this.pageMessagesCount);
-    //
-    // this.messagesSub = messagesObs.subscribe(({ data }) => {
-    //   const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
-    //   this.messages = data.messages.messagesArray;
-    //   if (this.isFirstLoad || (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom())) {
-    //     setTimeout(() => {
-    //       this.pagePixelLength = this.chatContent.nativeElement.scrollHeight;
-    //       this.isFirstLoad = false;
-    //       this.scrollToBottom();
-    //     }, 0);
-    //   }
-    //   if (this.isScrolledToTop()) {
-    //     setTimeout(() => {
-    //       this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
-    //     }, 0);
-    //   }
-    //   this.cd.markForCheck();
-    // });
-    //
-    // this.chatService.subscribeToMessageAdded(this.channel.id);
   }
 
   isScrolledToBottom(): boolean {
