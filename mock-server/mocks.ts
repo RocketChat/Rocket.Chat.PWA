@@ -6,6 +6,10 @@ export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 
 const messages = new Map<string, any[]>();
 const channels = [];
+const me = {
+  name: faker.name.firstName() + ' ' + faker.name.lastName(),
+  avatar: faker.image.avatar(),
+};
 
 const createMessage = (channelId) => {
   const message = {
@@ -53,6 +57,7 @@ export const mocks = {
     unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
+    me: () => me,
     channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
     messages: (root, { channelId, cursor, count }, context) => {
       const messagesArray = messages.get(channelId);
@@ -89,8 +94,8 @@ export const mocks = {
         content,
         creationTime: (new Date()).getTime().toString(),
         author: {
-          name: 'tomer',
-          avatar: 'http://dreamicus.com/data/face/face-01.jpg'
+          name: me.name,
+          avatar: me.avatar
         },
         channel: {
           id: channelId,
