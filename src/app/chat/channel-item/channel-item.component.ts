@@ -16,11 +16,11 @@ export class ChannelItemComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  gotoChannel(channelId) {
+  gotoChannel(channelName) {
     if (this.channel.direct) {
-      this.router.navigate(['direct', channelId]);
+      this.router.navigate(['direct', channelName]);
     } else {
-      this.router.navigate(['channel', channelId]);
+      this.router.navigate(['channel', channelName]);
     }
   }
 

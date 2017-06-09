@@ -1,11 +1,13 @@
-import { MockList } from 'graphql-tools';
 import * as faker from 'faker';
 import { pubsub } from './subscriptions';
 import { withFilter } from 'graphql-subscriptions';
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 
-const createMessage = (id: number) => {
+const messages = new Map<string, any[]>();
+const channels = [];
+
+const createMessage = (channelId) => {
   const message = {
     id: faker.random.uuid(),
     content: faker.lorem.sentence(),
@@ -14,15 +16,29 @@ const createMessage = (id: number) => {
       name: faker.name.firstName() + '.' + faker.name.lastName(),
       avatar: faker.image.avatar(),
     },
-    channel: { id: '1' },
+    channel: { id: faker.random.arrayElement(channels).id },
   };
   return message;
 };
 
-const messages = [];
+const createChannel = () => {
+  return {
+    id: faker.random.uuid(),
+    name: faker.random.word(),
+    direct: faker.random.boolean(),
+    unseenMessages: faker.random.boolean() ? faker.random.number(30) : 0
+  };
+};
 
-for (let i = 0; i < 10000; i++) {
-  messages.push(createMessage(i));
+
+for (let i = 0; i < 15; i++) {
+  const channel = createChannel();
+  channels.push(channel);
+  const messagesArray = [];
+  messages.set(channel.id, messagesArray);
+  for (let j = 0; j < 2000; j++) {
+    messagesArray.push(createMessage(channel.id));
+  }
 }
 
 export const mocks = {
@@ -32,30 +48,42 @@ export const mocks = {
   }),
   Channel: () => ({
     id: () => faker.random.uuid(),
-    title: () => faker.random.word(),
+    name: () => faker.random.word(),
     direct: () => faker.random.boolean(),
     unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
-    channelsByUser: () => new MockList([3, 15]),
-    messages: (root, { cursor, count }, context) => {
+    channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
+    messages: (root, { channelId, cursor, count }, context) => {
+      const messagesArray = messages.get(channelId);
+      if (!messagesArray) {
+        return null;
+      }
       let nextMessageIndex = 0;
       if (cursor) {
-        nextMessageIndex = messages.findIndex((message) => message.id === cursor);
+        nextMessageIndex = messagesArray.findIndex((message) => message.id === cursor);
       }
       if (nextMessageIndex !== -1) {
         let finalMessageIndex = count + nextMessageIndex;
-        finalMessageIndex = finalMessageIndex > messages.length ? messages.length : finalMessageIndex;
-        const nextCursor = finalMessageIndex === messages.length ? null : messages[finalMessageIndex].id;
+        finalMessageIndex = finalMessageIndex > messagesArray.length ? messagesArray.length : finalMessageIndex;
+        const nextCursor = finalMessageIndex === messagesArray.length ? null : messagesArray[finalMessageIndex].id;
         return {
           cursor: nextCursor,
-          messagesArray: messages.slice(nextMessageIndex, finalMessageIndex).reverse(),
+          messagesArray: messagesArray.slice(nextMessageIndex, finalMessageIndex).reverse(),
         };
       }
+    },
+    channelByName: (root, { name, isDirect }) => {
+      return channels.find((element) => element.name === name && element.direct === isDirect) || null;
     },
   }),
   Mutation: () => ({
     sendMessage: (root, { channelId, content }, context) => {
+      const messagesArray = messages.get(channelId);
+      if (!messagesArray) {
+        return null;
+      }
+
       const newMessage = {
         id: faker.random.uuid(),
         content,
@@ -68,7 +96,8 @@ export const mocks = {
           id: channelId,
         }
       };
-      messages.unshift(newMessage);
+
+      messagesArray.unshift(newMessage);
       pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
       return newMessage;
     }

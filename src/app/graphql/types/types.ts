@@ -5,6 +5,7 @@ export interface Query {
   messages: MessagesWithCursor | null;
   channelsByUser: Array<Channel> | null;
   channels: Array<Channel> | null;
+  channelByName: Channel | null;
 }
 
 export interface MessagesQueryArgs {
@@ -20,6 +21,11 @@ export interface ChannelsByUserQueryArgs {
 
 export interface ChannelsQueryArgs {
   filter: ChannelFilter | null;
+}
+
+export interface ChannelByNameQueryArgs {
+  name: string;
+  isDirect: boolean;
 }
 
 export interface User {
@@ -61,7 +67,7 @@ export type UserStatus = "ONLINE" | "AWAY" | "BUSY" | "INVISIBLE";
 
 export interface Channel {
   id: string | null;
-  title: string | null;
+  name: string | null;
   description: string | null;
   announcement: string | null;
   numberOfMembers: number | null;
@@ -220,6 +226,24 @@ export interface ChannelSettings {
   unreadTrayIconAlert: string | null;
 }
 
+export namespace ChannelByNameQuery {
+  export type Variables = {
+      name: string;
+      isDirect: boolean;
+  }
+
+  export type Result = {
+    channelByName: ChannelByName;
+  } 
+
+  export type ChannelByName = {
+    id: string;
+    name: string;
+    direct: boolean;
+    privateChannel: boolean;
+  } 
+}
+
 export namespace ChatMessageAddedSubscription {
   export type Variables = {
       channelId: string;
@@ -281,8 +305,9 @@ export namespace MyChannelsQuery {
   } 
 
   export type ChannelsByUser = {
+    id: string;
     direct: boolean;
-    title: string;
+    name: string;
     unseenMessages: number;
     privateChannel: boolean;
   } 

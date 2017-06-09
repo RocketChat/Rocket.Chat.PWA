@@ -5,12 +5,14 @@ import { Subscription } from 'apollo-client';
 import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
-import { MessagesQuery } from '../../../graphql/types/types';
+import { ChannelByNameQuery, MessagesQuery } from '../../../graphql/types/types';
 import { UserDataService } from '../../../shared/services/user-data/user-data.service';
+import { channelByNameQuery } from '../../../graphql/queries/channel-by-name.query';
 
 @Injectable()
 export class ChatService {
   private messagesObservable: ApolloQueryObservable<MessagesQuery.Result>;
+  private channelId: String;
   private cursor: any;
   private messagesSubscription: Subscription;
   private noMoreToLoad = false;
@@ -68,13 +70,19 @@ export class ChatService {
       });
   }
 
-  getMessages(channelId: string, count: number = 50): ApolloQueryObservable<MessagesQuery.Result> {
-    if (!this.messagesObservable) {
+  getMessages(channelId: string, count: number = 50, cursor: string = null): ApolloQueryObservable<MessagesQuery.Result> {
+    if (!this.messagesObservable || !this.channelId || this.channelId !== channelId) {
+      if (this.messagesSubscription) {
+        this.messagesSubscription.unsubscribe();
+      }
+
+      this.channelId = channelId;
       this.messagesObservable = this.apollo.watchQuery<MessagesQuery.Result>({
         query: messagesQuery,
         variables: {
           channelId,
           count,
+          cursor
         },
       });
 
@@ -133,6 +141,16 @@ export class ChatService {
     });
   }
 
+  getChannelByName(name: string, isDirect: boolean) {
+    return this.apollo.watchQuery<ChannelByNameQuery.Result>({
+      query: channelByNameQuery,
+      variables: {
+        name,
+        isDirect
+      }
+    });
+  }
+
   private pushNewMessage(prev, newMessage) {
     if (prev.messages.messagesArray[prev.messages.messagesArray.length - 1].id === newMessage.id) {
       return prev;
@@ -147,5 +165,4 @@ export class ChatService {
       });
     }
   }
-
 }

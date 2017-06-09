@@ -28,6 +28,7 @@ type Query {
     messages(channelId: String!, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
+    channelByName(name: String!, isDirect: Boolean!): Channel
 }
 
 type Subscription {
@@ -161,7 +162,7 @@ type ChannelSettings {
 
 type Channel {
     id: String
-    title: String
+    name: String
     # topic: TODO
     # userNotificationSettings: ChannelSettings
     description: String
