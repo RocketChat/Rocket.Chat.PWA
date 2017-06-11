@@ -11,12 +11,11 @@ import { channelByNameQuery } from '../../../graphql/queries/channel-by-name.que
 
 @Injectable()
 export class ChatService {
-  private messagesObservable: ApolloQueryObservable<MessagesQuery.Result>;
-  private channelId: String;
   private cursor: any;
-  private messagesSubscription: Subscription;
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
+  private messagesQueryObservable: ApolloQueryObservable<MessagesQuery.Result>;
+  private messagesSubscription: Subscription;
   private user;
 
   constructor(private apollo: Apollo,
@@ -70,37 +69,36 @@ export class ChatService {
       });
   }
 
-  getMessages(channelId: string, count: number = 50, cursor: string = null): ApolloQueryObservable<MessagesQuery.Result> {
-    if (!this.messagesObservable || !this.channelId || this.channelId !== channelId) {
-      if (this.messagesSubscription) {
-        this.messagesSubscription.unsubscribe();
-      }
+  getMessages(messagesQueryVariables: MessagesQuery.Variables): ApolloQueryObservable<MessagesQuery.Result> {
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
+    }
 
-      this.channelId = channelId;
-      this.messagesObservable = this.apollo.watchQuery<MessagesQuery.Result>({
-        query: messagesQuery,
-        variables: {
-          channelId,
-          count,
-          cursor
-        },
-      });
+    this.noMoreToLoad = false;
+    this.cursor = null;
 
-      this.messagesSubscription = this.messagesObservable.subscribe(({ data }) => {
+    this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
+      query: messagesQuery,
+      variables: messagesQueryVariables,
+    });
+
+    this.messagesSubscription = this.messagesQueryObservable.subscribe(({ data }) => {
+      if (data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {
           this.noMoreToLoad = true;
         }
-      });
-    }
+      }
+    });
 
-    return this.messagesObservable;
+    return this.messagesQueryObservable;
   }
 
   subscribeToMessageAdded(channelId: string) {
-    if (!this.messagesObservable) {
-      return;
+    if (!this.messagesQueryObservable) {
+      throw new Error('call getMessages() first');
     }
+
     this.apollo.subscribe({
       query: chatMessageAddedSubscription,
       variables: {
@@ -109,18 +107,23 @@ export class ChatService {
     }).subscribe({
       next: (data) => {
         const message = data.chatMessageAdded;
-        this.messagesObservable.updateQuery((previousResult) => this.pushNewMessage(previousResult, message));
+        this.messagesQueryObservable.updateQuery((previousResult) => this.pushNewMessage(previousResult, message));
       },
       error: (err) => console.log('error', err),
     });
   }
 
   loadMoreMessages(channelId: string, count: number) {
-    if (!this.messagesObservable || this.noMoreToLoad) {
+    if (!this.messagesQueryObservable) {
+      throw new Error('call getMessages() first');
+    }
+
+    if (!this.cursor || this.noMoreToLoad) {
       return;
     }
+
     this.loadingMoreMessages = true;
-    this.messagesObservable.fetchMore({
+    this.messagesQueryObservable.fetchMore({
       variables: {
         channelId,
         cursor: this.cursor,
@@ -133,6 +136,7 @@ export class ChatService {
         return Object.assign({}, prev, {
           messages: {
             cursor: this.cursor,
+            channel: fetchMoreResult.messages.channel,
             messagesArray: [...fetchMoreResult.messages.messagesArray, ...prev.messages.messagesArray],
             __typename: prev.messages.__typename
           }
@@ -159,6 +163,7 @@ export class ChatService {
       return Object.assign({}, prev, {
         messages: {
           cursor: prev.messages.cursor || null,
+          channel: prev.messages.channel,
           messagesArray: [...prev.messages.messagesArray, newMessage],
           __typename: prev.messages.__typename,
         }

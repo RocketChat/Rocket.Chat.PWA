@@ -1,8 +1,8 @@
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
 import { mocks, subscriptionResolver } from './mocks';
 
+/* tslint:disable */
 export const schema = `
-
 type scheme {
   query: Query
   mutation: Mutation
@@ -25,7 +25,7 @@ type Mutation {
 
 type Query {
     me: User
-    messages(channelId: String!, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
+    messages(channelId: String, channelDetails: ChannelNameAndDirect, channelName: String, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
     channelByName(name: String!, isDirect: Boolean!): Channel
@@ -42,6 +42,12 @@ input ChannelFilter {
     sortBy: ChannelSort
 }
 
+input ChannelNameAndDirect {
+  name: String!
+  direct: Boolean!
+  
+}
+
 enum Privacy {
     PRIVATE
     PUBLIC
@@ -55,6 +61,7 @@ enum ChannelSort {
 
 type MessagesWithCursor {
   cursor: String
+  channel: Channel
   messagesArray: [Message]
 }
 
@@ -178,6 +185,7 @@ type Channel {
     unseenMessages: Int
 }
 `;
+/* tslint:enable */
 
 const executableSchema = makeExecutableSchema({
   typeDefs: schema,

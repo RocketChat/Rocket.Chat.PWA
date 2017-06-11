@@ -9,7 +9,9 @@ export interface Query {
 }
 
 export interface MessagesQueryArgs {
-  channelId: string;
+  channelId: string | null;
+  channelDetails: ChannelNameAndDirect | null;
+  channelName: string | null;
   cursor: string | null;
   count: number | null;
   searchRegex: string | null;
@@ -81,8 +83,14 @@ export interface Channel {
   unseenMessages: number | null;
 }
 
+export interface ChannelNameAndDirect {
+  name: string;
+  direct: boolean;
+}
+
 export interface MessagesWithCursor {
   cursor: string | null;
+  channel: Channel | null;
   messagesArray: Array<Message> | null;
 }
 
@@ -276,7 +284,8 @@ export namespace MessageFragment {
 
 export namespace MessagesQuery {
   export type Variables = {
-      channelId: string;
+      channelId: string | null;
+      channelDetails: ChannelNameAndDirect | null;
       cursor: string | null;
       count: number | null;
       searchRegex: string | null;
@@ -288,7 +297,13 @@ export namespace MessagesQuery {
 
   export type Messages = {
     cursor: string;
+    channel: Channel;
     messagesArray: Array<MessagesArray>;
+  } 
+
+  export type Channel = {
+    id: string;
+    name: string;
   } 
 
   export type MessagesArray = {

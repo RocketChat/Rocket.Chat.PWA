@@ -58,23 +58,52 @@ export const mocks = {
   Query: () => ({
     me: () => me,
     channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
-    messages: (root, { channelId, cursor, count }, context) => {
-      const messagesArray = messages.get(channelId);
-      if (!messagesArray) {
+    messages: (root, { channelId, channelDetails, cursor, count }, context) => {
+      if (!channelId && !channelDetails) {
+        console.error(`messages query must be called with channelId or channelDetails`);
         return null;
       }
+
+      let channel;
+      if (channelId) {
+        channel = channels.find((element) => element.id === channelId);
+      }
+      else {
+        channel = channels
+          .find((element) => element.name === channelDetails.name && element.direct === channelDetails.direct);
+
+      }
+
+      if (!channel) {
+        console.error('channel not found');
+        return null;
+      }
+
+      const messagesArray = messages.get(channel.id);
+      if (!messagesArray) {
+        console.error('messagesArray was not defined for channel');
+        return null;
+      }
+
       let nextMessageIndex = 0;
       if (cursor) {
         nextMessageIndex = messagesArray.findIndex((message) => message.id === cursor);
       }
+
       if (nextMessageIndex !== -1) {
         let finalMessageIndex = count + nextMessageIndex;
         finalMessageIndex = finalMessageIndex > messagesArray.length ? messagesArray.length : finalMessageIndex;
         const nextCursor = finalMessageIndex === messagesArray.length ? null : messagesArray[finalMessageIndex].id;
+
         return {
           cursor: nextCursor,
+          channel,
           messagesArray: messagesArray.slice(nextMessageIndex, finalMessageIndex).reverse(),
         };
+      }
+      else {
+        console.error('cursor is invalid');
+        return null;
       }
     },
     channelByName: (root, { name, isDirect }) => {
@@ -85,6 +114,7 @@ export const mocks = {
     sendMessage: (root, { channelId, content }, context) => {
       const messagesArray = messages.get(channelId);
       if (!messagesArray) {
+        console.log('channel not found');
         return null;
       }
 
