@@ -7,7 +7,7 @@
 @media screen and (min-width: 767px) {
   .home-page {
     width: calc(100% - 304px) !important;
-    transform: translateX(304px);
+    transform: translateX(304px) !important;
   }
 
   .main-menu{
