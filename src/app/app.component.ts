@@ -6,11 +6,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit{
-  constructor(private authentication: AuthenticationService){
-  }
-
-  async ngOnInit() {
-  }
+export class AppComponent {
+  constructor() {}
 
 }

@@ -7,7 +7,7 @@
     "start": "concurrently \"yarn server\" \"ng serve\" ",
     "build": "ng build -prod",
     "build:serve": "ng build --prod --sourcemaps true && yarn serve:dist",
-    "serve:dist": "lite-server --baseDir=dist -p 4000",
+    "serve:dist": "lite-server --baseDir=dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
