@@ -1,6 +1,0 @@
-query UserData{
-  me {
-    name
-    avatar
-  }
-}

@@ -1,9 +1,9 @@
 <div class="message-row">
-  <img class="rounded-img message-img" src="{{message.avatar}}">
+  <img class="rounded-img message-img" src="{{message.author.avatar}}">
   <div class="message-block">
     <div class="message-headers">
-      <div class="message-sender">{{message.user.name}}</div>
-      <div class="message-timestamp">{{moment(message.creationTime).format('LT')}}</div>
+      <div class="message-sender">{{message.author.name}}</div>
+      <div class="message-timestamp">{{message.creationTime | timeToString:'LT'}}</div>
     </div>
     <div class="message-text">{{message.content}}</div>
   </div>

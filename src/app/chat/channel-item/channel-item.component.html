@@ -1,10 +1,10 @@
-<div class="channel-item" (click)="gotoChannel(channel.title)">
+<div class="channel-item" (click)="gotoChannel(channel.name)">
   <div class="channel-title">
 
     <span *ngIf="channelSymbol === 'hashtag'; else iconBlock" class="channel-icon hashtag">#</span>
     <ng-template #iconBlock><ion-icon  class="channel-icon" [name]="channelSymbol" is-active="false"></ion-icon></ng-template>
     <div class="title-container">
-      <div class="overflow-text" [title]="channel.title">{{channel.title}}</div>
+      <div class="overflow-text" [title]="channel.name">{{channel.name}}</div>
     </div>
   </div>
   <span>

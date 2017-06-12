@@ -5,6 +5,7 @@ import { AppComponent } from '../app.component';
 import { IonicModule } from 'ionic-angular';
 import { ApolloModule } from 'apollo-angular';
 import { FormsModule } from '@angular/forms';
+import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { PushNotificationsService } from './services/push-notifications.service';
 import { UserDataService } from './services/user-data/user-data.service';
@@ -14,16 +15,17 @@ import { UserDataService } from './services/user-data/user-data.service';
     CommonModule,
     FormsModule,
     ServiceWorkerModule,
-    IonicModule.forRoot(AppComponent),
+    IonicModule.forRoot(AppComponent, { mode: 'md' }),
     ApolloModule.forRoot(getClient),
   ],
   exports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ApolloModule
+    ApolloModule,
+    UnixTimeToStringPipe
   ],
-  declarations: [],
-  providers: [PushNotificationsService, UserDataService]
+  declarations: [UnixTimeToStringPipe],
+  providers: [PushNotificationsService, UserDataService],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -13,6 +13,7 @@
       "node_modules/@types"
     ],
     "lib": [
+      "esnext",
       "es2016",
       "dom"
     ]

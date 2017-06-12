@@ -16,11 +16,11 @@ export class ChannelItemComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  gotoChannel(channelId) {
-    if (this.channel.direct){
-      this.router.navigate(['direct', channelId]);
-    }else {
-      this.router.navigate(['channel', channelId]);
+  gotoChannel(channelName) {
+    if (this.channel.direct) {
+      this.router.navigate(['direct', channelName]);
+    } else {
+      this.router.navigate(['channel', channelName]);
     }
   }
 
@@ -28,7 +28,7 @@ export class ChannelItemComponent implements OnInit {
     if (this.channel.direct) {
       this.channelSymbol = 'at';
     }
-    else if (this.channel.private) {
+    else if (this.channel.privateChannel) {
       this.channelSymbol = 'lock';
     }
     else {

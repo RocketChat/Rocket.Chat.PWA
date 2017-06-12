@@ -4,8 +4,19 @@
   height: 100%
 }
 
-@media screen and (min-width: 576px) {
-  .menu-content-open {
+@media screen and (min-width: 767px) {
+  .home-page {
     width: calc(100% - 304px) !important;
+    transform: translateX(304px) !important;
+  }
+
+  .main-menu{
+    display: block !important;
+    width: 304px !important;
+    z-index: 1 !important;
+  }
+
+  .menu-inner {
+    transform: translateX(0px) translateZ(0px) !important;
   }
 }

@@ -13,9 +13,9 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('currentUser');
   }
-  
-  
-  getUser() : any{
+
+
+  getUser(): any {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 }

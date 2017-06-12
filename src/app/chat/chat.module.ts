@@ -10,12 +10,14 @@ import { ChannelItemComponent } from './channel-item/channel-item.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
 import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
 import { ChannelsService } from './services/channels/channels.service';
+import { ChatService } from './services/chat/chat.service';
+import { ChannelNotFoundComponent } from './channel-not-found/channel-not-found.component';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    ChatRoutingModule
+    ChatRoutingModule,
   ],
   declarations: [
     MainPageComponent,
@@ -24,7 +26,12 @@ import { ChannelsService } from './services/channels/channels.service';
     ChatMessageComponent,
     ChannelItemComponent,
     MainSidenavComponent,
+    ChannelNotFoundComponent,
   ],
-  providers: [ChannelsService],
+  providers: [
+    ChannelsService,
+    ChatService,
+  ],
 })
-export class ChatModule { }
+export class ChatModule {
+}

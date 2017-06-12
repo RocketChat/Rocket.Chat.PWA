@@ -2,16 +2,19 @@
 
 export interface Query {
   me: User | null;
-  messages: Array<Message> | null;
+  messages: MessagesWithCursor | null;
   channelsByUser: Array<Channel> | null;
   channels: Array<Channel> | null;
+  channelByName: Channel | null;
 }
 
 export interface MessagesQueryArgs {
-  channelId: string;
-  paginationId: string | null;
+  channelId: string | null;
+  channelDetails: ChannelNameAndDirect | null;
+  channelName: string | null;
+  cursor: string | null;
   count: number | null;
-  SearchRegex: string | null;
+  searchRegex: string | null;
 }
 
 export interface ChannelsByUserQueryArgs {
@@ -22,19 +25,22 @@ export interface ChannelsQueryArgs {
   filter: ChannelFilter | null;
 }
 
+export interface ChannelByNameQueryArgs {
+  name: string;
+  isDirect: boolean;
+}
+
 export interface User {
-  username: string;
+  username: string | null;
+  email: string | null;
+  userPreferences: UserPreferences | null;
   status: UserStatus | null;
-  email: string;
   avatar: string | null;
   name: string | null;
   lastLogin: string | null;
-  userPreferences: UserPreferences;
   channels: Array<Channel> | null;
   directMessages: Array<Channel> | null;
 }
-
-export type UserStatus = "ONLINE" | "AWAY" | "BUSY" | "INVISIBLE";
 
 export interface UserPreferences {
   language: string | null;
@@ -59,27 +65,41 @@ export interface UserPreferences {
   newMessageNotificationSound: string | null;
 }
 
+export type UserStatus = "ONLINE" | "AWAY" | "BUSY" | "INVISIBLE";
+
 export interface Channel {
-  id: string;
-  title: string;
-  description: string;
-  announcement: string;
-  numberOfMembers: number;
+  id: string | null;
+  name: string | null;
+  description: string | null;
+  announcement: string | null;
+  numberOfMembers: number | null;
   members: Array<User> | null;
   owners: Array<User> | null;
   direct: boolean | null;
-  private: boolean | null;
+  privateChannel: boolean | null;
   readOnly: boolean | null;
   archived: boolean | null;
   favorite: boolean | null;
   unseenMessages: number | null;
 }
 
+export interface ChannelNameAndDirect {
+  name: string;
+  direct: boolean;
+}
+
+export interface MessagesWithCursor {
+  cursor: string | null;
+  channel: Channel | null;
+  messagesArray: Array<Message> | null;
+}
+
 export interface Message {
-  id: string;
-  user: User;
-  content: string;
-  creationTime: string;
+  id: string | null;
+  author: User | null;
+  content: string | null;
+  creationTime: string | null;
+  channel: Channel | null;
   fromServer: boolean | null;
   tags: Array<string> | null;
   userRef: Array<User> | null;
@@ -88,8 +108,8 @@ export interface Message {
 }
 
 export interface Reaction {
-  username: string;
-  icon: string;
+  username: string | null;
+  icon: string | null;
 }
 
 export interface ChannelFilter {
@@ -137,7 +157,7 @@ export interface CreateChannelMutationArgs {
 
 export interface SendMessageMutationArgs {
   channelId: string;
-  messageInput: MessageInput;
+  content: string;
 }
 
 export interface DeleteMessageMutationArgs {
@@ -146,7 +166,7 @@ export interface DeleteMessageMutationArgs {
 
 export interface EditMessageMutationArgs {
   messageId: MessageIdentifier;
-  messageInput: MessageInput;
+  content: string;
 }
 
 export interface AddReactionToMassageMutationArgs {
@@ -156,12 +176,6 @@ export interface AddReactionToMassageMutationArgs {
 
 export interface UpdateUserSettingsMutationArgs {
   userSettings: UserSettings | null;
-}
-
-export interface MessageInput {
-  content: string;
-  userRef: Array<string> | null;
-  channelRef: Array<string> | null;
 }
 
 export interface MessageIdentifier {
@@ -195,9 +209,18 @@ export interface UserSettings {
   name: string | null;
 }
 
+export interface Subscription {
+  chatMessageAdded: Message | null;
+}
+
+export interface ChatMessageAddedSubscriptionArgs {
+  channelId: string;
+}
+
 export interface scheme {
   query: Query | null;
   mutation: Mutation | null;
+  subscription: Subscription | null;
 }
 
 export interface ChannelSettings {
@@ -211,28 +234,80 @@ export interface ChannelSettings {
   unreadTrayIconAlert: string | null;
 }
 
-export namespace GetChatQuery {
+export namespace ChannelByNameQuery {
   export type Variables = {
+      name: string;
+      isDirect: boolean;
   }
 
   export type Result = {
-    me: Me;
-    messages: Array<Messages>;
+    channelByName: ChannelByName;
   } 
 
-  export type Me = {
-    username: string;
-    email: string;
+  export type ChannelByName = {
+    id: string;
+    name: string;
+    direct: boolean;
+    privateChannel: boolean;
+  } 
+}
+
+export namespace ChatMessageAddedSubscription {
+  export type Variables = {
+      channelId: string;
+  }
+
+  export type Result = {
+    chatMessageAdded: ChatMessageAdded;
+  } 
+
+  export type ChatMessageAdded = {
+  } & MessageFragment.Fragment 
+}
+
+export namespace MessageFragment {
+  export type Variables = {
+  }
+
+  export type Fragment = {
+    id: string;
+    author: Author;
+    content: string;
+    creationTime: string;
+  } 
+
+  export type Author = {
+    name: string;
+    avatar: string;
+  } 
+}
+
+export namespace MessagesQuery {
+  export type Variables = {
+      channelId: string | null;
+      channelDetails: ChannelNameAndDirect | null;
+      cursor: string | null;
+      count: number | null;
+      searchRegex: string | null;
+  }
+
+  export type Result = {
+    messages: Messages;
   } 
 
   export type Messages = {
-    content: string;
-    user: User;
+    cursor: string;
+    channel: Channel;
+    messagesArray: Array<MessagesArray>;
   } 
 
-  export type User = {
-    username: string;
+  export type Channel = {
+    id: string;
+    name: string;
   } 
+
+  export type MessagesArray = {
+  } & MessageFragment.Fragment 
 }
 
 export namespace MyChannelsQuery {
@@ -245,11 +320,26 @@ export namespace MyChannelsQuery {
   } 
 
   export type ChannelsByUser = {
+    id: string;
     direct: boolean;
-    title: string;
+    name: string;
     unseenMessages: number;
-    private: boolean;
+    privateChannel: boolean;
   } 
+}
+
+export namespace SendMessageMutation {
+  export type Variables = {
+      channelId: string;
+      content: string;
+  }
+
+  export type Result = {
+    sendMessage: SendMessage;
+  } 
+
+  export type SendMessage = {
+  } & MessageFragment.Fragment 
 }
 
 export namespace UserDataQuery {
