@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import { AuthService } from './shared/auth/auth.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Rocket.Chat PWA has been initialised';
+  constructor( private _authservice: AuthService){
+
+  }
 }
+
