@@ -23,12 +23,13 @@ export class AuthService{
         );
       subject.forEach(function (e) {
         const data = JSON.stringify(e);
-        console.log('Recieved ' + JSON.stringify(e));
         if (data === 'ping'){
+          console.log('Recieved ' + data);
           subject.next('pong');
         }
         else if (data === 'pong')
         {
+          console.log('Recieved ' + data);
           subject.next('ping');
         }
       });
