@@ -21,14 +21,15 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.authenticationService.logout(); // TODO?
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   async login() {
     if (this.model.username && this.model.password) {
       try {
+        this.loading = true;
         await this.authenticationService.login(this.model.username, this.model.password);
+        this.loading = false;
         this.router.navigate([this.returnUrl]);
 
       } catch (e) {

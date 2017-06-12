@@ -11,7 +11,7 @@ import { ChatModule } from './chat/chat.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginPageComponent } from './shared/components/login-page/login-page.component';
 
-function resumeAccountSession(auth: AuthenticationService): () => Promise<any>  {
+export function resumeAccountSession(auth: AuthenticationService): () => Promise<any>  {
   return (): Promise<any> => auth.resumeSession();
 }
 

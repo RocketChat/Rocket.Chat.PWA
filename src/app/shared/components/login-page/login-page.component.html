@@ -15,7 +15,10 @@
       <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
     </ion-item>
     <ion-row class="login-buttons">
-      <button ion-button (click)="login()">Login</button>
+      <button ion-button (click)="login()">
+        <ion-spinner name="bubbles" color="white" *ngIf="loading; else btnText"></ion-spinner>
+        <ng-template #btnText >Login</ng-template>
+      </button>
     </ion-row>
   </ion-card>
 </div>
