@@ -1,11 +1,11 @@
 /* tslint:disable */
 
 export interface Query {
-  me: User | null;
   messages: MessagesWithCursor | null;
   channelsByUser: Array<Channel> | null;
   channels: Array<Channel> | null;
   channelByName: Channel | null;
+  me: User | null;
 }
 
 export interface MessagesQueryArgs {
@@ -28,9 +28,28 @@ export interface ChannelByNameQueryArgs {
   isDirect: boolean;
 }
 
+export interface MessagesWithCursor {
+  cursor: string | null;
+  messagesArray: Array<Message> | null;
+}
+
+export interface Message {
+  id: string | null;
+  author: User | null;
+  content: string | null;
+  creationTime: string | null;
+  channel: Channel | null;
+  fromServer: boolean | null;
+  tags: Array<string> | null;
+  userRef: Array<User> | null;
+  channelRef: Array<Channel> | null;
+  reactions: Array<Reaction> | null;
+}
+
 export interface User {
-  username: string | null;
+  id: string;
   email: string | null;
+  username: string | null;
   userPreferences: UserPreferences | null;
   status: UserStatus | null;
   avatar: string | null;
@@ -81,24 +100,6 @@ export interface Channel {
   unseenMessages: number | null;
 }
 
-export interface MessagesWithCursor {
-  cursor: string | null;
-  messagesArray: Array<Message> | null;
-}
-
-export interface Message {
-  id: string | null;
-  author: User | null;
-  content: string | null;
-  creationTime: string | null;
-  channel: Channel | null;
-  fromServer: boolean | null;
-  tags: Array<string> | null;
-  userRef: Array<User> | null;
-  channelRef: Array<Channel> | null;
-  reactions: Array<Reaction> | null;
-}
-
 export interface Reaction {
   username: string | null;
   icon: string | null;
@@ -119,13 +120,16 @@ export interface Mutation {
   leaveChannel: boolean | null;
   hideChannel: boolean | null;
   setStatus: User | null;
-  logout: boolean | null;
   createChannel: Channel | null;
   sendMessage: Message | null;
   deleteMessage: boolean | null;
   editMessage: Message | null;
   addReactionToMassage: Message | null;
   updateUserSettings: User | null;
+  loginWithPassword: LoginReturn | null;
+  refreshTokens: LoginReturn | null;
+  logout: boolean | null;
+  impersonate: ImpersonateReturn | null;
 }
 
 export interface LeaveChannelMutationArgs {
@@ -170,6 +174,25 @@ export interface UpdateUserSettingsMutationArgs {
   userSettings: UserSettings | null;
 }
 
+export interface LoginWithPasswordMutationArgs {
+  user: string;
+  password: string;
+}
+
+export interface RefreshTokensMutationArgs {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface LogoutMutationArgs {
+  accessToken: string;
+}
+
+export interface ImpersonateMutationArgs {
+  accessToken: string;
+  username: string;
+}
+
 export interface MessageIdentifier {
   channelId: string;
   messageId: string;
@@ -199,6 +222,23 @@ export interface UserSettings {
   email: string | null;
   avatar: string | null;
   name: string | null;
+}
+
+export interface LoginReturn {
+  sessionId: string | null;
+  user: User | null;
+  tokens: Tokens | null;
+}
+
+export interface Tokens {
+  refreshToken: string | null;
+  accessToken: string | null;
+}
+
+export interface ImpersonateReturn {
+  authorized: boolean | null;
+  tokens: Tokens | null;
+  user: User | null;
 }
 
 export interface Subscription {
@@ -327,16 +367,14 @@ export namespace SendMessageMutation {
   } & MessageFragment.Fragment 
 }
 
-export namespace UserDataQuery {
+export namespace UserFields {
   export type Variables = {
   }
 
-  export type Result = {
-    me: Me;
-  } 
-
-  export type Me = {
+  export type Fragment = {
+    id: string;
     name: string;
     avatar: string;
+    username: string;
   } 
 }

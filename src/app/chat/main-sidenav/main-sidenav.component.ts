@@ -4,8 +4,7 @@ import {
 } from '@angular/core';
 import {  Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
-import { UserDataService } from '../../shared/services/user-data/user-data.service';
-import { UserDataQuery } from '../../graphql/types/types';
+import { UserFields } from '../../graphql/types/types';
 import { ChannelsService } from '../services/channels/channels.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -20,7 +19,7 @@ import 'rxjs/add/operator/do';
 })
 export class MainSidenavComponent implements OnInit {
 
-  public user: UserDataQuery.Me;
+  public user: UserFields.Fragment;
   public channels: Observable<any>;
   public channelsNum: number;
   public directChannels: Observable<any>;
@@ -29,14 +28,10 @@ export class MainSidenavComponent implements OnInit {
   constructor(private router: Router,
               private cd: ChangeDetectorRef,
               private authenticationService: AuthenticationService,
-              private userData: UserDataService,
               private myChannelService: ChannelsService) {}
 
   ngOnInit(): void {
-    this.userData.getUserData().subscribe((result) => {
-      this.user = result.data.me;
-      this.cd.markForCheck();
-    });
+    this.user = this.authenticationService.getUser();
 
     this.directChannels = this.myChannelService.getMyChannels()
       .map(result => result.data.channelsByUser.filter(channel => channel.direct))
@@ -48,8 +43,8 @@ export class MainSidenavComponent implements OnInit {
 
   }
 
-  logout() {
-    this.authenticationService.logout();
+  async logout() {
+    await this.authenticationService.logout();
     this.router.navigate(['login']);
   }
 }

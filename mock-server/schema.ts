@@ -178,14 +178,15 @@ type Channel {
 
 export function createSchemeWithAccounts(accountsServer) {
   const accountsGraphQL = createJSAccountsGraphQL(accountsServer);
-  
+
+  // TODO after accounts pr remove dummy object
   const mockResolvers = {
     Query: {},
     Mutation: {},
     ...subscriptionResolver
   };
   const resolversWithAccounts = accountsGraphQL.extendWithResolvers(mockResolvers);
-  
+
   const executableSchema = makeExecutableSchema({
     typeDefs: [schema, accountsGraphQL.schema],
     resolvers: resolversWithAccounts,

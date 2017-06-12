@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { IonicApp } from 'ionic-angular';
 
 import { AppComponent } from './app.component';
@@ -11,19 +11,32 @@ import { ChatModule } from './chat/chat.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginPageComponent } from './shared/components/login-page/login-page.component';
 
+function resumeAccountSession(auth: AuthenticationService): () => Promise<any>  {
+  return (): Promise<any> => auth.resumeSession();
+}
+
 @NgModule({
-  declarations: [
+  declarations : [
     AppComponent,
     LoginPageComponent,
     PageNotFoundComponent,
   ],
-  imports: [
+  imports : [
     BrowserModule,
     SharedModule,
     ChatModule,
     AppRouting,
   ],
-  providers: [AuthGuard, AuthenticationService],
-  bootstrap: [IonicApp]
+  providers : [
+    AuthGuard,
+    AuthenticationService,
+    {
+      provide : APP_INITIALIZER,
+      useFactory : resumeAccountSession,
+      multi : true,
+      deps : [AuthenticationService]
+    }],
+  bootstrap : [IonicApp]
 })
-export class AppModule { }
+export class AppModule {
+}

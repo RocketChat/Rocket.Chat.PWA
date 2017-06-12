@@ -16,6 +16,8 @@
   },
   "private": true,
   "dependencies": {
+    "@accounts/client": "^0.0.16",
+    "@accounts/graphql-client": "^0.0.9",
     "@angular/common": "^4.1.0",
     "@angular/compiler": "^4.1.0",
     "@angular/core": "^4.1.0",

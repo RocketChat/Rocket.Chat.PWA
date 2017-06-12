@@ -13,7 +13,7 @@ export class ChannelsService {
   getMyChannels() {
     const user: any = this.authenticationService.getUser() || {};
     const variables: MyChannelsQuery.Variables = {
-      userId: user.username
+      userId: user.id
     };
 
     return this.apollo.watchQuery<MyChannelsQuery.Result>({query: myChannelsQuery, variables});
