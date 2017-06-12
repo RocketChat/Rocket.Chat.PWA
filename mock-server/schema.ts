@@ -1,8 +1,12 @@
-export default `
+import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+import { mocks, subscriptionResolver } from './mocks';
 
+/* tslint:disable */
+export const schema = `
 type scheme {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 type Mutation {
@@ -11,9 +15,9 @@ type Mutation {
     setStatus(status: UserStatus!): User
     logout: Boolean #JSAccount
     createChannel(name: String!, private: Boolean = false, readOnly: Boolean = false, membersId: [String!]): Channel
-    sendMessage(channelId: String!, messageInput: MessageInput!): Message
+    sendMessage(channelId: String!, content: String!): Message
     deleteMessage(messageId: MessageIdentifier!): Boolean
-    editMessage(messageId: MessageIdentifier!, messageInput: MessageInput!): Message
+    editMessage(messageId: MessageIdentifier!, content: String!): Message
     addReactionToMassage(messageId: MessageIdentifier!, icon: String!): Message
     updateUserSettings(userSettings: UserSettings): User
     #updateUserChannelSettings(channelId: String!,settings: ChannelSettings )
@@ -21,9 +25,14 @@ type Mutation {
 
 type Query {
     me: User
-    messages(channelId: String!, paginationId: String, count: Int, SearchRegex: String): [Message]
+    messages(channelId: String, channelDetails: ChannelNameAndDirect, channelName: String, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
+    channelByName(name: String!, isDirect: Boolean!): Channel
+}
+
+type Subscription {
+    chatMessageAdded(channelId: String!): Message
 }
 
 input ChannelFilter {
@@ -31,6 +40,12 @@ input ChannelFilter {
     privacy: Privacy
     joinedChannels: Boolean
     sortBy: ChannelSort
+}
+
+input ChannelNameAndDirect {
+  name: String!
+  direct: Boolean!
+  
 }
 
 enum Privacy {
@@ -44,22 +59,23 @@ enum ChannelSort {
     NUMBER_OF_MESSAGES
 }
 
+type MessagesWithCursor {
+  cursor: String
+  channel: Channel
+  messagesArray: [Message]
+}
+
 type Message {
-    id: String!
-    user: User!
-    content: String!
-    creationTime: String!
+    id: String
+    author: User
+    content: String
+    creationTime: String
+    channel: Channel
     fromServer: Boolean #when user joins a channel we get a message from server - text is grey
     tags: [String]
     userRef: [User]
     channelRef: [Channel]
     reactions: [Reaction]
-}
-
-input MessageInput {
-    content: String!
-    userRef: [String] #userId
-    channelRef: [String] #channelId
 }
 
 input MessageIdentifier {
@@ -68,19 +84,18 @@ input MessageIdentifier {
 }
 
 type Reaction {
-    username: String!
-    icon: String!
+    username: String
+    icon: String
 }
 
-
 type User {
-    username: String!
+    username: String
+    email: String
+    userPreferences: UserPreferences
     status: UserStatus
-    email: String!
     avatar: String
     name: String
     lastLogin: String
-    userPreferences: UserPreferences!
     channels: [Channel]
     directMessages: [Channel]
 }
@@ -153,20 +168,31 @@ type ChannelSettings {
 }
 
 type Channel {
-    id: String!
-    title: String!
+    id: String
+    name: String
     # topic: TODO
     # userNotificationSettings: ChannelSettings
-    description: String!
-    announcement: String!
-    numberOfMembers: Int!
+    description: String
+    announcement: String
+    numberOfMembers: Int
     members: [User]
     owners: [User]
     direct: Boolean
-    private: Boolean
+    privateChannel: Boolean
     readOnly: Boolean
     archived: Boolean
     favorite: Boolean
     unseenMessages: Int
 }
 `;
+/* tslint:enable */
+
+const executableSchema = makeExecutableSchema({
+  typeDefs: schema,
+  resolvers: subscriptionResolver,
+  logger: { log: (e) => console.log(e) },
+});
+
+addMockFunctionsToSchema({ schema: executableSchema, mocks,  preserveResolvers: true});
+
+export default executableSchema;

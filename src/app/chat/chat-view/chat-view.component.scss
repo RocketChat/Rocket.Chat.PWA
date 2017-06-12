@@ -1,16 +1,33 @@
-.menu-button:hover{
-  background-color: rgb(200,200,200);
+.menu-button:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.menu-icon-button{
+  @media screen and (min-width: 767px) {
+    display: none;
+  }
 }
 
 .message-row {
   display: flex;
 }
 
-.message-input {
-
-}
 
 .send-button {
   background: #f4f4f4;
   width: 48px;
+}
+
+.message-scroller {
+  overflow: scroll;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.loading-spinner{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

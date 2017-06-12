@@ -4,6 +4,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
+import { ChannelNotFoundComponent } from './channel-not-found/channel-not-found.component';
 
 const routes: Routes = [{
   path : '', component : MainPageComponent, canActivate : [AuthGuard], canActivateChild : [AuthGuard],
@@ -19,6 +20,10 @@ const routes: Routes = [{
     {
       path : 'welcome',
       component : WelcomePageComponent
+    },
+    {
+      path: 'channel-not-found',
+      component: ChannelNotFoundComponent
     },
     {
       path : '',

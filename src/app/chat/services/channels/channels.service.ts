@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { MyChannelsQuery } from '../../../graphql/types/types';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
+import { myChannelsQuery } from '../../../graphql/queries/my-channels.query';
 
-const getMyChannelsQuery = require('graphql-tag/loader!../../../graphql/queries/my-channels.query.graphql');
 @Injectable()
 export class ChannelsService {
 
@@ -15,7 +15,8 @@ export class ChannelsService {
     const variables: MyChannelsQuery.Variables = {
       userId: user.username
     };
-    return this.apollo.watchQuery<MyChannelsQuery.Result>({query: getMyChannelsQuery, variables});
+
+    return this.apollo.watchQuery<MyChannelsQuery.Result>({query: myChannelsQuery, variables});
   }
 
 }
