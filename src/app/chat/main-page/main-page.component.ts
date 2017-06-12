@@ -28,14 +28,11 @@ export class MainPageComponent implements AfterViewInit {
 
   modifySidenavToSize() {
     if (window.outerWidth < 767) {
-      this.menuCtrl.enable(true);
+      if (!this.menuCtrl.isEnabled()) {
+        this.menuCtrl.enable(true);
+      }
     }
     else {
-      if (!this.menuCtrl.isOpen()) {
-        this.menuCtrl.enable(true);
-        this.menuCtrl.open();
-      }
-
       if (this.menuCtrl.isEnabled()) {
         this.menuCtrl.enable(false);
       }

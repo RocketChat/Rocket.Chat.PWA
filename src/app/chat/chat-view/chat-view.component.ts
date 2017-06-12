@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
 import { Observable } from 'rxjs/Observable';
-import { ChannelByNameQuery } from '../../graphql/types/types';
+import { MessagesQuery } from '../../graphql/types/types';
 
 @Component({
   selector: 'chat-view',
@@ -13,17 +13,22 @@ import { ChannelByNameQuery } from '../../graphql/types/types';
 export class ChatViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContent') chatContent: any;
-  public channel: ChannelByNameQuery.ChannelByName;
+  public channel: MessagesQuery.Channel;
   private routeParamsSub;
   private messagesSub;
   public model = { message: undefined };
+  private chatContentScrollSubscription;
   private pageMessagesCount = 100;
   private readonly pagePercentLoadMoreTrigger = 0.45;
   private isFirstLoad = true;
   public messages;
   private pagePixelLength: number;
+  private readonly maxPagePixelLength = 10000;
 
-  constructor(private route: ActivatedRoute, public chatService: ChatService, private cd: ChangeDetectorRef) {
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              public chatService: ChatService,
+              private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -32,48 +37,70 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         this.messagesSub.unsubscribe();
       }
 
+      this.isFirstLoad = true;
+
       const url: any = this.route.url;
       const isDirect = url.value[0].path === 'direct';
       const channelName = params['id'];
 
-      this.chatService.getChannelByName(channelName, isDirect).subscribe((channelData) => {
-        this.channel = channelData.data.channelByName;
-        if (this.channel === null) {
+      const messagesQueryObservable = this.chatService.getMessages({
+          channelId: null,
+          channelDetails: { name: channelName, direct: isDirect },
+          count: this.pageMessagesCount,
+          cursor: null,
+          searchRegex: null
+        }
+      );
+
+      this.messagesSub = messagesQueryObservable.subscribe(({ data }) => {
+        if (data.messages === null) {
+          this.router.navigate(['channel-not-found']);
           return;
         }
+        const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
+        this.messages = data.messages.messagesArray;
 
-        Observable.fromEvent(this.chatContent.nativeElement, 'scroll').subscribe(() => {
-          if (this.chatContent.nativeElement.scrollTop < this.pagePixelLength * this.pagePercentLoadMoreTrigger) {
-            if (!this.chatService.isLoadingMoreMessages()) {
-              this.chatService.loadMoreMessages(this.channel.id, this.pageMessagesCount);
+        if (this.isFirstLoad) {
+          this.isFirstLoad = false;
+          this.channel = data.messages.channel;
+          this.chatService.subscribeToMessageAdded(this.channel.id);
+
+          setTimeout(() => {
+            this.pagePixelLength = this.chatContent.nativeElement.scrollHeight;
+            if (this.pagePixelLength > this.maxPagePixelLength) {
+              this.pagePixelLength = this.maxPagePixelLength;
             }
-          }
-        });
 
-        const messagesObs = this.chatService.getMessages(this.channel.id, this.pageMessagesCount);
+            if (!this.chatContentScrollSubscription) {
+              this.chatContentScrollSubscription = Observable.fromEvent(this.chatContent.nativeElement, 'scroll').subscribe(() => {
+                if (this.chatContent.nativeElement.scrollTop < this.pagePixelLength * this.pagePercentLoadMoreTrigger) {
+                  if (!this.chatService.isLoadingMoreMessages()) {
+                    this.loadMoreMessages();
+                    this.cd.markForCheck();
+                  }
+                }
+              });
+            }
 
-        this.messagesSub = messagesObs.subscribe(({ data }) => {
-          const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
-          this.messages = data.messages.messagesArray;
-          if (this.isFirstLoad || (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom())) {
-            setTimeout(() => {
-              this.pagePixelLength = this.chatContent.nativeElement.scrollHeight;
-              this.isFirstLoad = false;
-              this.scrollToBottom();
-            }, 0);
-          }
-          if (this.isScrolledToTop()) {
-            setTimeout(() => {
-              this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
-            }, 0);
-          }
-          this.cd.markForCheck();
-        });
+            this.scrollToBottom();
+          }, 0);
+        }
 
-        this.chatService.subscribeToMessageAdded(this.channel.id);
+        if (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom()) {
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 0);
+        }
+
+        if (this.isScrolledToTop()) {
+          setTimeout(() => {
+            this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
+          }, 0);
+        }
 
         this.cd.markForCheck();
       });
+      this.scrollToBottom();
       this.cd.markForCheck();
     });
   }
@@ -95,11 +122,17 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     if (this.model.message) {
       this.chatService.sendMessage(this.channel.id, this.model.message);
       this.model.message = undefined;
-      this.scrollToBottom();
     }
   }
 
+  loadMoreMessages() {
+    this.chatService.loadMoreMessages(this.channel.id, this.pageMessagesCount);
+  }
+
   ngOnDestroy() {
+    if (this.chatContentScrollSubscription) {
+      this.chatContentScrollSubscription.unsubscribe();
+    }
     if (this.messagesSub) {
       this.messagesSub.unsubscribe();
     }

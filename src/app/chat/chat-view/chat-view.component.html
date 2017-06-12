@@ -3,18 +3,14 @@
     <button class="menu-icon-button" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title># {{channel?.name || null}}</ion-title>
+    <ion-title># {{channel?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="loading-spinner">
     <ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>
   </div>
-  <div #chatContent class="message-scroller"
-       infinite-scroll
-       [infiniteScrollUpDistance]="10"
-       [infiniteScrollThrottle]="0"
-       [scrollWindow]="false">
+  <div #chatContent class="message-scroller">
     <ion-item *ngFor="let message of messages" no-lines>
       <chat-message [message]="message"></chat-message>
     </ion-item>
