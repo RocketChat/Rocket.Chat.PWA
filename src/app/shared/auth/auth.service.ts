@@ -21,20 +21,17 @@ export class AuthService{
           (err) => console.log(err),
           () => console.log('complete')
         );
-      subject.forEach(function (e) {
-        const data = JSON.stringify(e);
-        if (data === 'ping'){
-          console.log('Recieved ' + data);
-          subject.next('pong');
-        }
-        else if (data === 'pong')
-        {
-          console.log('Recieved ' + data);
-          subject.next('ping');
-        }
-      });
-      subject.next(JSON.stringify({'msg': 'connect', 'version': '1', 'support': ['1', 'pre2', 'pre1']}));
+      // searching for ping and pong in the response
+      const ping = subject.find((data: (any)) => (data.msg === 'ping'));
+      const pong = subject.find((data: (any)) => (data.msg === 'pong'));
+      const changed = subject.find((data: (any)) => data.msg === 'changed');
 
+      // sending ping for pong and vice versa
+      ping.subscribe(() => subject.next('pong'));
+      pong.subscribe(() => subject.next('ping'));
+
+      // establishing connection and sending login request
+      subject.next(JSON.stringify({'msg': 'connect', 'version': '1', 'support': ['1', 'pre2', 'pre1']}));
       subject.next(JSON.stringify({'msg': 'method', 'method': 'login', 'params': [{'user': {'username': this.user}, 'password': this.password}], 'id': '7'}));
     }
 
