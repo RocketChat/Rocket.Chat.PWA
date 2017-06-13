@@ -55,7 +55,6 @@ app.get('/auth/handle_google_callback', function (req, res) {
 
 app.use('/auth', grant);
 
-
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   debug: true,
