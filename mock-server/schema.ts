@@ -1,4 +1,5 @@
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+import { createJSAccountsGraphQL } from '@accounts/graphql-api';
 import { mocks, subscriptionResolver } from './mocks';
 
 /* tslint:disable */
@@ -13,7 +14,6 @@ type Mutation {
     leaveChannel(channelId: String!): Boolean
     hideChannel(channelId: String!): Boolean
     setStatus(status: UserStatus!): User
-    logout: Boolean #JSAccount
     createChannel(name: String!, private: Boolean = false, readOnly: Boolean = false, membersId: [String!]): Channel
     sendMessage(channelId: String!, content: String!): Message
     deleteMessage(messageId: MessageIdentifier!): Boolean
@@ -24,7 +24,6 @@ type Mutation {
 }
 
 type Query {
-    me: User
     messages(channelId: String, channelDetails: ChannelNameAndDirect, channelName: String, cursor: String, count: Int, searchRegex: String): MessagesWithCursor
     channelsByUser(userId: String): [Channel]
     channels(filter: ChannelFilter = {privacy: ALL, joinedChannels: false, sortBy: NAME}): [Channel]
@@ -88,9 +87,7 @@ type Reaction {
     icon: String
 }
 
-type User {
-    username: String
-    email: String
+extend type User {
     userPreferences: UserPreferences
     status: UserStatus
     avatar: String
@@ -187,12 +184,24 @@ type Channel {
 `;
 /* tslint:enable */
 
-const executableSchema = makeExecutableSchema({
-  typeDefs: schema,
-  resolvers: subscriptionResolver,
-  logger: { log: (e) => console.log(e) },
-});
+export function createSchemeWithAccounts(accountsServer) {
+  const accountsGraphQL = createJSAccountsGraphQL(accountsServer);
 
-addMockFunctionsToSchema({ schema: executableSchema, mocks,  preserveResolvers: true});
+  // TODO after accounts pr remove dummy object
+  const mockResolvers = {
+    Query: {},
+    Mutation: {},
+    ...subscriptionResolver
+  };
+  const resolversWithAccounts = accountsGraphQL.extendWithResolvers(mockResolvers);
 
-export default executableSchema;
+  const executableSchema = makeExecutableSchema({
+    typeDefs: [schema, accountsGraphQL.schema],
+    resolvers: resolversWithAccounts,
+    logger: { log: (e) => console.log(e) },
+  });
+
+  addMockFunctionsToSchema({ schema: executableSchema, mocks,  preserveResolvers: true});
+
+  return executableSchema;
+}

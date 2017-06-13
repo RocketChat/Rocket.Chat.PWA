@@ -56,7 +56,6 @@ export const mocks = {
     unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
-    me: () => me,
     channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
     messages: (root, { channelId, channelDetails, cursor, count }, context) => {
       if (!channelId && !channelDetails) {
@@ -117,7 +116,6 @@ export const mocks = {
         console.log('channel not found');
         return null;
       }
-
       const newMessage = {
         id: faker.random.uuid(),
         content,
