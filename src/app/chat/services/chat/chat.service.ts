@@ -6,7 +6,6 @@ import { sendMessageMutation } from '../../../graphql/queries/send-message.mutat
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
 import { ChannelByNameQuery, MessagesQuery } from '../../../graphql/types/types';
-import { UserDataService } from '../../../shared/services/user-data/user-data.service';
 import { channelByNameQuery } from '../../../graphql/queries/channel-by-name.query';
 
 @Injectable()
@@ -19,18 +18,11 @@ export class ChatService {
   private user;
 
   constructor(private apollo: Apollo,
-              private authenticationService: AuthenticationService,
-              private useDataService: UserDataService) {
-    // TODO: replace with JSAccounts
-    useDataService.getUserData().subscribe((result) => {
-      this.user = result.data.me;
-    });
+              private authenticationService: AuthenticationService) {
+    this.user = authenticationService.getUser();
   }
 
   private optimisticSendMessage(content) {
-    // TODO: replace with JSAccounts
-    const authUser = this.authenticationService.getUser() || {};
-    const user = this.user || { name: authUser.username, avatar: undefined };
     return {
       __typename: 'Mutation',
       sendMessage: {
@@ -40,7 +32,7 @@ export class ChatService {
         creationTime: +new Date().toString(),
         author: {
           __typename: 'User',
-          name: this.user.name || user.username,
+          name: this.user.name || this.user.username,
           avatar: this.user.avatar,
         }
       }

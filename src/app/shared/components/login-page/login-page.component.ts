@@ -21,21 +21,25 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authenticationService.logout();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  login() {
-    if (this.model.username && this.model.password &&
-      this.authenticationService.login(this.model.username, this.model.password)) {
-      this.router.navigate([this.returnUrl]);
-    }
-    else {
-      const toast = this.toastCtrl.create({
-        message : 'Invalid username or password',
-        duration : 5000
-      });
-      toast.present();
+  async login() {
+    if (this.model.username && this.model.password) {
+      try {
+        this.loading = true;
+        await this.authenticationService.login(this.model.username, this.model.password);
+        this.loading = false;
+        this.router.navigate([this.returnUrl]);
+
+      } catch (e) {
+        const toast = this.toastCtrl.create({
+          message : 'Invalid username or password',
+          duration : 5000,
+          showCloseButton: true,
+        });
+        toast.present();
+      }
     }
   }
 }
