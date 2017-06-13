@@ -23,7 +23,6 @@ export class ChatService {
   }
 
   private optimisticSendMessage(content) {
-    const user = this.user || { name: '', avatar: undefined };
     return {
       __typename: 'Mutation',
       sendMessage: {
@@ -33,8 +32,8 @@ export class ChatService {
         creationTime: +new Date().toString(),
         author: {
           __typename: 'User',
-          name: user.name || user.username,
-          avatar: user.avatar,
+          name: this.user.name || this.user.username,
+          avatar: this.user.avatar,
         }
       }
     };

@@ -9,7 +9,9 @@ export interface Query {
 }
 
 export interface MessagesQueryArgs {
-  channelId: string;
+  channelId: string | null;
+  channelDetails: ChannelNameAndDirect | null;
+  channelName: string | null;
   cursor: string | null;
   count: number | null;
   searchRegex: string | null;
@@ -28,22 +30,31 @@ export interface ChannelByNameQueryArgs {
   isDirect: boolean;
 }
 
+export interface ChannelNameAndDirect {
+  name: string;
+  direct: boolean;
+}
+
 export interface MessagesWithCursor {
   cursor: string | null;
+  channel: Channel | null;
   messagesArray: Array<Message> | null;
 }
 
-export interface Message {
+export interface Channel {
   id: string | null;
-  author: User | null;
-  content: string | null;
-  creationTime: string | null;
-  channel: Channel | null;
-  fromServer: boolean | null;
-  tags: Array<string> | null;
-  userRef: Array<User> | null;
-  channelRef: Array<Channel> | null;
-  reactions: Array<Reaction> | null;
+  name: string | null;
+  description: string | null;
+  announcement: string | null;
+  numberOfMembers: number | null;
+  members: Array<User> | null;
+  owners: Array<User> | null;
+  direct: boolean | null;
+  privateChannel: boolean | null;
+  readOnly: boolean | null;
+  archived: boolean | null;
+  favorite: boolean | null;
+  unseenMessages: number | null;
 }
 
 export interface User {
@@ -84,20 +95,17 @@ export interface UserPreferences {
 
 export type UserStatus = "ONLINE" | "AWAY" | "BUSY" | "INVISIBLE";
 
-export interface Channel {
+export interface Message {
   id: string | null;
-  name: string | null;
-  description: string | null;
-  announcement: string | null;
-  numberOfMembers: number | null;
-  members: Array<User> | null;
-  owners: Array<User> | null;
-  direct: boolean | null;
-  privateChannel: boolean | null;
-  readOnly: boolean | null;
-  archived: boolean | null;
-  favorite: boolean | null;
-  unseenMessages: number | null;
+  author: User | null;
+  content: string | null;
+  creationTime: string | null;
+  channel: Channel | null;
+  fromServer: boolean | null;
+  tags: Array<string> | null;
+  userRef: Array<User> | null;
+  channelRef: Array<Channel> | null;
+  reactions: Array<Reaction> | null;
 }
 
 export interface Reaction {
@@ -316,7 +324,8 @@ export namespace MessageFragment {
 
 export namespace MessagesQuery {
   export type Variables = {
-      channelId: string;
+      channelId: string | null;
+      channelDetails: ChannelNameAndDirect | null;
       cursor: string | null;
       count: number | null;
       searchRegex: string | null;
@@ -328,7 +337,13 @@ export namespace MessagesQuery {
 
   export type Messages = {
     cursor: string;
+    channel: Channel;
     messagesArray: Array<MessagesArray>;
+  } 
+
+  export type Channel = {
+    id: string;
+    name: string;
   } 
 
   export type MessagesArray = {

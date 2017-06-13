@@ -39,7 +39,7 @@ export const initAccounts = async () => {
         expiresIn: '3d',
       },
       refreshToken: {
-        expiresIn: '14d',
+        expiresIn: '30d',
       },
     }
   }, mongoAdapter);
