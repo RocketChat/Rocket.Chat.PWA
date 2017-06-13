@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { w3cwebsocket } from 'websocket';
 import 'rxjs/Rx';
+import {WebsocketService} from '../websocket/websocket.service';
 import {Subject} from 'rxjs/Subject';
 // import {Http, Response, Headers, RequestOptions, Jsonp} from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -13,14 +14,13 @@ import {Observer} from 'rxjs/Observer';
 export class AuthService{
   private user = 'namantesting';
   private password = 'namantesting';
-    constructor(){
-      const subject = Observable.webSocket('wss://demo.rocket.chat/websocket');
-      subject
-        .subscribe(
-          (msg) => console.log('message received: ' + JSON.stringify(msg)),
-          (err) => console.log(err),
-          () => console.log('complete')
-        );
+    constructor(private _ws: WebsocketService){
+      const subject = _ws.wssocketsubject();
+      subject.subscribe(
+        (msg) => console.log('message received: ' + JSON.stringify(msg)),
+        (err) => console.log(err),
+        () => console.log('complete')
+      );
       // searching for ping and pong in the response
       const ping = subject.find((data: (any)) => (data.msg === 'ping'));
       const pong = subject.find((data: (any)) => (data.msg === 'pong'));
