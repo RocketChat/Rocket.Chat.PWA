@@ -25,11 +25,11 @@ export class AuthService{
       const ping = subject.find((data: (any)) => (data.msg === 'ping'));
       const pong = subject.find((data: (any)) => (data.msg === 'pong'));
       const changed = subject.find((data: (any)) => data.msg === 'changed');
+      // Error in the below next arguement:(30, 41) TS2345:Argument of type '"pong"' is not assignable to parameter of type 'MessageEvent'.
 
       // sending ping for pong and vice versa
       ping.subscribe(() => subject.next('pong'));
       pong.subscribe(() => subject.next('ping'));
-
       // establishing connection and sending login request
       subject.next(JSON.stringify({'msg': 'connect', 'version': '1', 'support': ['1', 'pre2', 'pre1']}));
       subject.next(JSON.stringify({'msg': 'method', 'method': 'login', 'params': [{'user': {'username': this.user}, 'password': this.password}], 'id': '7'}));
