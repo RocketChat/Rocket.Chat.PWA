@@ -1,4 +1,4 @@
-<div class="channel-item" (click)="gotoChannel(channel.name)">
+<div class="channel-item" (click)="channelPress()">
   <div class="channel-title">
 
     <span *ngIf="channelSymbol === 'hashtag'; else iconBlock" class="channel-icon hashtag">#</span>

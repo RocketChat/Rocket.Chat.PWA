@@ -6,16 +6,16 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content class="home-menu-content">
+<div class="home-menu-content">
   <h4 class="sub-sidenav-header">CHANNELS ({{channelsNum}})</h4>
   <ion-list no-lines no-padding>
-    <channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel"></channel-item>
+    <channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel" (onClick)="closeSideNav()"></channel-item>
   </ion-list>
   <h4 class="sub-sidenav-header">DIRECT MESSAGES ({{directChannelsNum}})</h4>
   <ion-list no-lines no-padding>
-    <channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel"></channel-item>
+    <channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel" (onClick)="closeSideNav()"></channel-item>
   </ion-list>
-</ion-content>
+</div>
 <ion-footer class="home-menu-footer">
   <button ion-button (click)="logout()">Logout</button>
 </ion-footer>
