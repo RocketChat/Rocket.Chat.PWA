@@ -1,9 +1,14 @@
 <div class="login-page">
   <img padding class="login-logo hide-on-keyboard" src="./assets/images/rocketchat.logo.svg">
   <ion-card class="login-card" center>
-    <ion-card-header>
-      Login
-    </ion-card-header>
+    <ion-row class="login-buttons">
+      <a class="google-login" ion-button href="http://localhost:3000/auth/connect/google">
+        <ion-icon class="service-login-icon" name="logo-google"></ion-icon>
+      </a>
+      <a class="facebook-login" ion-button href="http://localhost:3000/auth/connect/facebook">
+        <ion-icon class="service-login-icon" name="logo-facebook"></ion-icon>
+      </a>
+    </ion-row>
 
     <ion-item>
       <ion-label floating>Username</ion-label>
@@ -14,10 +19,11 @@
       <ion-label floating>Password</ion-label>
       <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
     </ion-item>
+
     <ion-row class="login-buttons">
       <button ion-button (click)="login()">
         <ion-spinner name="bubbles" color="white" *ngIf="loading; else btnText"></ion-spinner>
-        <ng-template #btnText >Login</ng-template>
+        <ng-template #btnText>Login</ng-template>
       </button>
     </ion-row>
   </ion-card>

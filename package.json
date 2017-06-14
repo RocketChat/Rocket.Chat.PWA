@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "nodemon --exec ts-node --project mock-server mock-server/index.ts",
+    "server": "nodemon --exec ts-node mock-server/index.ts",
     "generate:types": "gql-gen --url http://localhost:3000/graphql --template typescript --out src/app/graphql/types/types.ts -- ./src/app/graphql/queries/*.ts "
   },
   "private": true,
