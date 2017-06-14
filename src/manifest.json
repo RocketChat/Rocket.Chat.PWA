@@ -2,7 +2,7 @@
   "name": "Rocket.Chat",
   "short_name": "Rocket.Chat",
   "start_url": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#04436a",
   "theme_color": "#04436a",
   "description": "Amazing chat app",
