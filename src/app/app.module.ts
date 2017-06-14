@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
 import {AuthService} from './shared/auth/auth.service';
+import {WebsocketService} from './shared/websocket/websocket.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,7 @@ import {AuthService} from './shared/auth/auth.service';
     FormsModule,
     HttpModule,JsonpModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
