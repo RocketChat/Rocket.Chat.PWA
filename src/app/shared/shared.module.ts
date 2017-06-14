@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { PushNotificationsService } from './services/push-notifications.service';
+import { LoginPageService } from './services/login-page.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { PushNotificationsService } from './services/push-notifications.service'
     UnixTimeToStringPipe
   ],
   declarations: [UnixTimeToStringPipe],
-  providers: [PushNotificationsService],
+  providers: [PushNotificationsService, LoginPageService],
 })
-export class SharedModule {}
+export class SharedModule {
+}

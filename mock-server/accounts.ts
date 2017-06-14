@@ -1,18 +1,19 @@
-import AccountsServer from '@accounts/server';
-import {MongoClient } from 'mongodb';
+import { AccountsServer } from '@accounts/server';
+import { MongoClient } from 'mongodb';
 import MongoAdapter from '@accounts/mongo';
 import * as faker from 'faker';
 
 const MONGO_URL = 'mongodb://localhost:27017/rocketchatMock';
+let accountsServer = null;
 
 const initUsers = () => {
-  const users = [{username: 'eitan', password: 'eitan'}, {username: 'tomer', password: 'tomer'}];
+  const users = [{ username: 'eitan', password: 'eitan' }, { username: 'tomer', password: 'tomer' }];
 
   users.map(async (userData) => {
-    const {username, password} = userData;
-    const user = await AccountsServer.findUserByUsername(username);
+    const { username, password } = userData;
+    const user = await accountsServer.findUserByUsername(username);
     if (!user) {
-      AccountsServer.createUser({
+      accountsServer.createUser({
         username,
         password,
         profile: {
@@ -33,7 +34,9 @@ export const initAccounts = async () => {
     console.log('Failed connecting to the mongoDb ', e);
     return;
   }
-  AccountsServer.config({
+
+  accountsServer = new AccountsServer();
+  accountsServer.config({
     tokenConfigs: {
       accessToken: {
         expiresIn: '3d',
@@ -46,5 +49,14 @@ export const initAccounts = async () => {
 
   initUsers();
 
-  return AccountsServer;
+  return accountsServer;
+};
+
+export const getAccountServer = async () => {
+  if (accountsServer) {
+    return accountsServer;
+  }
+  else {
+    return await initAccounts();
+  }
 };

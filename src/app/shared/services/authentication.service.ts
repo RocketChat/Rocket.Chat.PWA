@@ -4,14 +4,12 @@ import { AuthorizationMiddleware } from './authorization-middleware';
 import { UserFields } from '../../graphql/types/types';
 
 
-
-
 @Injectable()
 export class AuthenticationService {
 
   private accountsClient;
 
-  constructor(){
+  constructor() {
     this.accountsClient = getAccountsClient();
   }
 
@@ -21,12 +19,24 @@ export class AuthenticationService {
       await this.accountsClient.loadOriginalTokensFromStorage();
       await this.accountsClient.resumeSession();
       await this.setAuthMiddlewareToken();
-    }catch (e) {
+    } catch (e) {
       console.log('Failed to resume session, user isn\'t connected');
     }
   }
 
-  private async setAuthMiddlewareToken(){
+  async refreshWithNewTokens(accessToken, refreshToken) {
+    try {
+      await this.accountsClient.storeTokens({accessToken, refreshToken});
+      await this.accountsClient.loadTokensFromStorage();
+      await this.accountsClient.refreshSession();
+      return true;
+    } catch (e) {
+      console.log('Failed to refresh tokens', e);
+      return false;
+    }
+  }
+
+  private async setAuthMiddlewareToken() {
     const tokens = await this.accountsClient.tokens();
 
     if (tokens.accessToken) {
@@ -48,7 +58,7 @@ export class AuthenticationService {
     return this.accountsClient.user();
   }
 
-  isUserConnected(){
+  isUserConnected() {
     return !!this.getUser();
   }
 }

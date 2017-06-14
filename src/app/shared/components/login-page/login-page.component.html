@@ -1,8 +1,8 @@
 <div class="login-page">
   <img padding class="login-logo hide-on-keyboard" src="./assets/images/rocketchat.logo.svg">
-  <ion-card class="login-card" center>
+  <ion-card class="login-card" center *ngIf="!showSpinner; else spinner">
     <ion-row class="login-buttons">
-      <a class="google-login" ion-button href="http://localhost:3000/auth/connect/google">
+      <a class="google-login" ion-button href="http://localhost:3000/auth/connect/google?state=google">
         <ion-icon class="service-login-icon" name="logo-google"></ion-icon>
       </a>
       <a class="facebook-login" ion-button href="http://localhost:3000/auth/connect/facebook">
@@ -27,4 +27,7 @@
       </button>
     </ion-row>
   </ion-card>
+  <ng-template #spinner>
+    <ion-spinner class="spinner"></ion-spinner>
+  </ng-template>
 </div>

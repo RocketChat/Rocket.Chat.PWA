@@ -19,7 +19,7 @@ const accountsClient = new AccountsClient({
   onSignedInHook: () => null,
 }, graphQLInterface);
 
-export function getAccountsClient(){
- return accountsClient;
+export function getAccountsClient() {
+  return accountsClient;
 }
 

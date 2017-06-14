@@ -1,9 +1,10 @@
 import * as faker from 'faker';
 import { pubsub } from './subscriptions';
 import { withFilter } from 'graphql-subscriptions';
+import { getAccountServer } from './accounts';
+import { getUserDataFromService } from './oauth/oauth-user-data';
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
-
 const messages = new Map<string, any[]>();
 const channels = [];
 const me = {
@@ -132,6 +133,38 @@ export const mocks = {
       messagesArray.unshift(newMessage);
       pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
       return newMessage;
+    },
+    loginWithServiceAccessToken: async (root, { service, accessToken }, context) => {
+      try {
+        const accountsServer = await getAccountServer();
+        const userData: any = await getUserDataFromService(accessToken, service);
+        console.log(userData);
+        let user = await accountsServer.findUserByEmail(userData.emails[0].value);
+        if (!user) {
+          user = {};
+          const id = await accountsServer.createUser({
+            username: userData.emails[0].value,
+            email: userData.emails[0].value,
+            profile: {
+              name: userData.name.givenName + ' ' + userData.name.familyName,
+              oauth: {
+                google: userData.id,
+              }
+            }
+          });
+          user.id = id;
+        }
+
+        const loginResult = await accountsServer.loginWithUser(user);
+        console.log(loginResult);
+        return {
+          refreshToken: loginResult.tokens.refreshToken,
+          accessToken: loginResult.tokens.accessToken,
+        };
+      }
+      catch (e) {
+        console.log('Failed to login with credentials', e);
+      }
     }
   }),
 };
