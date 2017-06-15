@@ -38,9 +38,4 @@ export class MainPageComponent implements AfterViewInit {
       }
     }
   }
-
-  logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['login']);
-  }
 }

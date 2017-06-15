@@ -6,7 +6,7 @@ import * as faker from 'faker';
 const MONGO_URL = 'mongodb://localhost:27017/rocketchatMock';
 
 const initUsers = () => {
-  const users = [{username: 'eitan', password: 'eitan'}, {username: 'tomer', password: 'tomer'}];
+  const users = [{username: 'eitan', password: 'eitan'},{username: 'Eitan', password: 'Eitan'}, {username: 'tomer', password: 'tomer'}];
 
   users.map(async (userData) => {
     const {username, password} = userData;

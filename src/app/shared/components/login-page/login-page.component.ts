@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
@@ -45,8 +45,6 @@ export class LoginPageComponent implements OnInit {
       try {
         this.loading = true;
         const loggedIn = await this.authenticationService.refreshWithNewTokens(accountsAccessToken, accountsRefreshToken);
-        this.loading = false;
-        this.showSpinner = false;
         if (loggedIn) {
           this.router.navigate([this.returnUrl]);
         }
@@ -57,6 +55,10 @@ export class LoginPageComponent implements OnInit {
       catch (e) {
         console.log(e);
       }
+      finally {
+        this.loading = false;
+        this.showSpinner = false;
+      }
     });
   }
 
@@ -65,11 +67,13 @@ export class LoginPageComponent implements OnInit {
       try {
         this.loading = true;
         await this.authenticationService.login(this.model.username, this.model.password);
-        this.loading = false;
         this.router.navigate([this.returnUrl]);
       }
       catch (e) {
         this.showToast('Invalid username or password');
+      }
+      finally {
+        this.loading = false;
       }
     }
   }

@@ -73,7 +73,7 @@ export class ChatService {
       query: messagesQuery,
       variables: messagesQueryVariables,
     });
-
+    
     this.messagesSubscription = this.messagesQueryObservable.subscribe(({ data }) => {
       if (data.messages) {
         this.cursor = data.messages.cursor;
