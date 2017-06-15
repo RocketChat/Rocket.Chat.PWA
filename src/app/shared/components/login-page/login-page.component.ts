@@ -29,7 +29,6 @@ export class LoginPageComponent implements OnInit {
       try {
         this.loading = true;
         await this.authenticationService.login(this.model.username, this.model.password);
-        this.loading = false;
         this.router.navigate([this.returnUrl]);
 
       } catch (e) {
@@ -39,6 +38,8 @@ export class LoginPageComponent implements OnInit {
           showCloseButton: true,
         });
         toast.present();
+      } finally {
+        this.loading = false;
       }
     }
   }

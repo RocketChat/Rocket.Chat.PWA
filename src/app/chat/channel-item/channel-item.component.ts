@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MyChannelsQuery } from '../../graphql/types/types';
 
@@ -8,20 +8,27 @@ import { MyChannelsQuery } from '../../graphql/types/types';
   styleUrls: ['./channel-item.component.scss']
 })
 export class ChannelItemComponent implements OnInit {
-  @Input()
-  channel: MyChannelsQuery.ChannelsByUser;
+
+  @Output() onClick = new EventEmitter<MyChannelsQuery.ChannelsByUser>();
+  @Input() channel: MyChannelsQuery.ChannelsByUser;
+
   channelSymbol: string;
 
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  gotoChannel(channelName) {
+  gotoChannel(channelName: string) {
     if (this.channel.direct) {
       this.router.navigate(['direct', channelName]);
     } else {
       this.router.navigate(['channel', channelName]);
     }
+  }
+
+  channelPress() {
+    this.onClick.emit(this.channel);
+    this.gotoChannel(this.channel.name);
   }
 
   ngOnInit(): void {

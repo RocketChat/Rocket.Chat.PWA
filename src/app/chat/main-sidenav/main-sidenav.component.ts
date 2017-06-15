@@ -9,6 +9,7 @@ import { ChannelsService } from '../services/channels/channels.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import { MenuController } from 'ionic-angular';
 
 @Component({
   selector: 'main-sidenav',
@@ -26,7 +27,7 @@ export class MainSidenavComponent implements OnInit {
   public directChannelsNum: number;
 
   constructor(private router: Router,
-              private cd: ChangeDetectorRef,
+              private menuCtrl: MenuController,
               private authenticationService: AuthenticationService,
               private myChannelService: ChannelsService) {}
 
@@ -46,5 +47,9 @@ export class MainSidenavComponent implements OnInit {
   async logout() {
     await this.authenticationService.logout();
     this.router.navigate(['login']);
+  }
+  
+  closeSideNav(){
+    this.menuCtrl.close();
   }
 }

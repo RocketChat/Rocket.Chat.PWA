@@ -7,10 +7,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="loading-spinner">
-    <ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>
-  </div>
   <div #chatContent class="message-scroller">
+    <div class="loading-spinner">
+      <ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>
+    </div>
     <ion-item *ngFor="let message of messages" no-lines>
       <chat-message [message]="message"></chat-message>
     </ion-item>
