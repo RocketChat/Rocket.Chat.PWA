@@ -149,7 +149,7 @@ export const mocks = {
         };
       }
       catch (e) {
-        console.log('Failed to login with credentials', e);
+        console.log('Failed to login with service', e);
       }
     }
   }),
