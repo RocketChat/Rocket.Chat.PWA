@@ -29,6 +29,7 @@ export class AuthenticationService {
       await this.accountsClient.storeTokens({accessToken, refreshToken});
       await this.accountsClient.loadTokensFromStorage();
       await this.accountsClient.refreshSession();
+      await this.setAuthMiddlewareToken();
       return true;
     } catch (e) {
       console.log('Failed to refresh tokens', e);
@@ -38,7 +39,6 @@ export class AuthenticationService {
 
   private async setAuthMiddlewareToken() {
     const tokens = await this.accountsClient.tokens();
-
     if (tokens.accessToken) {
       const accessToken = tokens.accessToken;
       AuthorizationMiddleware.setToken(accessToken);
@@ -46,10 +46,13 @@ export class AuthenticationService {
   }
 
   async login(username: string, password: string): Promise<any> {
-    return this.accountsClient.loginWithPassword(username, password);
+    await this.accountsClient.loginWithPassword(username, password);
+    await this.setAuthMiddlewareToken();
+    return;
   }
 
   async logout() {
+    AuthorizationMiddleware.removeToken();
     return this.accountsClient.logout();
   }
 

@@ -41,7 +41,6 @@ export class LoginPageComponent implements OnInit {
 
   loginWithServiceAccessToken(service, accessToken) {
     this.loginService.loginWithServiceAccessToken(service, accessToken).subscribe(async ({ data }) => {
-      console.log(data);
       const accountsAccessToken = data.loginWithServiceAccessToken.accessToken;
       const accountsRefreshToken = data.loginWithServiceAccessToken.refreshToken;
       try {
