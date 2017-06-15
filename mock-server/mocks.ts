@@ -1,8 +1,9 @@
 import * as faker from 'faker';
 import { pubsub } from './subscriptions';
 import { withFilter } from 'graphql-subscriptions';
-import { getAccountServer } from './accounts';
 import { getOAuthResolver } from './oauth/oauth-service';
+import { authenticated } from '@accounts/graphql-api';
+import AccountsServer from '@accounts/server';
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 const messages = new Map<string, any[]>();
@@ -47,10 +48,12 @@ for (let i = 0; i < 15; i++) {
 }
 
 export const mocks = {
-  User: () => ({
-    name: () => faker.name.firstName() + ' ' + faker.name.lastName(),
-    avatar: () => faker.image.avatar(),
-  }),
+  User: ({user}) => {
+    return {
+      name: () => user.profile.name,
+      avatar: () => user.profile.avatar,
+    };
+  },
   Channel: () => ({
     id: () => faker.random.uuid(),
     name: () => faker.random.word(),
@@ -112,7 +115,7 @@ export const mocks = {
     },
   }),
   Mutation: () => ({
-    sendMessage: (root, { channelId, content }, context) => {
+    sendMessage: authenticated(AccountsServer, (root, { channelId, content }, {user}) => {
       const messagesArray = messages.get(channelId);
       if (!messagesArray) {
         console.log('channel not found');
@@ -123,8 +126,8 @@ export const mocks = {
         content,
         creationTime: (new Date()).getTime().toString(),
         author: {
-          name: me.name,
-          avatar: me.avatar
+          name: user.profile.name,
+          avatar: user.profile.avatar
         },
         channel: {
           id: channelId,
@@ -134,12 +137,12 @@ export const mocks = {
       messagesArray.unshift(newMessage);
       pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
       return newMessage;
-    },
+    }),
     loginWithServiceAccessToken: async (root, { service, accessToken }, context) => {
       try {
         const userData = await oauthResolver.getUserDataFromService(accessToken, service);
-        const accountsServer = await getAccountServer();
-        const user = await oauthResolver.getUserFromServiceUserData(service, userData, accountsServer);
+        const accountsServer = AccountsServer;
+        const user = await oauthResolver.getUserFromServiceUserData(service, userData);
         if (!user) {
           return null;
         }

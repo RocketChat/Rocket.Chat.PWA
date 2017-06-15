@@ -13,6 +13,7 @@ import { createServer } from 'http';
 import { initAccounts } from './accounts';
 import { initializeOAuthResolver } from './oauth/oauth-service';
 import { GRANT_PATH, grantConfig } from './oauth/grant-config';
+import AccountsServer from '@accounts/server';
 
 const PORT = 3000;
 const WS_GQL_PATH = '/subscriptions';
@@ -22,7 +23,7 @@ async function main() {
   const app = express();
   app.use(cors());
 
-  const accountsServer = await initAccounts();
+  await initAccounts();
 
   app.use(session({
     secret: 'grant',
@@ -48,7 +49,7 @@ async function main() {
 
   initializeOAuthResolver();
 
-  const schema = createSchemeWithAccounts(accountsServer);
+  const schema = createSchemeWithAccounts(AccountsServer);
 
   app.use('/graphql', bodyParser.json(), graphqlExpress(request => ({
     schema,

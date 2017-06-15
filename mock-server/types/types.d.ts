@@ -5,6 +5,6 @@ declare module 'graphql' {
 }
 
 export interface ServicesResolver {
-  [name: string]: { url: string, userResolver: (userData: any, accountsServer: any) => Promise<any> };
+  [name: string]: { url: string, userResolver: (userData: any) => Promise<any> };
 }
 

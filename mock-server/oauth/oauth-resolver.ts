@@ -16,9 +16,9 @@ export class OAuthResolver {
     return null;
   };
 
-  async getUserFromServiceUserData(service: string, userData, accountsServer) {
+  async getUserFromServiceUserData(service: string, userData) {
     if (this.servicesResolver[service]) {
-      return await this.servicesResolver[service].userResolver(userData, accountsServer);
+      return await this.servicesResolver[service].userResolver(userData);
     }
 
     return null;
