@@ -21,8 +21,7 @@ export class LoginPageComponent implements OnInit {
               private router: Router,
               private authenticationService: AuthenticationService,
               private toastCtrl: ToastController,
-              private loginService: LoginPageService,
-              private cd: ChangeDetectorRef) {
+              private loginService: LoginPageService) {
   }
 
   ngOnInit() {
