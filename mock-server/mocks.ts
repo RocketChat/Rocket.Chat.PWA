@@ -2,10 +2,11 @@ import * as faker from 'faker';
 import { pubsub } from './subscriptions';
 import { withFilter } from 'graphql-subscriptions';
 import { getAccountServer } from './accounts';
-import { getUserDataFromService, getUserFromServiceUserData } from './oauth/oauth-user-data';
+import { getOAuthResolver } from './oauth/oauth-service';
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 const messages = new Map<string, any[]>();
+const oauthResolver = getOAuthResolver();
 const channels = [];
 const me = {
   name: faker.name.firstName() + ' ' + faker.name.lastName(),
@@ -136,9 +137,9 @@ export const mocks = {
     },
     loginWithServiceAccessToken: async (root, { service, accessToken }, context) => {
       try {
-        const userData = await getUserDataFromService(accessToken, service);
+        const userData = await oauthResolver.getUserDataFromService(accessToken, service);
         const accountsServer = await getAccountServer();
-        const user = await getUserFromServiceUserData(service, userData, accountsServer);
+        const user = await oauthResolver.getUserFromServiceUserData(service, userData, accountsServer);
         if (!user) {
           return null;
         }

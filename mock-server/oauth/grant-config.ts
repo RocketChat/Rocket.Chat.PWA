@@ -1,10 +1,11 @@
-import { GRANT_PATH } from './index';
+export const GRANT_PATH = '/auth';
 
 export const grantConfig = {
   server: {
     protocol: 'http',
     host: 'localhost:3000',
-    path: GRANT_PATH,
+    path: '/auth',
+    state: true,
   },
   facebook: {
     key: '353692268378789',

@@ -4,8 +4,6 @@ import * as session from 'express-session';
 import * as Grant from 'grant-express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import * as http from 'http';
-import * as request from 'request';
 import { graphiqlExpress, graphqlExpress } from 'graphql-server-express';
 import { createSchemeWithAccounts } from './schema';
 import { JSAccountsContext } from '@accounts/graphql-api';
@@ -13,12 +11,11 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 import { initAccounts } from './accounts';
-import { grantConfig } from './grant-config';
-import { getUserDataFromService } from './oauth/oauth-user-data';
+import { initializeOAuthResolver } from './oauth/oauth-service';
+import { GRANT_PATH, grantConfig } from './oauth/grant-config';
 
 const PORT = 3000;
 const WS_GQL_PATH = '/subscriptions';
-export const GRANT_PATH = '/auth';
 const STATIC_SERVER = 'http://localhost:4200';
 
 async function main() {
@@ -35,26 +32,7 @@ async function main() {
 
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  const grant = new Grant({
-    server: {
-      protocol: 'http',
-      host: 'localhost:3000',
-      path: '/auth',
-      state: true,
-    },
-    facebook: {
-      key: '353692268378789',
-      secret: '30fa7be4ee732b4cc28c6d8acab54263',
-      callback: `${GRANT_PATH}/handle_facebook_callback`,
-      scope: [],
-    },
-    google: {
-      key: '822500959137-ktt8mfq95vlvq8ogcbu4gg3paear7174.apps.googleusercontent.com',
-      secret: 'PBMWy2O-739OyqTItjXP3Dzq',
-      callback: `${GRANT_PATH}/handle_google_callback`,
-      scope: ['openid email'],
-    },
-  });
+  const grant = new Grant(grantConfig);
 
   app.use(GRANT_PATH, grant);
 
@@ -67,6 +45,8 @@ async function main() {
     const accessToken = req.query.access_token;
     res.redirect(`${STATIC_SERVER}/login?service=google&access_token=${accessToken}`);
   });
+
+  initializeOAuthResolver();
 
   const schema = createSchemeWithAccounts(accountsServer);
 
