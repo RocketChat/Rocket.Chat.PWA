@@ -116,7 +116,7 @@ export const mocks = {
     sendMessage: authenticated(AccountsServer, (root, { channelId, content }, {user}) => {
       const messagesArray = messages.get(channelId);
       if (!messagesArray) {
-        console.log('channel not found');
+        console.error('channel not found');
         return null;
       }
       const newMessage = {
@@ -151,7 +151,7 @@ export const mocks = {
         };
       }
       catch (e) {
-        console.log('Failed to login with service', e);
+        console.error('Failed to login with service', e);
       }
     }
   }),

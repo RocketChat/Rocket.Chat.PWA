@@ -32,7 +32,7 @@ export const initAccounts = async () => {
     mongoAdapter = await getMongoClient().then(db => new MongoAdapter(db));
   }
   catch (e) {
-    console.log('Failed connecting to the mongoDb ', e);
+    console.error('Failed connecting to the mongoDb ', e);
     return;
   }
   AccountsServer.config({

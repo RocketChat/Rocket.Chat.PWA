@@ -80,4 +80,4 @@ async function main() {
   });
 }
 
-main().catch((e) => console.log('Failed to start mock server', e));
+main().catch((e) => console.error('Failed to start mock server', e));
