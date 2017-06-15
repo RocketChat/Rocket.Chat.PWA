@@ -53,7 +53,7 @@ export class LoginPageComponent implements OnInit {
         }
       }
       catch (e) {
-        console.log(e);
+        console.error(`Login with ${service} failed`, e);
       }
       finally {
         this.loading = false;
@@ -70,6 +70,7 @@ export class LoginPageComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       }
       catch (e) {
+        console.error('Login failed', e);
         this.showToast('Invalid username or password');
       }
       finally {
