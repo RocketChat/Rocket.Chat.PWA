@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
 import { LoginPageService } from '../../services/login-page.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   moduleId: module.id,
@@ -32,6 +33,10 @@ export class LoginPageComponent implements OnInit {
       this.showSpinner = true;
       this.loginWithServiceAccessToken(service, accessToken);
     }
+  }
+
+  getServiceUrl(service: string): string {
+    return environment.server + '/auth/connect/' + service;
   }
 
   loginWithServiceAccessToken(service, accessToken) {

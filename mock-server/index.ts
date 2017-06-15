@@ -60,39 +60,12 @@ async function main() {
 
   app.get(`${GRANT_PATH}/handle_facebook_callback`, function (req, res) {
     const accessToken = req.query.access_token;
-    getUserDataFromService(accessToken, 'https://graph.facebook.com/me?fields=name&access_token==')
-      .then((userData) => {
-        console.log(userData);
-        res.redirect(`${STATIC_SERVER}/login`);
-      });
+    res.redirect(`${STATIC_SERVER}/login?service=facebook&access_token=${accessToken}`);
   });
 
   app.get(`${GRANT_PATH}/handle_google_callback`, function (req, res) {
     const accessToken = req.query.access_token;
     res.redirect(`${STATIC_SERVER}/login?service=google&access_token=${accessToken}`);
-    // getUserDataFromService(accessToken, 'https://www.googleapis.com/plus/v1/people/me?access_token=')
-    //   .then(async (userData: any) => {
-    //     console.log(userData);
-    //     let user = await accountsServer.findUserByEmail(userData.emails[0].value);
-    //     if (!user) {
-    //       user = {};
-    //       const id = await accountsServer.createUser({
-    //         username: userData.emails[0].value,
-    //         email: userData.emails[0].value,
-    //         profile: {
-    //           name: userData.name.givenName + ' ' + userData.name.familyName,
-    //           oauth: {
-    //             google: userData.id,
-    //           }
-    //         }
-    //       });
-    //       user.id = id;
-    //     }
-    //
-    //     const loginResult = await accountsServer.loginWithUser(user);
-    //     console.log(loginResult);
-    //     res.redirect(`${STATIC_SERVER}/login`);
-    //   });
   });
 
   const schema = createSchemeWithAccounts(accountsServer);
