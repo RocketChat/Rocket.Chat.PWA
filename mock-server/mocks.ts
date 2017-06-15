@@ -9,10 +9,6 @@ export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
 const messages = new Map<string, any[]>();
 const oauthResolver = getOAuthResolver();
 const channels = [];
-const me = {
-  name: faker.name.firstName() + ' ' + faker.name.lastName(),
-  avatar: faker.image.avatar(),
-};
 
 const createMessage = (channelId) => {
   return {
@@ -61,8 +57,10 @@ export const mocks = {
     unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
-    channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
-    messages: (root, { channelId, channelDetails, cursor, count }, context) => {
+    channelsByUser: () => {
+      return channels.slice(0, faker.random.number({ min: 3, max: channels.length }));
+    },
+    messages: authenticated(AccountsServer, (root, { channelId, channelDetails, cursor, count }, context) => {
       if (!channelId && !channelDetails) {
         console.error(`messages query must be called with channelId or channelDetails`);
         return null;
@@ -109,10 +107,10 @@ export const mocks = {
         console.error('cursor is invalid');
         return null;
       }
-    },
-    channelByName: (root, { name, isDirect }) => {
+    }),
+    channelByName: authenticated(AccountsServer, (root, { name, isDirect }) => {
       return channels.find((element) => element.name === name && element.direct === isDirect) || null;
-    },
+    }),
   }),
   Mutation: () => ({
     sendMessage: authenticated(AccountsServer, (root, { channelId, content }, {user}) => {

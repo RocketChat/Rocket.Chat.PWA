@@ -10,8 +10,8 @@ export class LoginPageService {
   constructor(private apollo: Apollo) {
   }
 
-  /* tslint:disable */
-  loginWithServiceAccessToken(service: string, accessToken: string): Observable<ApolloQueryResult<LoginWithServiceAccessTokenMutation.Result>> { // <LoginWithServiceAccessTokenMutation.Result> {
+  // tslint:disable-next-line
+  loginWithServiceAccessToken(service: string, accessToken: string): Observable<ApolloQueryResult<LoginWithServiceAccessTokenMutation.Result>> {
     return this.apollo.mutate({
       mutation: loginWithServiceAccessTokenMutation,
       variables: {
