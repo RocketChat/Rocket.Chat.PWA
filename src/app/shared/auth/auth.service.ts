@@ -7,28 +7,53 @@ import 'rxjs/add/operator/map';
 export class AuthService {
   private user = 'namantesting';
   private password = 'namantesting';
+  public subject$;
+  private _id = '';
 
   constructor(private _ws: WebsocketService) {
-    const subject$ = this._ws.create();
-    subject$.subscribe(
+    this.subject$ = this._ws.create();
+    this.subject$.subscribe(
       (data) => console.log('Data recieved = ' + JSON.stringify(data)),
       (err) => console.log('Error ' + err),
       () => console.log('Completed')
     );
-    const ping = subject$.find((data: (any)) => (data.msg === 'ping'));
-    const pong = subject$.find((data: (any)) => (data.msg === 'pong'));
-    const changed = subject$.find((data: (any)) => data.msg === 'changed');
 
-    subject$.next(JSON.stringify({'msg': 'connect', 'version': '1', 'support': ['1', 'pre2', 'pre1']}));
+    const ping = this.subject$.find((data: (any)) => (data.msg === 'ping'));
+    const pong = this.subject$.find((data: (any)) => (data.msg === 'pong'));
+    const changed = this.subject$.find((data: (any)) => data.msg === 'changed');
+    const token = this.subject$.find((data: (any)) => data.msg === 'result');
+    this.subject$.next(JSON.stringify({'msg': 'connect', 'version': '1', 'support': ['1', 'pre2', 'pre1']}));
 
-    subject$.next(JSON.stringify({
+
+    ping.subscribe(() => this.subject$.next('pong'));
+    pong.subscribe(() => this.subject$.next('ping'));
+
+    token.subscribe((data) => {
+      localStorage.setItem(data.result.id, data.result.token);
+      this._id = data.result.id;
+      this.logOut();
+    });
+    this.login();
+  }
+  login(){
+    this.subject$.next(JSON.stringify({
       'msg': 'method',
       'method': 'login',
       'params': [{'user': {'username': this.user}, 'password': this.password}],
       'id': '7'
     }));
-    ping.subscribe(() => subject$.next('pong'));
-    pong.subscribe(() => subject$.next('ping'));
+    console.log('in login' + this._id);
+  }
+  logOut() {
+    if (localStorage.getItem(this._id) == null) {
+
+    }else {
+      console.log('yo' + this._id);
+      localStorage.removeItem(this._id);
+
+    }
+
+
   }
 }
 
