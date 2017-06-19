@@ -10,7 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
 import { MessagesQuery } from '../../graphql/types/types';
-import { ChangeEvent, VirtualScrollComponent } from './test/virtual-scroll';
+import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 
 @Component({
