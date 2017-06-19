@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
-import { Subscription } from 'apollo-client';
+import { ApolloQueryResult, Subscription } from 'apollo-client';
 import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
@@ -73,7 +73,7 @@ export class ChatService {
       query: messagesQuery,
       variables: messagesQueryVariables,
     });
-    
+
     this.messagesSubscription = this.messagesQueryObservable.subscribe(({ data }) => {
       if (data.messages) {
         this.cursor = data.messages.cursor;
@@ -105,17 +105,17 @@ export class ChatService {
     });
   }
 
-  loadMoreMessages(channelId: string, count: number) {
+  loadMoreMessages(channelId: string, count: number): Promise<ApolloQueryResult<MessagesQuery.Result>> {
     if (!this.messagesQueryObservable) {
-      throw new Error('call getMessages() first');
+      return Promise.reject('call getMessages() first');
     }
 
     if (!this.cursor || this.noMoreToLoad) {
-      return;
+      return Promise.resolve(null);
     }
 
     this.loadingMoreMessages = true;
-    this.messagesQueryObservable.fetchMore({
+    return this.messagesQueryObservable.fetchMore({
       variables: {
         channelId,
         cursor: this.cursor,

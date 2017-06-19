@@ -90,7 +90,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   isScrolledToBottom(): boolean {
     if (this.scrollValue) {
-      return this.scrollValue.end === this.messages.length;
+      return this.scrollValue.end === this.messages.length - 1;
     }
     return false;
   }
