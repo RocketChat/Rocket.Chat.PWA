@@ -15,9 +15,9 @@
       (update)="scrollItems = $event"
       (change)="scrollValueChanged($event)">
 
-      <!--<div class="loading-spinner">-->
-        <!--&lt;!&ndash;<ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>&ndash;&gt;-->
-      <!--</div>-->
+      <div class="loading-spinner" *ngIf="isLoadingMore">
+        <ion-spinner name="bubbles" ></ion-spinner>
+      </div>
 
       <ion-item *ngFor="let message of scrollItems" no-lines>
         <chat-message [message]="message"></chat-message>
