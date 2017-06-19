@@ -1,15 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { w3cwebsocket } from 'websocket';
 import 'rxjs/Rx';
 import {WebsocketService} from '../websocket/websocket.service';
 import 'rxjs/add/operator/map';
-import {Observable} from 'rxjs/Observable';
 @Injectable()
-export class AuthService {
-  private user = 'namantesting';
-  private password = 'namantesting';
+export class UserService {
   public subject$;
-  private _id = '';
 
   constructor(private _ws: WebsocketService) {
     this.subject$ = this._ws.create();
@@ -28,37 +24,28 @@ export class AuthService {
 
     ping.subscribe(() => this.subject$.next('pong'));
     pong.subscribe(() => this.subject$.next('ping'));
+    this.getUserRoles();
 
-    token.subscribe((data) => {
-      localStorage.setItem(data.result.id, data.result.token);
-      this._id = data.result.id;
-      this.logOut();
-    });
-    this.login();
   }
-  login(){
+  getUserRoles(){
     this.subject$.next(JSON.stringify({
       'msg': 'method',
-      'method': 'login',
-      'params': [{'user': {'username': this.user}, 'password': this.password}],
-      'id': '7'
+      'method': 'getUserRoles',
+      'id' : '51',
+      'params': []
     }));
-    console.log('in login' + this._id);
   }
-  logOut() {
-    if (localStorage.getItem(this._id) == null) {
-
-    }else {
-      console.log('yo' + this._id);
-      localStorage.removeItem(this._id);
-
-    }
-
-
+  registerUser(){
+    this.subject$.next(JSON.stringify({
+      'msg': 'method',
+      'method': 'registerUser',
+      'id': '42',
+      'params': [{
+        'email': 'temp@mail.com',
+        'pass': 'temp',
+        'name': 'temptesting',
+        'secretURL': 'rcpwa' // Optional
+      }]
+    }));
   }
-
-
 }
-
-
-
