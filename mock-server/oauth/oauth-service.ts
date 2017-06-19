@@ -14,6 +14,16 @@ export const findUserByOAuthId = async (service: string, id) => {
   return await dbCollection.findOne({ [`profile.oauth.${service}`]: id });
 };
 
+export const addOAuthIdToUserProfile = async (user, service: string, serviceId) => {
+  AccountsServer.setProfile(user.id, Object.assign(user.profile,
+    {
+      oauth: {
+        ...user.profile.oauth,
+        [service]: serviceId
+      }
+    }));
+};
+
 export const initializeOAuthResolver = () => {
   oauthResolver.setServicesResolver({
     google: {
@@ -27,7 +37,10 @@ export const initializeOAuthResolver = () => {
           user = await AccountsServer.findUserByEmail(userData.emails[0].value);
         }
 
-        if (!user) {
+        if (user) {
+          await addOAuthIdToUserProfile(user, 'google', userData.id);
+        }
+        else {
           const id = await AccountsServer.createUser({
             username: userData.emails[0].value,
             email: userData.emails[0].value,
