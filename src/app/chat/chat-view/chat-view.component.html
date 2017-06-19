@@ -20,7 +20,7 @@
   <ion-row class="message-row">
     <ion-input #messageInput class="message-input" type="text" placeholder="Message"
                [(ngModel)]="model.message" (keyup.enter)="sendMessage()"></ion-input>
-    <button item-right class="send-button" ion-item (click)="sendMessage()">
+    <button item-right class="send-button" ion-item (click)="sendMessage()" (focus)="sendMessageButtonFocus($event)">
       <ion-icon name="paper-plane"></ion-icon>
     </button>
   </ion-row>

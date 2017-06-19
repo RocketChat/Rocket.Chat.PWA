@@ -29,7 +29,7 @@ export class ChatService {
         __typename: 'Message',
         id: 'tempId',
         content: content,
-        creationTime: +new Date().toString(),
+        creationTime: new Date().getTime().toString(),
         author: {
           __typename: 'User',
           name: this.user.name || this.user.username,
@@ -73,7 +73,7 @@ export class ChatService {
       query: messagesQuery,
       variables: messagesQueryVariables,
     });
-    
+
     this.messagesSubscription = this.messagesQueryObservable.subscribe(({ data }) => {
       if (data.messages) {
         this.cursor = data.messages.cursor;
