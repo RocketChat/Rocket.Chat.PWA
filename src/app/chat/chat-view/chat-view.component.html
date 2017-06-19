@@ -7,13 +7,23 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div #chatContent class="message-scroller">
-    <div class="loading-spinner">
-      <ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>
-    </div>
-    <ion-item *ngFor="let message of messages" no-lines>
-      <chat-message [message]="message"></chat-message>
-    </ion-item>
+  <div class="message-scroller">
+    <virtual-scroll
+      [items]="messages"
+      [childHeight]="66"
+      [keepIndexOnChange]="keepIndexOnItemsChange"
+      (update)="scrollItems = $event"
+      (change)="scrollValueChanged($event)">
+
+      <!--<div class="loading-spinner">-->
+        <!--&lt;!&ndash;<ion-spinner name="bubbles" *ngIf="chatService.isLoadingMoreMessages()"></ion-spinner>&ndash;&gt;-->
+      <!--</div>-->
+
+      <ion-item *ngFor="let message of scrollItems" no-lines>
+        <chat-message [message]="message"></chat-message>
+      </ion-item>
+
+    </virtual-scroll>
   </div>
 </ion-content>
 <ion-footer>
