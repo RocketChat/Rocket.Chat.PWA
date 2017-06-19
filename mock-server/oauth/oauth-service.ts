@@ -15,7 +15,7 @@ export const findUserByOAuthId = async (service: string, id) => {
 };
 
 export const addOAuthIdToUserProfile = async (user, service: string, serviceId) => {
-  AccountsServer.setProfile(user.id, Object.assign(user.profile,
+  AccountsServer.setProfile(user.id, Object.assign({}, user.profile,
     {
       oauth: {
         ...user.profile.oauth,
