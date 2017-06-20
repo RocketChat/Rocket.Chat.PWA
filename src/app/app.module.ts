@@ -6,6 +6,9 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
+import {AuthService} from './shared/services/auth/auth.service';
+import {WebsocketService} from './shared/services/websocket/websocket.service';
+import {DDPService} from './shared/services/ddp/ddp-service.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,7 @@ import { ChannelListComponent } from './components/channel-list/channel-list.com
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [AuthService, WebsocketService, DDPService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
