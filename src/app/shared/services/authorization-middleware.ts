@@ -5,6 +5,10 @@ export class AuthorizationMiddleware {
     AuthorizationMiddleware.token = token;
   }
 
+  static removeToken() {
+    AuthorizationMiddleware.token = undefined;
+  }
+
   applyMiddleware(req, next) {
     req.options.headers = {
       ...req.options.headers,

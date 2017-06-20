@@ -14,7 +14,6 @@ export class ChatService {
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
   private messagesQueryObservable: ApolloQueryObservable<MessagesQuery.Result>;
-  private messagesSubscription: Subscription;
   private user;
 
   constructor(private apollo: Apollo,
@@ -29,7 +28,7 @@ export class ChatService {
         __typename: 'Message',
         id: 'tempId',
         content: content,
-        creationTime: +new Date().toString(),
+        creationTime: new Date().getTime().toString(),
         author: {
           __typename: 'User',
           name: this.user.name || this.user.username,
@@ -62,10 +61,6 @@ export class ChatService {
   }
 
   getMessages(messagesQueryVariables: MessagesQuery.Variables): ApolloQueryObservable<MessagesQuery.Result> {
-    if (this.messagesSubscription) {
-      this.messagesSubscription.unsubscribe();
-    }
-
     this.noMoreToLoad = false;
     this.cursor = null;
 
@@ -74,7 +69,7 @@ export class ChatService {
       variables: messagesQueryVariables,
     });
 
-    this.messagesSubscription = this.messagesQueryObservable.subscribe(({ data }) => {
+    this.messagesQueryObservable.do(({ data }) => {
       if (data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {

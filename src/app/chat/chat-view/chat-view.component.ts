@@ -27,6 +27,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContent') chatContent: any;
   @ViewChild(VirtualScrollComponent) virtualScroll: VirtualScrollComponent;
+  @ViewChild('messageInput') messageInput: any;
 
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
@@ -43,6 +44,13 @@ export class ChatViewComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               public chatService: ChatService,
               private cd: ChangeDetectorRef) {}
+
+  sendMessageButtonFocus(event) {
+    this.messageInput.getElementRef().nativeElement.children[0].focus();
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+  }
 
   ngOnInit() {
     this.routeParamsSub = this.route.params.subscribe(params => {
