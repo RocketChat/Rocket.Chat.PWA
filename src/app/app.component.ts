@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
-import { AuthService } from './shared/auth/auth.service';
+import { AuthService } from './shared/REALtime API/auth/auth.service';
 import {Observable} from 'rxjs/Observable';
-import {OtherService} from './shared/other/other.service';
+import {OtherService} from './shared/REALtime API/other/other.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

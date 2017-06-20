@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { w3cwebsocket } from 'websocket';
 import 'rxjs/Rx';
-import {WebsocketService} from '../websocket/websocket.service';
+import {WebsocketService} from '../../websocket/websocket.service';
 import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {

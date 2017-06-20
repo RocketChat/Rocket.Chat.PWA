@@ -1,11 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { w3cwebsocket } from 'websocket';
 import 'rxjs/Rx';
-import {WebsocketService} from '../websocket/websocket.service';
+import {WebsocketService} from '../../websocket/websocket.service';
 import 'rxjs/add/operator/map';
+import {Observable} from 'rxjs/Observable';
 @Injectable()
-export class RoomService {
+export class AuthService {
+  private user = 'namantesting';
+  private password = 'namantesting';
   public subject$;
+  private _id = '';
+
   constructor(private _ws: WebsocketService) {
     this.subject$ = this._ws.create();
     this.subject$.subscribe(
@@ -23,32 +28,37 @@ export class RoomService {
 
     ping.subscribe(() => this.subject$.next('pong'));
     pong.subscribe(() => this.subject$.next('ping'));
+
+    token.subscribe((data) => {
+      localStorage.setItem(data.result.id, data.result.token);
+      this._id = data.result.id;
+      this.logOut();
+    });
+    this.login();
   }
-loadHistory(){
-    this.subject$.next_(JSON.stringify(
-      {
-        'msg': 'method',
-        'method': 'loadHistory',
-        'id': '42',
-        'params': [ 'room-id', { '$date': 1480377205 }, 50, { '$date': 1480377601 } ]
-      }
-    ));
-}
-getRoomRoles(){
-  this.subject$.next(JSON.stringify({
-    'msg': 'method',
-    'method': 'getRoomRoles',
-    'id': '42',
-    'params': [ 'room-id' ]
-  }));
-}
-getRooms(){
-  JSON.stringify({
-    'msg': 'method',
-    'method': 'rooms/get',
-    'id': '42',
-    'params': [ { '$date': 1480377601 } ]
-  });
-}
+  login(){
+    this.subject$.next(JSON.stringify({
+      'msg': 'method',
+      'method': 'login',
+      'params': [{'user': {'username': this.user}, 'password': this.password}],
+      'id': '7'
+    }));
+    console.log('in login' + this._id);
+  }
+  logOut() {
+    if (localStorage.getItem(this._id) == null) {
+
+    }else {
+      console.log('yo' + this._id);
+      localStorage.removeItem(this._id);
+
+    }
+
+
+  }
+
 
 }
+
+
+
