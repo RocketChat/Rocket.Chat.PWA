@@ -134,6 +134,7 @@ export interface Mutation {
   editMessage: Message | null;
   addReactionToMassage: Message | null;
   updateUserSettings: User | null;
+  loginWithServiceAccessToken: LoginResult | null;
   loginWithPassword: LoginReturn | null;
   refreshTokens: LoginReturn | null;
   logout: boolean | null;
@@ -180,6 +181,11 @@ export interface AddReactionToMassageMutationArgs {
 
 export interface UpdateUserSettingsMutationArgs {
   userSettings: UserSettings | null;
+}
+
+export interface LoginWithServiceAccessTokenMutationArgs {
+  service: string;
+  accessToken: string;
 }
 
 export interface LoginWithPasswordMutationArgs {
@@ -230,6 +236,11 @@ export interface UserSettings {
   email: string | null;
   avatar: string | null;
   name: string | null;
+}
+
+export interface LoginResult {
+  accessToken: string | null;
+  refreshToken: string | null;
 }
 
 export interface LoginReturn {
@@ -303,6 +314,22 @@ export namespace ChatMessageAddedSubscription {
 
   export type ChatMessageAdded = {
   } & MessageFragment.Fragment 
+}
+
+export namespace LoginWithServiceAccessTokenMutation {
+  export type Variables = {
+      service: string;
+      accessToken: string;
+  }
+
+  export type Result = {
+    loginWithServiceAccessToken: LoginWithServiceAccessToken;
+  } 
+
+  export type LoginWithServiceAccessToken = {
+    accessToken: string;
+    refreshToken: string;
+  } 
 }
 
 export namespace MessageFragment {

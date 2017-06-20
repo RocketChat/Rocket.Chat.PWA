@@ -20,6 +20,7 @@ type Mutation {
     editMessage(messageId: MessageIdentifier!, content: String!): Message
     addReactionToMassage(messageId: MessageIdentifier!, icon: String!): Message
     updateUserSettings(userSettings: UserSettings): User
+    loginWithServiceAccessToken(service: String!, accessToken: String!): LoginResult
     #updateUserChannelSettings(channelId: String!,settings: ChannelSettings )
 }
 
@@ -62,6 +63,11 @@ type MessagesWithCursor {
   cursor: String
   channel: Channel
   messagesArray: [Message]
+}
+
+type LoginResult {
+  accessToken: String
+  refreshToken: String
 }
 
 type Message {

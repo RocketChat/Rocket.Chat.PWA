@@ -1,15 +1,14 @@
 import * as faker from 'faker';
 import { pubsub } from './subscriptions';
 import { withFilter } from 'graphql-subscriptions';
+import { getOAuthResolver } from './oauth/oauth-service';
+import { authenticated } from '@accounts/graphql-api';
+import AccountsServer from '@accounts/server';
 
 export const CHAT_MESSAGE_SUBSCRIPTION_TOPIC = 'CHAT_MESSAGE_ADDED';
-
 const messages = new Map<string, any[]>();
+const oauthResolver = getOAuthResolver();
 const channels = [];
-const me = {
-  name: faker.name.firstName() + ' ' + faker.name.lastName(),
-  avatar: faker.image.avatar(),
-};
 
 const createMessage = (channelId) => {
   return {
@@ -45,10 +44,12 @@ for (let i = 0; i < 15; i++) {
 }
 
 export const mocks = {
-  User: () => ({
-    name: () => faker.name.firstName() + ' ' + faker.name.lastName(),
-    avatar: () => faker.image.avatar(),
-  }),
+  User: ({user}) => {
+    return {
+      name: () => user.profile.name,
+      avatar: () => user.profile.avatar,
+    };
+  },
   Channel: () => ({
     id: () => faker.random.uuid(),
     name: () => faker.random.word(),
@@ -56,8 +57,10 @@ export const mocks = {
     unseenMessages: () => faker.random.boolean() ? faker.random.number(30) : 0,
   }),
   Query: () => ({
-    channelsByUser: () => channels.slice(0, faker.random.number({ min: 3, max: channels.length })),
-    messages: (root, { channelId, channelDetails, cursor, count }, context) => {
+    channelsByUser: () => {
+      return channels.slice(0, faker.random.number({ min: 3, max: channels.length }));
+    },
+    messages: authenticated(AccountsServer, (root, { channelId, channelDetails, cursor, count }, context) => {
       if (!channelId && !channelDetails) {
         console.error(`messages query must be called with channelId or channelDetails`);
         return null;
@@ -104,16 +107,16 @@ export const mocks = {
         console.error('cursor is invalid');
         return null;
       }
-    },
-    channelByName: (root, { name, isDirect }) => {
+    }),
+    channelByName: authenticated(AccountsServer, (root, { name, isDirect }) => {
       return channels.find((element) => element.name === name && element.direct === isDirect) || null;
-    },
+    }),
   }),
   Mutation: () => ({
-    sendMessage: (root, { channelId, content }, context) => {
+    sendMessage: authenticated(AccountsServer, (root, { channelId, content }, {user}) => {
       const messagesArray = messages.get(channelId);
       if (!messagesArray) {
-        console.log('channel not found');
+        console.error('channel not found');
         return null;
       }
       const newMessage = {
@@ -121,8 +124,8 @@ export const mocks = {
         content,
         creationTime: (new Date()).getTime().toString(),
         author: {
-          name: me.name,
-          avatar: me.avatar
+          name: user.profile.name,
+          avatar: user.profile.avatar
         },
         channel: {
           id: channelId,
@@ -132,6 +135,24 @@ export const mocks = {
       messagesArray.unshift(newMessage);
       pubsub.publish(CHAT_MESSAGE_SUBSCRIPTION_TOPIC, { chatMessageAdded: newMessage });
       return newMessage;
+    }),
+    loginWithServiceAccessToken: async (root, { service, accessToken }, context) => {
+      try {
+        const userData = await oauthResolver.getUserDataFromService(accessToken, service);
+        const accountsServer = AccountsServer;
+        const user = await oauthResolver.getUserFromServiceUserData(service, userData);
+        if (!user) {
+          return null;
+        }
+        const loginResult = await accountsServer.loginWithUser(user);
+        return {
+          refreshToken: loginResult.tokens.refreshToken,
+          accessToken: loginResult.tokens.accessToken,
+        };
+      }
+      catch (e) {
+        console.error('Failed to login with service', e);
+      }
     }
   }),
 };
