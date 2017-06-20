@@ -4,8 +4,8 @@ import 'rxjs/Rx';
 import {WebsocketService} from '../websocket/websocket.service';
 import 'rxjs/add/operator/map';
 @Injectable()
-export class OtherService {
-public subject$;
+export class RoomService {
+  public subject$;
   constructor(private _ws: WebsocketService) {
     this.subject$ = this._ws.create();
     this.subject$.subscribe(
@@ -24,49 +24,31 @@ public subject$;
     ping.subscribe(() => this.subject$.next('pong'));
     pong.subscribe(() => this.subject$.next('ping'));
   }
-  customEmoji() {
-    this.subject$.next(JSON.stringify({
-      'msg': 'method',
-      'method': 'listEmojiCustom',
-      'id': '62',
-      'params': []
-    }));
-  }
-  getPublicSettings(){
-    this.subject$.next(JSON.stringify({
-      'msg': 'method',
-      'method': 'public-settings/get',
-      'id': '42'
-    }));
-  }
-  getPermissions(){
-    this.subject$.next(JSON.stringify({
-      'msg': 'method',
-      'method': 'permissions/get',
-      'id': '42',
-      'params': []
-    }));
-  }
-  setUserDefaultStatus(){
-    this.subject$.next(JSON.stringify({
-      'msg': 'method',
-      'method': 'UserPresence:setDefaultStatus',
-      'id': '42',
-      'params': [ 'online' ]
-    }));
-  }
-  setUserTemporaryStatus(){
-    this.subject$.next(JSON.stringify(
+loadHistory(){
+    this.subject$.next_(JSON.stringify(
       {
         'msg': 'method',
-        'method': 'UserPresence:away',
+        'method': 'loadHistory',
         'id': '42',
-        'params': []
+        'params': [ 'room-id', { '$date': 1480377205 }, 50, { '$date': 1480377601 } ]
       }
     ));
-
-  }
-
-
+}
+getRoomRoles(){
+  this.subject$.next(JSON.stringify({
+    'msg': 'method',
+    'method': 'getRoomRoles',
+    'id': '42',
+    'params': [ 'room-id' ]
+  }));
+}
+getRooms(){
+  JSON.stringify({
+    'msg': 'method',
+    'method': 'rooms/get',
+    'id': '42',
+    'params': [ { '$date': 1480377601 } ]
+  });
+}
 
 }
