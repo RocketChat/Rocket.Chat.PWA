@@ -1,12 +1,14 @@
+import 'rxjs/add/operator/do';
 import { Injectable } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
-import { ApolloQueryResult, Subscription } from 'apollo-client';
+import { ApolloQueryResult } from 'apollo-client';
 import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
 import { ChannelByNameQuery, MessagesQuery } from '../../../graphql/types/types';
 import { channelByNameQuery } from '../../../graphql/queries/channel-by-name.query';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ChatService {
@@ -60,7 +62,7 @@ export class ChatService {
       });
   }
 
-  getMessages(messagesQueryVariables: MessagesQuery.Variables): ApolloQueryObservable<MessagesQuery.Result> {
+  getMessages(messagesQueryVariables: MessagesQuery.Variables): Observable<ApolloQueryResult<MessagesQuery.Result>> {
     this.noMoreToLoad = false;
     this.cursor = null;
 
@@ -69,7 +71,7 @@ export class ChatService {
       variables: messagesQueryVariables,
     });
 
-    this.messagesQueryObservable.do(({ data }) => {
+    return this.messagesQueryObservable.do(({ data }) => {
       if (data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {
@@ -77,8 +79,6 @@ export class ChatService {
         }
       }
     });
-
-    return this.messagesQueryObservable;
   }
 
   subscribeToMessageAdded(channelId: string) {
