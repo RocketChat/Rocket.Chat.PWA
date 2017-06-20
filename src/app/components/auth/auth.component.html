@@ -1,5 +1,19 @@
-<div>
-  <input type="email" placeholder="you@domain.com"><br>
-  <input type="password" placeholder="password"><br>
-  <button id="submit">Submit</button>
-</div>
+<form (ngSubmit)="loginClicked()"
+      #loginForm="ngForm">
+  <input type="email"
+         name="username"
+         [(ngModel)]="model.username"
+         placeholder="you@domain.com"
+         required>
+  <br>
+  <input type="password"
+         name="password"
+         [(ngModel)]="model.password"
+         placeholder="password"
+         required>
+  <br>
+  <button id="submit"
+          [disabled]="!loginForm.form.valid">
+    Submit
+  </button>
+</form>
