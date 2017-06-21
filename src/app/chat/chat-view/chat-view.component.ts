@@ -1,36 +1,49 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
-import { Observable } from 'rxjs/Observable';
 import { MessagesQuery } from '../../graphql/types/types';
+import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
+
 
 @Component({
   selector: 'chat-view',
   templateUrl: './chat-view.component.html',
   styleUrls: ['./chat-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
+  private readonly PAGE_MESSAGE_COUNT = 100;
+  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
+
   @ViewChild('chatContent') chatContent: any;
+  @ViewChild(VirtualScrollComponent) virtualScroll: VirtualScrollComponent;
   @ViewChild('messageInput') messageInput: any;
+
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
   private messagesSub;
   public model = { message: undefined };
   private chatContentScrollSubscription;
-  private pageMessagesCount = 100;
-  private readonly pagePercentLoadMoreTrigger = 0.45;
   private isFirstLoad = true;
   public messages;
-  private pagePixelLength: number;
-  private readonly maxPagePixelLength = 10000;
+  private scrollValue: ChangeEvent;
+  private isLoadingMore;
+  private keepIndexOnItemsChange = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public chatService: ChatService,
-              private cd: ChangeDetectorRef) {
-  }
+              private cd: ChangeDetectorRef) {}
 
   sendMessageButtonFocus(event) {
     this.messageInput.getElementRef().nativeElement.children[0].focus();
@@ -44,8 +57,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       if (this.messagesSub) {
         this.messagesSub.unsubscribe();
       }
-
       this.isFirstLoad = true;
+      this.messages = undefined;
 
       const url: any = this.route.url;
       const isDirect = url.value[0].path === 'direct';
@@ -54,7 +67,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       const messagesQueryObservable = this.chatService.getMessages({
           channelId: null,
           channelDetails: { name: channelName, direct: isDirect },
-          count: this.pageMessagesCount,
+          count: this.PAGE_MESSAGE_COUNT,
           cursor: null,
           searchRegex: null
         }
@@ -65,7 +78,6 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           this.router.navigate(['channel-not-found']);
           return;
         }
-        const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
         this.messages = data.messages.messagesArray;
 
         if (this.isFirstLoad) {
@@ -73,68 +85,55 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           this.channel = data.messages.channel;
           this.chatService.subscribeToMessageAdded(this.channel.id);
 
-          setTimeout(() => {
-            this.pagePixelLength = this.chatContent.nativeElement.scrollHeight;
-            if (this.pagePixelLength > this.maxPagePixelLength) {
-              this.pagePixelLength = this.maxPagePixelLength;
-            }
-
-            if (!this.chatContentScrollSubscription) {
-              this.chatContentScrollSubscription = Observable.fromEvent(this.chatContent.nativeElement, 'scroll').subscribe(() => {
-                if (this.chatContent.nativeElement.scrollTop < this.pagePixelLength * this.pagePercentLoadMoreTrigger) {
-                  if (!this.chatService.isLoadingMoreMessages()) {
-                    this.loadMoreMessages();
-                    this.cd.markForCheck();
-                  }
-                }
-              });
-            }
-
-            this.scrollToBottom();
-          }, 0);
+          this.scrollToBottom();
         }
-
-        if (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom()) {
-          setTimeout(() => {
-            this.scrollToBottom();
-          }, 0);
+        if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
+          this.scrollToBottom();
         }
-
-        if (this.isScrolledToTop()) {
-          setTimeout(() => {
-            this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
-          }, 0);
-        }
-
         this.cd.markForCheck();
       });
-      this.scrollToBottom();
       this.cd.markForCheck();
     });
   }
 
   isScrolledToBottom(): boolean {
-    const chatElement = this.chatContent.nativeElement;
-    return chatElement.scrollTop + chatElement.clientHeight >= chatElement.scrollHeight;
-  }
-
-  isScrolledToTop(): boolean {
-    return this.chatContent.nativeElement.scrollTop === 0;
+    if (this.scrollValue) {
+      return this.scrollValue.end === this.messages.length - 1;
+    }
+    return false;
   }
 
   scrollToBottom() {
-    this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight;
+    setTimeout(() => this.virtualScroll.scrollInto(this.messages[this.messages.length - 1]), 1);
   }
 
   sendMessage() {
     if (this.model.message) {
       this.chatService.sendMessage(this.channel.id, this.model.message);
       this.model.message = undefined;
+      this.keepIndexOnItemsChange = false;
+      this.scrollToBottom();
     }
   }
 
+  isLoadMoreNeeded() {
+    const scrollValue = this.scrollValue;
+    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER ;
+  }
+
   loadMoreMessages() {
-    this.chatService.loadMoreMessages(this.channel.id, this.pageMessagesCount);
+      return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
+  }
+
+  scrollValueChanged(scrollValue) {
+    this.scrollValue = scrollValue;
+    if (this.messages && !this.isFirstLoad && this.isLoadMoreNeeded()) {
+      this.isLoadingMore = true;
+      this.keepIndexOnItemsChange = true;
+      this.loadMoreMessages().then(() => {
+          this.isLoadingMore = false;
+      });
+    }
   }
 
   ngOnDestroy() {
