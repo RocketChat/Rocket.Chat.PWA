@@ -8,25 +8,35 @@ import { UserFields } from '../../graphql/types/types';
 export class AuthenticationService {
 
   private accountsClient;
+  private triedToResumeSession = false;
 
   constructor() {
     this.accountsClient = getAccountsClient();
+    Offline.on('up', () => {
+      if (!this.triedToResumeSession) {
+        this.triedToResumeSession = true;
+        this.resumeSession();
+      }
+    });
   }
 
   async resumeSession() {
-    try {
-      await this.accountsClient.loadTokensFromStorage();
-      await this.accountsClient.loadOriginalTokensFromStorage();
-      await this.accountsClient.resumeSession();
-      await this.setAuthMiddlewareToken();
-    } catch (e) {
-      console.log('Failed to resume session, user isn\'t connected');
+    if (Offline.state === 'up') {
+      this.triedToResumeSession = true;
+      try {
+        await this.accountsClient.loadTokensFromStorage();
+        await this.accountsClient.loadOriginalTokensFromStorage();
+        await this.accountsClient.resumeSession();
+        await this.setAuthMiddlewareToken();
+      } catch (e) {
+        console.log('Failed to resume session, user isn\'t connected');
+      }
     }
   }
 
   async refreshWithNewTokens(accessToken, refreshToken) {
     try {
-      await this.accountsClient.storeTokens({accessToken, refreshToken});
+      await this.accountsClient.storeTokens({ accessToken, refreshToken });
       await this.accountsClient.loadTokensFromStorage();
       await this.accountsClient.refreshSession();
       await this.setAuthMiddlewareToken();

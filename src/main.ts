@@ -6,8 +6,10 @@ import { environment } from './environments/environment';
 
 
 Offline.options = {
-  requests: false,
-  reconnect: false,
+  interceptRequests: false,
+  checkOnLoad: true,
+  reconnect: true,
+  checks: { xhr: { url: environment.server + '/connection-test' } }
 };
 
 if (environment.production) {
@@ -15,3 +17,4 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
+

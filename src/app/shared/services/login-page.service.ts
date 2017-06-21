@@ -4,6 +4,8 @@ import { loginWithServiceAccessTokenMutation } from '../../graphql/queries/login
 import { LoginWithServiceAccessTokenMutation } from '../../graphql/types/types';
 import { ApolloQueryResult } from 'apollo-client';
 import { Observable } from 'rxjs/Observable';
+import { getApolloClient } from '../../graphql/client/apollo-client';
+import { getPersistor } from '../common/store';
 
 @Injectable()
 export class LoginPageService {
@@ -19,5 +21,10 @@ export class LoginPageService {
         accessToken,
       },
     });
+  }
+
+  cleanCache() {
+    getPersistor().purge();
+    getApolloClient().resetStore();
   }
 }

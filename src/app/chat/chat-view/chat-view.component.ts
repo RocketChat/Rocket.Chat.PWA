@@ -22,12 +22,12 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
-  private readonly PAGE_MESSAGE_COUNT = 100;
-  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
-
   @ViewChild('chatContent') chatContent: any;
   @ViewChild(VirtualScrollComponent) virtualScroll: VirtualScrollComponent;
   @ViewChild('messageInput') messageInput: any;
+
+  private readonly PAGE_MESSAGE_COUNT = 100;
+  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
 
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
@@ -37,8 +37,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   private isFirstLoad = true;
   public messages;
   private scrollValue: ChangeEvent;
-  private isLoadingMore;
-  private keepIndexOnItemsChange = false;
+  public isLoadingMore;
+  public keepIndexOnItemsChange = false;
+  public scrollItems: any;
 
   constructor(private router: Router,
               private route: ActivatedRoute,

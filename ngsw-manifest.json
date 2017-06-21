@@ -8,38 +8,13 @@
       "/": {
         "match": "exact"
       },
-      "^/login.*$": {
-        "match": "regex"
-      },
-      "^/chat/.*$": {
-        "match": "regex"
-      },
-      "^/welcome.*$": {
+      "^/.*$": {
         "match": "regex"
       }
     }
   },
   "_comment": "for external content cache (like fonts)",
   "external": {
-  },
-  "dynamic": {
-    "group": [
-      {
-        "name": "graphql",
-        "urls": {
-          ".*\/graphql\/.*": {
-            "match": "regex"
-          }
-        },
-        "cache": {
-          "optimizeFor": "freshness",
-          "strategy": "fifo",
-          "maxAgeMs": 2592000000,
-          "maxEntries": 2,
-          "networkTimeoutMs": 1000
-        }
-      }
-    ]
   },
   "push": {
     "showNotifications": true,

@@ -10,6 +10,9 @@ interface AsyncIterator<T> {
 
 declare var Offline: {
   options: OfflineOptions,
+  state: 'up' | 'down',
+  check: Function,
+  on(event: string, handler: Function),
 };
 
 interface OfflineOptions {
@@ -29,4 +32,6 @@ interface OfflineOptions {
   // It's not included in the normal build, you should bring in js/snake.js in addition to
   // offline.min.js.
   game?: false;
+
+  checks?: any;
 }
