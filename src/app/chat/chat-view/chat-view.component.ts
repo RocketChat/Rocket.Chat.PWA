@@ -44,7 +44,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public chatService: ChatService,
-              private cd: ChangeDetectorRef) {}
+              private cd: ChangeDetectorRef) {
+  }
 
   sendMessageButtonFocus(event) {
     this.messageInput.getElementRef().nativeElement.children[0].focus();
@@ -74,7 +75,10 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.messagesSub = messagesQueryObservable.subscribe(({ data }) => {
+      this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
+        if (loading) {
+          return;
+        }
         if (data.messages === null) {
           this.router.navigate(['channel-not-found']);
           return;
@@ -119,11 +123,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   isLoadMoreNeeded() {
     const scrollValue = this.scrollValue;
-    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER ;
+    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER;
   }
 
   loadMoreMessages() {
-      return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
+    return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
   }
 
   scrollValueChanged(scrollValue) {
@@ -132,7 +136,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       this.isLoadingMore = true;
       this.keepIndexOnItemsChange = true;
       this.loadMoreMessages().then(() => {
-          this.isLoadingMore = false;
+        this.isLoadingMore = false;
       });
     }
   }
