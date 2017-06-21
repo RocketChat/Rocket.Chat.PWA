@@ -69,6 +69,7 @@ export class ChatService {
     this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
       query: messagesQuery,
       variables: messagesQueryVariables,
+      fetchPolicy: 'cache-and-network',
     });
 
     return this.messagesQueryObservable.do(({ data }) => {
@@ -138,7 +139,8 @@ export class ChatService {
       variables: {
         name,
         isDirect
-      }
+      },
+      fetchPolicy: 'cache-and-network',
     });
   }
 

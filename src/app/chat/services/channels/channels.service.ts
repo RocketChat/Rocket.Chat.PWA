@@ -16,7 +16,11 @@ export class ChannelsService {
       userId: user.id
     };
 
-    return this.apollo.watchQuery<MyChannelsQuery.Result>({query: myChannelsQuery, variables});
+    return this.apollo.watchQuery<MyChannelsQuery.Result>({
+      query: myChannelsQuery,
+      variables,
+      fetchPolicy: 'cache-and-network',
+    });
   }
 
 }
