@@ -40,6 +40,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public isLoadingMore;
   public keepIndexOnItemsChange = false;
   public scrollItems: any;
+  public loadingMessages = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -76,13 +77,17 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       );
 
       this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
-        if (loading) {
+        this.loadingMessages = loading;
+        if (this.loadingMessages) {
+          this.cd.markForCheck();
           return;
         }
+
         if (data.messages === null) {
           this.router.navigate(['channel-not-found']);
           return;
         }
+
         this.messages = data.messages.messagesArray;
 
         if (this.isFirstLoad) {
@@ -92,9 +97,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
           this.scrollToBottom();
         }
+
         if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
           this.scrollToBottom();
         }
+
         this.cd.markForCheck();
       });
       this.cd.markForCheck();
