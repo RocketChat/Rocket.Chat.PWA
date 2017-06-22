@@ -1,8 +1,5 @@
-import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-  ViewEncapsulation
-} from '@angular/core';
-import {  Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { UserFields } from '../../graphql/types/types';
 import { ChannelsService } from '../services/channels/channels.service';
@@ -29,16 +26,19 @@ export class MainSidenavComponent implements OnInit {
   constructor(private router: Router,
               private menuCtrl: MenuController,
               private authenticationService: AuthenticationService,
-              private myChannelService: ChannelsService) {}
+              private myChannelService: ChannelsService) {
+  }
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUser();
 
     this.directChannels = this.myChannelService.getMyChannels()
+      .filter(result => !result.loading)
       .map(result => result.data.channelsByUser.filter(channel => channel.direct))
       .do(channels => this.directChannelsNum = channels.length);
 
     this.channels = this.myChannelService.getMyChannels()
+      .filter(result => !result.loading)
       .map(result => result.data.channelsByUser.filter(channel => !channel.direct))
       .do(channels => this.channelsNum = channels.length);
 
@@ -48,8 +48,8 @@ export class MainSidenavComponent implements OnInit {
     await this.authenticationService.logout();
     this.router.navigate(['login']);
   }
-  
-  closeSideNav(){
+
+  closeSideNav() {
     this.menuCtrl.close();
   }
 }
