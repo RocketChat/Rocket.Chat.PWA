@@ -1,5 +1,6 @@
 .channel-item {
   display: flex;
+  height: 40px;
   justify-content: space-between;
   font-size: 1em;
   padding: 0 5px;
@@ -41,4 +42,11 @@
 
 .title-container{
   width: 150px;
+}
+
+.channel-buttons{
+  display: flex;
+  width: 50px;
+  align-items: center;
+  justify-content: space-between;
 }

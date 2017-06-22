@@ -17,6 +17,13 @@
 
 .home-menu-footer {
   background-color: #04436a;
+  display: flex;
+  justify-content: center;
+}
+
+.logout-button {
+  background-color: #04436a;
+  width: 100%;
 }
 
 .menu-item {
