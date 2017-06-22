@@ -2,7 +2,7 @@
   background-color: rgb(200, 200, 200);
 }
 
-.menu-icon-button{
+.menu-icon-button {
   @media screen and (min-width: 767px) {
     display: none;
   }
@@ -11,7 +11,6 @@
 .message-row {
   display: flex;
 }
-
 
 .send-button {
   background: #f4f4f4;
@@ -25,7 +24,7 @@
   width: 100%;
 }
 
-.loading-more-spinner{
+.loading-more-spinner {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -33,7 +32,7 @@
   height: 66px;
 }
 
-.loading-spinner-container{
+.loading-spinner-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -41,7 +40,7 @@
   height: 100%;
 }
 
-.loading-spinner{
+.loading-spinner {
   width: 100px;
   height: 100px;
 }
@@ -53,4 +52,8 @@ virtual-scroll,
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.message-input {
+  display: flex;
 }
