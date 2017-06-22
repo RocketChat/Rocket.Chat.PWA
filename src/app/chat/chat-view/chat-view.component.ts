@@ -34,7 +34,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   private messagesSub;
   public model = { message: undefined };
   private chatContentScrollSubscription;
-  private isFirstLoad = true;
+  public isFirstLoad = true;
   public messages;
   private scrollValue: ChangeEvent;
   public isLoadingMore;
