@@ -25,12 +25,25 @@
   width: 100%;
 }
 
-.loading-spinner{
+.loading-more-spinner{
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
   height: 66px;
+}
+
+.loading-spinner-container{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-spinner{
+  width: 100px;
+  height: 100px;
 }
 
 virtual-scroll,

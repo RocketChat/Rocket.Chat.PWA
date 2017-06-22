@@ -22,28 +22,31 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 })
 export class ChatViewComponent implements OnInit, OnDestroy {
 
-  private readonly PAGE_MESSAGE_COUNT = 100;
-  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
-
   @ViewChild('chatContent') chatContent: any;
   @ViewChild(VirtualScrollComponent) virtualScroll: VirtualScrollComponent;
   @ViewChild('messageInput') messageInput: any;
+
+  private readonly PAGE_MESSAGE_COUNT = 100;
+  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
 
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
   private messagesSub;
   public model = { message: undefined };
   private chatContentScrollSubscription;
-  private isFirstLoad = true;
+  public isFirstLoad = true;
   public messages;
   private scrollValue: ChangeEvent;
-  private isLoadingMore;
-  private keepIndexOnItemsChange = false;
+  public isLoadingMore;
+  public keepIndexOnItemsChange = false;
+  public scrollItems: any;
+  public loadingMessages = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public chatService: ChatService,
-              private cd: ChangeDetectorRef) {}
+              private cd: ChangeDetectorRef) {
+  }
 
   sendMessageButtonFocus(event) {
     this.messageInput.getElementRef().nativeElement.children[0].focus();
@@ -73,11 +76,18 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.messagesSub = messagesQueryObservable.subscribe(({ data }) => {
+      this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
+        this.loadingMessages = loading;
+        if (this.loadingMessages) {
+          this.cd.markForCheck();
+          return;
+        }
+
         if (data.messages === null) {
           this.router.navigate(['channel-not-found']);
           return;
         }
+
         this.messages = data.messages.messagesArray;
 
         if (this.isFirstLoad) {
@@ -87,9 +97,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
           this.scrollToBottom();
         }
+
         if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
           this.scrollToBottom();
         }
+
         this.cd.markForCheck();
       });
       this.cd.markForCheck();
@@ -118,11 +130,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   isLoadMoreNeeded() {
     const scrollValue = this.scrollValue;
-    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER ;
+    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER;
   }
 
   loadMoreMessages() {
-      return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
+    return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
   }
 
   scrollValueChanged(scrollValue) {
@@ -131,7 +143,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       this.isLoadingMore = true;
       this.keepIndexOnItemsChange = true;
       this.loadMoreMessages().then(() => {
-          this.isLoadingMore = false;
+        this.isLoadingMore = false;
       });
     }
   }

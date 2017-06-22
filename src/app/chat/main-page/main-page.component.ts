@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { MenuController } from 'ionic-angular';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../../shared/services/authentication.service';
 import { PushNotificationsService } from '../../shared/services/push-notifications.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,8 +13,6 @@ export class MainPageComponent implements AfterViewInit {
   private readonly TIME_TO_REQUEST_PUSH = 5000;
 
   constructor(private menuCtrl: MenuController,
-              private router: Router,
-              private authenticationService: AuthenticationService,
               private pushService: PushNotificationsService) {
   }
 
@@ -27,7 +23,7 @@ export class MainPageComponent implements AfterViewInit {
   }
 
   modifySidenavToSize() {
-    if (window.outerWidth < 767) {
+    if (window.innerWidth < 767) {
       if (!this.menuCtrl.isEnabled()) {
         this.menuCtrl.enable(true);
       }

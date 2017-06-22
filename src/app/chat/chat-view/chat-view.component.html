@@ -8,6 +8,10 @@
 </ion-header>
 <ion-content>
   <div class="message-scroller">
+    <div class="loading-spinner-container" *ngIf="loadingMessages && isFirstLoad">
+      <ion-spinner class="loading-spinner"></ion-spinner>
+    </div>
+
     <virtual-scroll
       [items]="messages"
       [childHeight]="66"
@@ -15,8 +19,8 @@
       (update)="scrollItems = $event"
       (change)="scrollValueChanged($event)">
 
-      <div class="loading-spinner" *ngIf="isLoadingMore">
-        <ion-spinner name="bubbles" ></ion-spinner>
+      <div class="loading-more-spinner" *ngIf="isLoadingMore">
+        <ion-spinner name="bubbles"></ion-spinner>
       </div>
 
       <ion-item *ngFor="let message of scrollItems" no-lines>

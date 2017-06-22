@@ -69,10 +69,11 @@ export class ChatService {
     this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
       query: messagesQuery,
       variables: messagesQueryVariables,
+      fetchPolicy: 'cache-and-network',
     });
 
-    return this.messagesQueryObservable.do(({ data }) => {
-      if (data.messages) {
+    return this.messagesQueryObservable.do(({ data, loading}) => {
+      if (!loading && data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {
           this.noMoreToLoad = true;
@@ -138,7 +139,8 @@ export class ChatService {
       variables: {
         name,
         isDirect
-      }
+      },
+      fetchPolicy: 'cache-and-network',
     });
   }
 

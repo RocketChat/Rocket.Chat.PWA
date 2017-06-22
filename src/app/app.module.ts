@@ -10,33 +10,40 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 import { ChatModule } from './chat/chat.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginPageComponent } from './shared/components/login-page/login-page.component';
+import { offlineCheck } from './shared/common/offline';
+import { reduxPersist } from './shared/common/store';
 
-export function resumeAccountSession(auth: AuthenticationService): () => Promise<any>  {
-  return (): Promise<any> => auth.resumeSession();
+export function initializer(auth: AuthenticationService): () => Promise<any> {
+  return async () => {
+    await reduxPersist();
+    await offlineCheck();
+    await auth.resumeSession();
+  };
 }
 
 @NgModule({
-  declarations : [
+  declarations: [
     AppComponent,
     LoginPageComponent,
     PageNotFoundComponent,
   ],
-  imports : [
+  imports: [
     BrowserModule,
     SharedModule,
     ChatModule,
     AppRouting,
   ],
-  providers : [
+  providers: [
     AuthGuard,
     AuthenticationService,
     {
-      provide : APP_INITIALIZER,
-      useFactory : resumeAccountSession,
-      multi : true,
-      deps : [AuthenticationService]
-    }],
-  bootstrap : [IonicApp]
+      provide: APP_INITIALIZER,
+      useFactory: initializer,
+      multi: true,
+      deps: [AuthenticationService]
+    }
+  ],
+  bootstrap: [IonicApp]
 })
 export class AppModule {
 }
