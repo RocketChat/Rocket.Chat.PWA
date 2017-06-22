@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { getAccountsClient } from './accounts-client';
 import { AuthorizationMiddleware } from './authorization-middleware';
 import { UserFields } from '../../graphql/types/types';
+import { getPersistor } from '../common/store';
+import { getApolloClient } from '../../graphql/client/apollo-client';
 
 
 @Injectable()
@@ -20,8 +22,14 @@ export class AuthenticationService {
     });
   }
 
+  private cleanCache() {
+    getPersistor().purge();
+    getApolloClient().resetStore();
+  }
+
   async resumeSession() {
     if (Offline.state === 'up') {
+      this.cleanCache();
       this.triedToResumeSession = true;
       try {
         await this.accountsClient.loadTokensFromStorage();
@@ -36,6 +44,7 @@ export class AuthenticationService {
 
   async refreshWithNewTokens(accessToken, refreshToken) {
     try {
+      this.cleanCache();
       await this.accountsClient.storeTokens({ accessToken, refreshToken });
       await this.accountsClient.loadTokensFromStorage();
       await this.accountsClient.refreshSession();
@@ -56,12 +65,14 @@ export class AuthenticationService {
   }
 
   async login(username: string, password: string): Promise<any> {
+    this.cleanCache();
     await this.accountsClient.loginWithPassword(username, password);
     await this.setAuthMiddlewareToken();
     return;
   }
 
   async logout() {
+    this.cleanCache();
     AuthorizationMiddleware.removeToken();
     return this.accountsClient.logout();
   }

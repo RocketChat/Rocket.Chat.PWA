@@ -25,7 +25,6 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginService.cleanCache();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     const accessToken = this.route.snapshot.queryParams['access_token'];
     const service = this.route.snapshot.queryParams['service'];
