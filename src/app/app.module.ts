@@ -6,10 +6,7 @@ import { HttpModule,JsonpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
-import {AuthService} from './shared/REALtime API/auth/auth.service';
-import {WebsocketService} from './shared/websocket/websocket.service';
-import {UserService} from "./shared/REALtime API/user/user.service";
-import {OtherService} from "./shared/REALtime API/other/other.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +18,7 @@ import {OtherService} from "./shared/REALtime API/other/other.service";
     FormsModule,
     HttpModule,JsonpModule
   ],
-  providers: [AuthService, WebsocketService, UserService, OtherService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

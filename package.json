@@ -22,6 +22,7 @@
     "@angular/router": "^4.0.0",
     "@types/socket.io-client": "^1.4.29",
     "core-js": "^2.4.1",
+    "rocket.chat.realtime.api.rxjs": "0.0.2",
     "rxjs": "^5.1.0",
     "sha256": "^0.2.0",
     "socket.io-client": "^2.0.2",

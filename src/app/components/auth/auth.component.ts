@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import { RealTimeAPI } from 'rocket.chat.realtime.api.rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -6,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
 
+  }
+  logIn(){
   }
 
 }
