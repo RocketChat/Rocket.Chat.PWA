@@ -20,7 +20,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/@covalent/core/common/platform.scss",
+        "rctheme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -51,7 +53,7 @@
       "config": "./karma.conf.js"
     }
   },
-  
+
   "defaults": {
     "styleExt": "css",
     "component": {}
