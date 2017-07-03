@@ -3,13 +3,13 @@
 
 @include mat-core();
 
-$primary: mat-palette($mat-orange, 800);
-$accent:  mat-palette($mat-light-blue, 600, A100, A400);
+$primary: mat-palette(#04436a);
+$accent:  mat-palette(#416e98,#001d3f);
 
 // The warn palette is optional (defaults to red).
-$warn:    mat-palette($mat-red, 600);
+//$warn:    mat-palette($mat-red, 600);
 
-$theme: mat-light-theme($primary, $accent, $warn);
+$theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 @include covalent-theme($theme);
