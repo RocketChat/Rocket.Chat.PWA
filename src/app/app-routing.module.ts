@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Routes, RouterModule} from '@angular/router';
 
-import { AppRoutingRoutingModule } from './app-routing-routing.module';
+const routes: Routes [
+    { path: 'signin', component: SigninComponent }
+    /*{path: ''},
+    { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
+    { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
+    { path: '**', redirectTo: 'not-found' }*/
+];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AppRoutingRoutingModule
-  ],
-  declarations: []
+  imports: [ RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
