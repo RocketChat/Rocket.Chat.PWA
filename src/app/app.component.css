@@ -1,5 +1,7 @@
 /*class for aligning center*/
-.align-center{
-    text-align: center;
-    
+.bg {
+  display: flex;
+  background-color: #04436a;
+  width: 100%;
+  height: 100%;
 }
