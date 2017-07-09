@@ -73,7 +73,7 @@ export class ChatService {
     });
 
     return this.messagesQueryObservable.do(({ data, loading}) => {
-      if (!loading && data.messages) {
+      if (!loading && data && data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {
           this.noMoreToLoad = true;

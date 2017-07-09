@@ -77,7 +77,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       );
 
       this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
-        this.loadingMessages = loading;
+        this.loadingMessages = loading && !data;
         if (this.loadingMessages) {
           this.cd.markForCheck();
           return;

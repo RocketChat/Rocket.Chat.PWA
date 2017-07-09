@@ -33,12 +33,12 @@ export class MainSidenavComponent implements OnInit {
     this.user = this.authenticationService.getUser();
 
     this.directChannels = this.myChannelService.getMyChannels()
-      .filter(result => !result.loading)
+      .filter(result => !!result.data && !!result.data.channelsByUser)
       .map(result => result.data.channelsByUser.filter(channel => channel.direct))
       .do(channels => this.directChannelsNum = channels.length);
 
     this.channels = this.myChannelService.getMyChannels()
-      .filter(result => !result.loading)
+      .filter(result => !!result.data && !!result.data.channelsByUser)
       .map(result => result.data.channelsByUser.filter(channel => !channel.direct))
       .do(channels => this.channelsNum = channels.length);
 
