@@ -1,5 +1,47 @@
 
-.login-card {
-  width:500px;
-  height: 500px;
+.container {
+  background-color: #04436b;
+  height:100vh;
+}
+.rcimage {
+  max-width:90%;
+}
+.mid {
+  text-align: center;
+}
+.input-field {
+  width: 90%;
+  padding: 10px;
+}
+.input-div {
+  margin-top: 10px;
+}
+.login-card{
+    max-width: 100%;
+}
+.white-text {
+  color: #ffffff !important;
+}
+
+.facebook {
+  background-color: #3b5998;
+}
+.twitter {
+  background-color: #1da1f2;
+}
+.github {
+  background-color: #333;
+}
+.google-plus {
+  background-color: #dd4b39;
+}
+.meteor {
+  background-color: #de4f4f;
+}
+.gitlab {
+  background-color: #373d47;
+}
+
+.linkedin {
+  background-color: #0077B5;
 }

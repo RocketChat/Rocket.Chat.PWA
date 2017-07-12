@@ -1,10 +1,32 @@
-<div class="login-card-container">
-  <md-card class="login-card">
-      <md-card-header>
-        <md-card-title>Login</md-card-title>
-      </md-card-header>
-    <md-card-content>
+<div fxLayout="column" fxLayoutAlign="center center" class="container">
+      <img class="rcimage" src="../../assets/images/rc-with-title.svg" />
+      <md-card class="login-card">
 
-    </md-card-content>
-  </md-card>
-</div>
+        <md-card-content>
+          <div class="social">
+            <button class="facebook" md-mini-fab><md-icon class="white-text" svgIcon="facebook"></md-icon></button>
+            <button class="twitter" md-mini-fab><md-icon class="white-text" svgIcon="twitter"></md-icon></button>
+            <button class="github" md-mini-fab><md-icon class="white-text" svgIcon="github"></md-icon></button>
+            <button class="google-plus" md-mini-fab><md-icon class="white-text" svgIcon="google-plus"></md-icon></button>
+            <button class="gitlab" md-mini-fab><md-icon svgIcon="gitlab"></md-icon></button>
+            <button class="meteor" md-mini-fab><md-icon class="white-text" svgIcon="meteor"></md-icon></button>
+            <button class="linkedin" md-mini-fab><md-icon class="white-text" svgIcon="linkedin"></md-icon></button>
+          </div>
+          <div class="input-div">
+          <md-input-container class="input-field">
+            <input mdInput placeholder="Email or Username" type="email" />
+          </md-input-container><br>
+          <md-input-container class="input-field">
+            <input mdInput placeholder="Password" type="password" />
+          </md-input-container>
+          </div>
+          <md-card-actions align="center">
+          <button color="primary" md-raised-button>Login</button>
+            <button md-raised-button class="end">Sign Up</button>
+          </md-card-actions>
+           </md-card-content>
+      </md-card>
+
+    </div>
+
+
