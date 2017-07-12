@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 // covalent modules
 import {CovalentLayoutModule, CovalentStepsModule} from '@covalent/core';
-import { HostnameComponent } from './hostname/hostname.component';
+
 
 
 // routes
@@ -31,7 +31,6 @@ import { HostnameComponent } from './hostname/hostname.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HostnameComponent
   ],
   imports: [
     BrowserModule,

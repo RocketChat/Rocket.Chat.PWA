@@ -22,7 +22,9 @@
 .white-text {
   color: #ffffff !important;
 }
-
+.button-color {
+  color: #423F3F;
+}
 .facebook {
   background-color: #3b5998;
 }
