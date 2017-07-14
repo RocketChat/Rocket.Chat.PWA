@@ -1,3 +1,81 @@
-<p>
-  layout works!
-</p>
+<md-toolbar color="primary" class="navbar">
+  <button md-icon-button color="primary" (click)="sidenav.toggle()"><md-icon><span class="white-text">menu</span></md-icon></button>
+  <span style="margin-left: 10px">Rocket.Chat</span>
+  <span class="app-toolbar-filler"></span>
+  <button md-icon-button class="side-button">
+    <md-icon class="search-button">search</md-icon>
+  </button>
+  <button md-icon-button [mdMenuTriggerFor]="menu" class="side-button">
+    <md-icon class="menu-button">more_vert</md-icon>
+  </button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item>
+      <md-icon>info_outline</md-icon>
+      <span>Room Info</span>
+    </button>
+    <button md-menu-item (click)="foo()">
+      <md-icon>account_circle</md-icon>
+      <span>User Info</span>
+    </button>
+    <button md-menu-item (click)="foo()">
+      <md-icon>notifications</md-icon>
+      <span>Notifications</span>
+    </button>
+    <button md-menu-item (click)="foo()">
+      <md-icon>attach_file</md-icon>
+      <span>Files List</span>
+    </button>
+    <button md-menu-item (click)="foo()">
+    <md-icon>star_rate</md-icon>
+    <span>Starred Messages</span>
+    </button>
+    <button md-menu-item (click)="foo()">
+      <md-icon>settings</md-icon>
+      <span>Settings</span>
+    </button>
+  </md-menu>
+</md-toolbar>
+<!--sidenav-->
+  <md-sidenav-container fullscreen style="top: 64px !important;">
+
+    <md-sidenav [mode]="media.isActive('lg') ? 'side' : 'push'" [opened]="media.isActive('lg') ? true : false"
+                #sidenav
+                class="example-sidenav"
+                style="width: 240px; box-shadow: 3px 0 6px rgba(0,0,0,.24);">
+      <h3 md-subheader class="sidebar-header sidebar-title">Home</h3>
+      <md-list style="padding-top: 0;">
+        <md-list-item routerLink="/home" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
+          <a class="navbar-link">Dashboard</a>
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+      <h3 class="sidebar-header sidebar-title" md-subheader>Components</h3>
+      <md-list style="padding-top: 0;">
+        <md-list-item class="sidebar-list-item" routerLink="/gallery" routerLinkActive="sidebar-list-item-active">
+          <a class="navbar-link">Gallery</a>
+        </md-list-item>
+        <md-list-item routerLink="/dialog" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
+          <a class="navbar-link">Dialog</a>
+        </md-list-item>
+        <md-list-item routerLink="buttons" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
+          <a class="navbar-link">Buttons</a>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+
+    <div class="layout">
+      <router-outlet></router-outlet>
+      <div class="msg-box">
+      <md-card class="msg-card mat-elevation-z2">
+
+      <md-input-container class="full-width">
+        <textarea mdInput mdTextareaAutosize md-autosize></textarea>
+      </md-input-container>
+        <button md-mini-fab color="primary" class="send-button"><md-icon>send</md-icon></button>
+
+      </md-card>
+      </div>
+    </div>
+
+  </md-sidenav-container>
+

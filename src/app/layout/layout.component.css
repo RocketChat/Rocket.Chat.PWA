@@ -1,0 +1,26 @@
+.white-text {
+  color: #ffffff;
+}
+.app-toolbar-filler {
+  flex:1 1 auto;
+}
+.msg-box {
+  width: 100%;
+  align-self: flex-end;
+}
+.msg-card {
+  display: flex;
+  direction: row;
+}
+.full-width{
+  padding-left: 1%;
+  flex-grow: 1;
+}
+.send-button {
+  margin: 1%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
