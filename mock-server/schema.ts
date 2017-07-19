@@ -4,7 +4,7 @@ import { mocks, subscriptionResolver } from './mocks';
 
 /* tslint:disable */
 export const schema = `
-type scheme {
+type schema {
   query: Query
   mutation: Mutation
   subscription: Subscription

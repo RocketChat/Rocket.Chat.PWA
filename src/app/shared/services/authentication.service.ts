@@ -66,7 +66,7 @@ export class AuthenticationService {
 
   async login(username: string, password: string): Promise<any> {
     this.cleanCache();
-    await this.accountsClient.loginWithPassword(username, password);
+    await this.accountsClient.loginWithPassword({ username }, password);
     await this.setAuthMiddlewareToken();
     return;
   }
