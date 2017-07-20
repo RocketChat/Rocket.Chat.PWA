@@ -6,12 +6,13 @@ import {MdInputModule, MdIconModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+import { WebsocketService} from  './shared/websocket/websocket.service';
 // covalent modules
 import {CovalentLayoutModule, CovalentStepsModule} from '@covalent/core';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -20,8 +21,8 @@ import {CovalentLayoutModule, CovalentStepsModule} from '@covalent/core';
     HttpModule, JsonpModule,
     CovalentLayoutModule, CovalentStepsModule, MdInputModule, MdIconModule, BrowserAnimationsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [WebsocketService],
+  bootstrap: [AppComponent,]
 })
 export class AppModule {
   constructor(){

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LoginComponent} from './login.component';
-import {MdCardModule, MdInputModule, MdButtonModule, MdIconModule, MdIconRegistry } from '@angular/material';
+import {MdCardModule, MdInputModule, MdButtonModule, MdSnackBarModule, MdIconModule, MdIconRegistry } from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FlexLayoutModule,} from '@angular/flex-layout'
 import { LoginRoutingModule } from './login-routing.module';
@@ -12,7 +12,7 @@ import { LoginRoutingModule } from './login-routing.module';
     LoginRoutingModule,
     MdCardModule, MdInputModule,
     MdButtonModule, MdIconModule,
-    FlexLayoutModule,
+    FlexLayoutModule, MdSnackBarModule
 
   ],
   declarations: [LoginComponent]

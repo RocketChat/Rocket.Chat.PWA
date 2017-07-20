@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SignupComponent} from './signup.component';
-import {MdCardModule, MdInputModule, MdButtonModule, MdIconModule, MdIconRegistry } from '@angular/material';
+import {
+  MdCardModule, MdSnackBar, MdInputModule, MdButtonModule, MdIconModule, MdIconRegistry,
+  MdSnackBarModule
+} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {FlexLayoutModule, } from '@angular/flex-layout'
 import { SignupRoutingModule } from './signup-routing.module';
@@ -12,7 +15,7 @@ import { SignupRoutingModule } from './signup-routing.module';
     SignupRoutingModule,
     MdCardModule, MdInputModule,
     MdButtonModule, MdIconModule,
-    FlexLayoutModule,
+    FlexLayoutModule, MdSnackBarModule
   ],
   declarations: [SignupComponent]
 })

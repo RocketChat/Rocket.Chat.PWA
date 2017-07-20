@@ -11,14 +11,6 @@ export class AppComponent {
 
   constructor( ) {
 
-     const realTimeApi =  new RealTimeAPI('wss://demo.rocket.chat/websocket');
-     realTimeApi.connectToServer();
-    realTimeApi.keepAlive();
-    const track = realTimeApi.getSubscription('stream-notify-all', 'updateAvatar', false);
-    const auth = realTimeApi.login('namantesting', 'namantesting');
-    track.subscribe((data) => console.log(JSON.stringify(data)),
-      (err) => console.log(err),
-      () => console.log('completed'));
   }
 
 

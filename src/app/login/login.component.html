@@ -14,14 +14,14 @@
           </div>
           <div class="input-div">
           <md-input-container class="input-field">
-            <input mdInput placeholder="Email or Username" type="email" />
+            <input #username mdInput placeholder="Email or Username" type="email" />
           </md-input-container><br>
           <md-input-container class="input-field">
-            <input mdInput placeholder="Password" type="password" />
+            <input #password mdInput placeholder="Password" type="password" />
           </md-input-container>
           </div>
           <md-card-actions align="center">
-            <a routerLink="." ><button color="primary" md-raised-button>Login</button></a>
+            <a routerLink="." ><button color="primary" md-raised-button (click)="logIn(username.value,password.value)">Login</button></a>
             <a routerLink="/signup"> <button md-raised-button> <span class="button-color">Sign Up</span></button></a>
           </md-card-actions>
            </md-card-content>

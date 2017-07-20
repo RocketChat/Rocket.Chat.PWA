@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import {WebsocketService} from '../shared/websocket/websocket.service';
+import {MdSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _ws:  WebsocketService, private snackBar: MdSnackBar, private router: Router) { }
 
   ngOnInit() {
   }
 
+
+  registerUser(name: string, email: string, passwordone: string, passwordtwo:string) {
+    this._ws.signUp(name, email, passwordone, passwordtwo).subscribe(
+      (data) => {
+        console.log(data);
+        this.snackBar.open(data, 'Ok',{
+          duration:2000
+        });
+        this.router.navigate(['/app']);
+
+      },
+      (err) => console.log(err),
+      () => {
+        console.log('Completed');
+        }
+    );
+  }
 }

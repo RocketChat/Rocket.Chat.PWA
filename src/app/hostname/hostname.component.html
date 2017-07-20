@@ -5,13 +5,13 @@
     <md-card-content>
       <div class="input-div">
         <md-input-container class="input-field">
-          <input mdInput placeholder="Your Hostname" type="url" name="demo.rocket.chat"/>
+          <input mdInput #hostname placeholder="Your Hostname" type="url" name="demo.rocket.chat" autocomplete="true" id="hostname"/>
           <md-hint align="start"><strong style="color:#04436b">Ex: demo.rocket.chat</strong> </md-hint>
         </md-input-container>
 
       </div><br>
       <md-card-actions align="center">
-        <a md-mini-fab routerLink="/login" color="primary"><md-icon>check</md-icon></a>
+        <a md-mini-fab routerLink="/login" color="primary" (click)="loadhostname(hostname.value)"><md-icon>check</md-icon></a>
       </md-card-actions>
     </md-card-content>
   </md-card>

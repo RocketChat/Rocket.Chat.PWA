@@ -1,4 +1,6 @@
-<md-toolbar color="primary" class="navbar">
+<div class="screen-container">
+<div class="toolbar-shadow mat-elevation-z4">
+<md-toolbar color="primary">
   <button md-icon-button color="primary" (click)="sidenav.toggle()"><md-icon><span class="white-text">menu</span></md-icon></button>
   <span style="margin-left: 10px">Rocket.Chat</span>
   <span class="app-toolbar-filler"></span>
@@ -6,7 +8,7 @@
     <md-icon class="search-button">search</md-icon>
   </button>
   <button md-icon-button [mdMenuTriggerFor]="menu" class="side-button">
-    <md-icon class="menu-button">more_vert</md-icon>
+    <md-icon mdTooltip="More Option" class="menu-button">more_vert</md-icon>
   </button>
   <md-menu #menu="mdMenu">
     <button md-menu-item>
@@ -35,47 +37,50 @@
     </button>
   </md-menu>
 </md-toolbar>
+</div>
+
 <!--sidenav-->
-  <md-sidenav-container fullscreen style="top: 64px !important;">
+
+  <md-sidenav-container fullscreen style="top: 64px !important;" class="sidenav-class" >
 
     <md-sidenav [mode]="media.isActive('lg') ? 'side' : 'push'" [opened]="media.isActive('lg') ? true : false"
                 #sidenav
-                class="example-sidenav"
-                style="width: 240px; box-shadow: 3px 0 6px rgba(0,0,0,.24);">
-      <h3 md-subheader class="sidebar-header sidebar-title">Home</h3>
-      <md-list style="padding-top: 0;">
-        <md-list-item routerLink="/home" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
-          <a class="navbar-link">Dashboard</a>
-        </md-list-item>
-      </md-list>
+                class="sidenav-container"
+                style="width: 240px; box-shadow: 3px 0 6px rgba(0,0,0,.24);background-color: #04436b"
+                >
+      <div class="channel-header">
+      <h3 md-subheader class="sidebar-header sidebar-title channel-name"><span style="padding-left: 4px;color: #759cb3"> Channels</span></h3>
+      <button md-icon-button mdTooltip="Create Channel" color="primary" class="addbutton" (click)="openDialog()" ><md-icon><span class="white-text">add</span></md-icon></button>
+      </div>
       <md-divider></md-divider>
-      <h3 class="sidebar-header sidebar-title" md-subheader>Components</h3>
-      <md-list style="padding-top: 0;">
-        <md-list-item class="sidebar-list-item" routerLink="/gallery" routerLinkActive="sidebar-list-item-active">
-          <a class="navbar-link">Gallery</a>
-        </md-list-item>
-        <md-list-item routerLink="/dialog" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
-          <a class="navbar-link">Dialog</a>
-        </md-list-item>
-        <md-list-item routerLink="buttons" routerLinkActive="sidebar-list-item-active" class="sidebar-list-item">
-          <a class="navbar-link">Buttons</a>
-        </md-list-item>
+      <md-list style="padding-top: 0;" class="channels-list">
+        <a #channellist md-list-item href="." >{{ link | async}}</a>
       </md-list>
     </md-sidenav>
-
-    <div class="layout">
-      <router-outlet></router-outlet>
-      <div class="msg-box">
-      <md-card class="msg-card mat-elevation-z2">
-
-      <md-input-container class="full-width">
-        <textarea mdInput mdTextareaAutosize md-autosize></textarea>
-      </md-input-container>
-        <button md-mini-fab color="primary" class="send-button"><md-icon>send</md-icon></button>
-
-      </md-card>
-      </div>
+    <!--<router-outlet></router-outlet>-->
+    <div class="chat-layout">
+    <md-card class="main-card">
+      <md-card-content class="card-content">
+      <md-list class="chat-container">
+        <md-list-item *ngFor="let message of messages">
+          <img md-list-avatar src="{{message.from.avatar}}">
+          <h2 md-line> <b>{{message.from.name}} </b> </h2>
+          <p md-line>
+            <span> {{message.content}} </span>
+          </p>
+        </md-list-item>
+      </md-list>
+      </md-card-content>
+    </md-card>
+        <div class="msg-box">
+          <md-card class="msg-card mat-elevation-z2">
+            <md-input-container class="full-width">
+              <textarea mdInput mdTextareaAutosize md-autosize></textarea>
+            </md-input-container>
+            <button md-mini-fab color="primary" class="send-button"><md-icon>send</md-icon></button>
+          </md-card>
+        </div>
     </div>
 
   </md-sidenav-container>
-
+</div>
