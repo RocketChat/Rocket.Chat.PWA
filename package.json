@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"yarn server\" \"ng serve\" ",
+    "start": "concurrently \"yarn server\" \"yarn app\" ",
     "build": "ng build -prod",
     "build:serve": "ng build --prod --sourcemaps true && yarn serve:dist",
     "serve:dist": "lite-server --baseDir=dist",
@@ -12,12 +12,13 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server": "nodemon --exec ts-node mock-server/index.ts",
+    "app": "ng serve",
     "generate:types": "gql-gen --url http://localhost:3000/graphql --template typescript --out src/app/graphql/types/types.ts -- ./src/app/graphql/queries/*.ts "
   },
   "private": true,
   "dependencies": {
     "@accounts/client": "^0.0.16",
-    "@accounts/graphql-client": "^0.0.9",
+    "@accounts/graphql-client": "^0.1.1",
     "@angular/common": "^4.1.0",
     "@angular/compiler": "^4.1.0",
     "@angular/core": "^4.1.0",
@@ -48,7 +49,7 @@
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
-    "@accounts/graphql-api": "^0.0.9",
+    "@accounts/graphql-api": "^0.1.1",
     "@accounts/mongo": "^0.0.12-0",
     "@accounts/server": "^0.0.17",
     "@angular/cli": "^1.1.0",
@@ -66,9 +67,9 @@
     "express": "^4.15.3",
     "faker": "^4.1.0",
     "graphql": "^0.10.1",
+    "graphql-code-generator": "^0.5.4",
     "graphql-server-express": "^0.7.2",
     "graphql-tools": "^0.11.0",
-    "graphql-code-generator": "^0.5.4",
     "http-server": "^0.10.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
