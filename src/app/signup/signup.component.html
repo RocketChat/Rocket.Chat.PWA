@@ -20,6 +20,9 @@
           <input mdInput #email placeholder="Email" type="email" />
         </md-input-container><br>
         <md-input-container class="input-field">
+          <input mdInput #username placeholder="Username" />
+        </md-input-container><br/>
+        <md-input-container class="input-field">
           <input mdInput #passwordfirst placeholder="Password" type="password" />
         </md-input-container><br/>
         <md-input-container class="input-field">
@@ -27,7 +30,7 @@
         </md-input-container>
       </div>
       <md-card-actions align="center">
-        <button color="primary" md-raised-button (click)="registerUser(name.value,email.value,passwordfirst.value,passwordsecond.value)">Sign Up</button>
+        <button color="primary" md-raised-button (click)="registerUser(name.value,email.value,username.value,passwordfirst.value,passwordsecond.value)">Sign Up</button>
         <button routerLink="/login" md-raised-button ><span class="button-color">Login</span></button>
       </md-card-actions>
     </md-card-content>

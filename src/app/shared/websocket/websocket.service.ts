@@ -39,11 +39,12 @@ export class WebsocketService {
           }
         });
   }
-  signUp(name: string, email: string, passwordone: string, passwordtwo: string){
+  signUp(name: string, email: string, username: string , passwordone: string, passwordtwo: string){
         if (passwordone === passwordtwo){
           const pass = passwordone;
             const params = [{
               'email': email,
+              'username': username,
               'pass': pass,
               'name': name
             }];
