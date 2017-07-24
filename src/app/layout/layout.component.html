@@ -53,7 +53,7 @@
         <button md-icon-button mdTooltip="Create Channel" color="primary" class="addbutton" (click)="openDialog()" ><md-icon><span class="white-text">add</span></md-icon></button>
       </div>
       <md-list style="padding-top: 0;" class="channels-list">
-        <md-list-item class="channel-list-items-container" *ngFor=" let channel of channellist$ | async" (click)="channelnameclicked(channel.rid)" >
+        <md-list-item class="channel-list-items-container" *ngFor=" let channel of channellist$ | async" (click)="openingRooms(channel.rid)" >
             <span class="channel-list-items">{{channel.name}}</span>
         </md-list-item>
       </md-list>

@@ -24,13 +24,8 @@ export class LayoutComponent implements OnInit {
   constructor(public media: ObservableMedia,
               private createchanneldialogue: CreatechannelService,
               private ws: WebsocketService, private snackBar: MdSnackBar) {
-    Observable.of([
-      {name: 'Joe'},
-      {name: 'Bob'},
-      {name: 'Susy'}
-    ]).subscribe((data) => console.log(data));
-    this.channellist$ = this.getSubscription();
 
+      this.channellist$ = this.getSubscription();
   }
   ngOnInit() {
 
@@ -52,11 +47,20 @@ export class LayoutComponent implements OnInit {
         (data) => console.log(data));
   }
 
-  channelnameclicked(name: string) {
-    console.log('main click hua :D' + name);
+  openingRooms(rid: string) {
+    this.ws.getRooms(rid).subscribe((data) => console.log('open room' + JSON.stringify(data)));
+    this.loadingHistory(rid, null , 50,1500939357);
+    this.streamingRoomMessages(rid).subscribe((data) => console.log('stream room message' + JSON.stringify(data)));
+
   }
 
   getSubscription() {
     return this.ws.getsubscription();
+  }
+  streamingRoomMessages(roomId: string){
+      return this.ws.streamRoomMessages(roomId);
+  }
+  loadingHistory(roomid: string, olddate: number, msgquantity: number, newdate: number){
+    return this.ws.loadhistory(roomid, olddate, msgquantity, newdate);
   }
 }

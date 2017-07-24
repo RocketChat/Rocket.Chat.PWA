@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RealTimeAPI } from 'rocket.chat.realtime.api.rxjs';
 import { SHA256 } from 'crypto-js';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class WebsocketService {
@@ -103,7 +103,7 @@ export class WebsocketService {
 
   alternateLogin(user: string, password: string){
     let params: any;
-    if(user.indexOf('@') === -1)
+    if (user.indexOf('@') === -1)
     {
       params = [{
         'user': {
@@ -156,4 +156,22 @@ export class WebsocketService {
      });
   }
 
+  getRooms(roomId: string){
+    const params = [
+      roomId
+    ];
+    return this.realTimeapi.callMethod('openRoom', ...params);
+  }
+  streamRoomMessages(roomId: string){
+    const params = [
+      roomId
+    ];
+    return this.realTimeapi.callMethod('stream-room-messages', ...params);
+  }
+  loadhistory(roomid: string, olddate: number, msgquantity: number, newdate: number){
+    const params = [
+      roomid, olddate, msgquantity, { '$date': newdate
+    }];
+    return this.realTimeapi.callMethod('loadHistory', ...params);
+  }
 }
