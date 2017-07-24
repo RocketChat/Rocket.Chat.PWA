@@ -49,13 +49,18 @@
                 style="width: 240px; box-shadow: 3px 0 6px rgba(0,0,0,.24);background-color: #04436b"
                 >
       <div class="channel-header">
-      <h3 md-subheader class="sidebar-header sidebar-title channel-name"><span style="padding-left: 4px;color: #759cb3"> Channels</span></h3>
-      <button md-icon-button mdTooltip="Create Channel" color="primary" class="addbutton" (click)="openDialog()" ><md-icon><span class="white-text">add</span></md-icon></button>
+        <h3 md-subheader class="sidebar-header sidebar-title channel-name"><span style="padding-left: 4px;color: #759cb3"> Channels</span></h3>
+        <button md-icon-button mdTooltip="Create Channel" color="primary" class="addbutton" (click)="openDialog()" ><md-icon><span class="white-text">add</span></md-icon></button>
       </div>
-      <md-divider></md-divider>
       <md-list style="padding-top: 0;" class="channels-list">
-        <a #channellist md-list-item href="." >{{ link | async}}</a>
+        <md-list-item class="channel-list-items-container" *ngFor=" let channel of channellist$ | async" (click)="channelnameclicked(channel.rid)" >
+            <span class="channel-list-items">{{channel.name}}</span>
+        </md-list-item>
       </md-list>
+
+
+      <md-divider></md-divider>
+
     </md-sidenav>
     <!--<router-outlet></router-outlet>-->
     <div class="chat-layout">

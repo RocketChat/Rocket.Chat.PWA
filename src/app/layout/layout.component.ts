@@ -6,6 +6,9 @@ import {CreatechannelService} from '../shared/createchannelservice/createchannel
 import {CreatechannelComponent} from '../layout/chat/createchannel/createchannel.component';
 import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
+import {Observable} from 'rxjs/Observable';
+import {RoomObject} from '../shared/roomobject/roomobject';
+import 'rxjs/Rx';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -14,42 +17,46 @@ import {MdSnackBar} from '@angular/material';
 export class LayoutComponent implements OnInit {
   @ViewChild('channellist') channellistDOM;
   public messages: Object[] = [];
-  selectedOption: string;
-  public result: any;
-  channellist: any;
-  constructor(public media: ObservableMedia, private createchanneldialogue: CreatechannelService, private ws: WebsocketService, private snackBar: MdSnackBar) {
+  public selectedOption: string;
+  public result: any
+  public channellist$: Observable<any>;
 
-    this.getChannels(0);
+  constructor(public media: ObservableMedia,
+              private createchanneldialogue: CreatechannelService,
+              private ws: WebsocketService, private snackBar: MdSnackBar) {
+    Observable.of([
+      {name: 'Joe'},
+      {name: 'Bob'},
+      {name: 'Susy'}
+    ]).subscribe((data) => console.log(data));
+    this.channellist$ = this.getSubscription();
+
   }
+  ngOnInit() {
+
+  }
+
   openDialog() {
     this.createchanneldialogue.confirm().subscribe(res => this.result = res);
   }
+
   foo() {
     console.log('Foo clicked');
   }
-  ngOnInit() {
+
+
+
+  getChannels(time: number) {
+    this.ws.listChannels(time)
+      .subscribe(
+        (data) => console.log(data));
   }
 
-  getChannels(time: number){
-    this.ws.listChannels(time).subscribe(
-      (data) => {
-        if(data === 'error')
-        {
-          this.snackBar.open('Error Occured ! Try Again','Ok',{
-            duration: 2000
-          });
-        } else {
-          for (let i in data){
-            if(data[i].t === 'c') {
-              this.channellistDOM.nativeElement = data[i].name;
-            }
-          }
-            console.log('Loging result' + JSON.stringify(data[0]));
-        }
-      },
-      (err) => console.error('Error occured in fetching room list'),
-      () => console.log('Fetching list had been completed')
-    );
+  channelnameclicked(name: string) {
+    console.log('main click hua :D' + name);
   }
 
+  getSubscription() {
+    return this.ws.getsubscription();
+  }
 }

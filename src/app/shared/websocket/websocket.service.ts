@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RealTimeAPI } from 'rocket.chat.realtime.api.rxjs';
 import { SHA256 } from 'crypto-js';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class WebsocketService {
@@ -9,7 +10,7 @@ export class WebsocketService {
   }
   connectToHostname(url: string){
     this.realTimeapi = new RealTimeAPI(url);
-    this.realTimeapi.connectToServer();
+    this.realTimeapi.connectToServer().retry(3);
     this.realTimeapi.keepAlive();
   }
   signIn(username: string, password: string){
@@ -28,8 +29,8 @@ export class WebsocketService {
             } else {
               data = data;
             }
-          } else if(data.hasOwnProperty('error')){
-            if(data.error.hasOwnProperty('reason') === true)
+          } else if (data.hasOwnProperty('error')){
+            if (data.error.hasOwnProperty('reason') === true)
             {
               console.log(data.error.reason);
               return data.error.reason;
@@ -44,9 +45,9 @@ export class WebsocketService {
           const pass = passwordone;
             const params = [{
               'email': email,
-              'username': username,
+              'name': name,
               'pass': pass,
-              'name': name
+              'username': username
             }];
            return this.realTimeapi.callMethod('registerUser', ...params)
              .map((data) => {
@@ -54,8 +55,8 @@ export class WebsocketService {
                if (data.hasOwnProperty('result'))
                {
                   return 'Successfully Registered';
-               } else if(data.hasOwnProperty('error')){
-                 if(data.error.hasOwnProperty('reason') === true)
+               } else if (data.hasOwnProperty('error')){
+                 if (data.error.hasOwnProperty('reason') === true)
                  {
                    console.log(data.error.reason);
                    return data.error.reason;
@@ -74,9 +75,11 @@ export class WebsocketService {
           }];
           return this.realTimeapi.callMethod('rooms/get', ...params)
             .map((data) => {
-            if(data.hasOwnProperty('result') === true) {
-              return data.result.update;
-            }else {
+            if (data.hasOwnProperty('result') === true) {
+              for (let i = 0; i < data.result.update.length ; i++) {
+                return JSON.stringify(data.result.update);
+              }
+            } else {
             return 'error';
             }
             });
@@ -95,6 +98,62 @@ export class WebsocketService {
     }
     ];
     return this.realTimeapi.callMethod('sendMessage', ...params);
+  }
+
+
+  alternateLogin(user: string, password: string){
+    let params: any;
+    if(user.indexOf('@') === -1)
+    {
+      params = [{
+        'user': {
+            'username': user
+        },
+        'password': password
+      }];
+    }else {
+      params = [{
+        'user': {
+          'email': user
+        },
+        'password': password
+      }];
+    }
+    return this.realTimeapi.callMethod('login', ...params)
+      .first()
+      .map((data) => {
+        console.log('data' + JSON.stringify(data));
+        if (data.hasOwnProperty('result'))
+        {
+          if (data.result.hasOwnProperty('token') === true)
+          {
+            console.log(data.result.token);
+            localStorage.setItem('token', data.result.token);
+            return 'Logging In..';
+          } else {
+            data = data;
+          }
+        } else if (data.hasOwnProperty('error')){
+          if (data.error.hasOwnProperty('reason') === true)
+          {
+            console.log(data.error.reason);
+            return data.error.reason;
+          } else {
+            data = data;
+          }
+        }
+      });
+  }
+  getsubscription(){
+    const params = [{}];
+   return  this.realTimeapi.callMethod('subscriptions/get', ...params)
+     .map((data) => {
+     if (data.hasOwnProperty('result') === true){
+        return data.result;
+     }else  {
+       return 'Error Occured';
+     }
+     });
   }
 
 }

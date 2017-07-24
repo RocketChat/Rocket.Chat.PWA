@@ -21,9 +21,11 @@ blue-grey-text {
   jutify-content:center;
 }
 .channels-list {
+  list-style-type: none;
   display: flex;
   flex-direction: column;
   text-decoration: none;
+  height: 20px;
   /*border: 2px solid black;*/
 }
 .channel-name {
@@ -73,13 +75,19 @@ blue-grey-text {
 .sidenav-container {
   /*border: 2px red solid;*/
 }
-.channels-list > a {
-  text-decoration: none;
+.channel-list-items-container {
+  display: flex;
+  width: 100%;
 }
-.channels-list > a:hover {
-  text-decoration: none;
-  color: white;
-  background-color: #001d40;
+.channel-list-items-container:hover{
+  cursor: pointer;
+  color:white;
+  background-color: #001d3f;
 }
+.channel-list-items-container::selection {
+  color:deeppink;
+}
+
+
 
 

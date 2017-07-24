@@ -18,11 +18,10 @@ export class LoginComponent implements OnInit {
   }
   logIn(username: string, password: string) {
     console.log(username, password);
-
-    this.loginObs = this._ws.signIn(username, password).subscribe(
+    this.loginObs = this._ws.alternateLogin(username, password).subscribe(
       (data) => {
         console.log(data);
-        this.snackBar.open(data,'Ok',{
+        this.snackBar.open(data, 'Ok' ,{
           duration: 2000
         });
         if(data === 'Logging In..') {
@@ -33,6 +32,7 @@ export class LoginComponent implements OnInit {
       () => console.log('Login completed')
     );
   }
+
   getChannels(time: number) {
     this.channelObs = this._ws.listChannels(time).subscribe(
       (data) => console.log(data),
