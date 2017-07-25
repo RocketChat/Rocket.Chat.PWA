@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "precache": "sw-precache"
+    "precache": "sw-precache --root=dist --verbose"
   },
   "private": true,
   "dependencies": {
