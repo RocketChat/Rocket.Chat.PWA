@@ -48,8 +48,8 @@ export class LayoutComponent implements OnInit {
   }
 
   openingRooms(rid: string) {
-    this.ws.getRooms(rid).subscribe((data) => console.log('open room' + JSON.stringify(data)));
-    this.loadingHistory(rid, null , 50,1500939357);
+    this.ws.openChannel(rid).subscribe((data) => console.log('opening room' + JSON.stringify(data)));
+    this.loadingHistory(rid, null , 50, 1500939357).subscribe((data) => console.log('loading history' + JSON.stringify(data)));
     this.streamingRoomMessages(rid).subscribe((data) => console.log('stream room message' + JSON.stringify(data)));
 
   }
