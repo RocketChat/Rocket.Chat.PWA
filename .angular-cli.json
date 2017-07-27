@@ -21,8 +21,7 @@
       "prefix": "app",
       "styles": [
         "style.scss",
-        "../node_modules/@covalent/core/common/platform.scss",
-        "../node_modules/ngx-toastr/toastr.css"
+        "../node_modules/@covalent/core/common/platform.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
