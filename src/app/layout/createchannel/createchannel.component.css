@@ -1,0 +1,11 @@
+.dialogue-container {
+  width: 400px;
+  height: 400px;
+}
+
+.channel-name {
+  width: 100%;
+}
+.dialogue-content {
+  padding:50px;
+}

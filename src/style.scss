@@ -1,3 +1,70 @@
+$mat-rcblue: (
+  50 : #e1e8ed,
+  100 : #b4c7d3,
+  200 : #82a1b5,
+  300 : #4f7b97,
+  400 : #2a5f81,
+  500 : #04436b,
+  600 : #033d63,
+  700 : #033458,
+  800 : #022c4e,
+  900 : #011e3c,
+  A100 : #72a8ff,
+  A200 : #3f89ff,
+  A400 : #0c6aff,
+  A700 : #005df1,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+$mat-rcaccent: (
+  50 : #fefefe,
+  100 : #fcfcfc,
+  200 : #fafafa,
+  300 : #f7f7f7,
+  400 : #f6f6f6,
+  500 : #f4f4f4,
+  600 : #f3f3f3,
+  700 : #f1f1f1,
+  800 : #efefef,
+  900 : #ececec,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffffff,
+  A700 : #ffffff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 

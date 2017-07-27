@@ -3,7 +3,7 @@ import { FlexLayoutModule} from '@angular/flex-layout';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {CreatechannelService} from '../shared/createchannelservice/createchannel.service';
-import {CreatechannelComponent} from '../layout/chat/createchannel/createchannel.component';
+import {CreatechannelComponent} from '../layout/createchannel/createchannel.component';
 import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
 import {Observable} from 'rxjs/Observable';

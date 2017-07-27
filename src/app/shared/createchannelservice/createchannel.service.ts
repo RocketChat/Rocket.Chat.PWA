@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { CreatechannelComponent } from '../../layout/chat/createchannel/createchannel.component';
+import { CreatechannelComponent } from '../../layout/createchannel/createchannel.component';
 import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
 import { Injectable } from '@angular/core';
 
