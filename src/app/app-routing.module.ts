@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {Routes, RouterModule, CanActivate} from '@angular/router';
+import {AuthgaurdService} from './shared/gaurd/authgaurd.service';
 
 const routes: Routes = [
     { path: '', loadChildren: './hostname/hostname.module#HostnameModule'},

@@ -8,9 +8,19 @@ export class WebsocketService {
   public realTimeapi;
   constructor() {
   }
-  connectToHostname(url: string){
-    this.realTimeapi = new RealTimeAPI(url);
-    this.realTimeapi.connectToServer().retry(3);
+  connectToHostname(url: string) {
+    const newurl = 'wss://' + url + '/websocket';
+    this.realTimeapi = new RealTimeAPI(newurl);
+    this.realTimeapi.connectToServer().retry(3).subscribe(
+      (data) => {
+        console.log(data);
+      if (data.hasOwnProperty('msg') === true){
+        if(data.msg === 'connected') {
+            localStorage.setItem('hostname', url);
+        }
+      }
+      }
+    );
     this.realTimeapi.keepAlive();
   }
   signIn(username: string, password: string){
@@ -24,7 +34,7 @@ export class WebsocketService {
             if (data.result.hasOwnProperty('token') === true)
             {
               console.log(data.result.token);
-                localStorage.setItem('token', data.result.token);
+                localStorage.setItem('auth-token', data.result.token);
                 return 'Logging In..';
             } else {
               data = data;
@@ -173,5 +183,22 @@ export class WebsocketService {
       roomid, olddate, msgquantity, { '$date': newdate
     }];
     return this.realTimeapi.callMethod('loadHistory', ...params);
-  }
+    }
+
+    resumeLogin(authToken: any){
+          const params = [{
+            'resume': authToken
+          }];
+          return this.realTimeapi.callMethod('login', ...params)
+            .first()
+            .map((data) => {
+            if(data.hasOwnProperty('result') === true){
+              if(data.result.hasOwnProperty('token') === true){
+                return 'Success';
+              }else {
+                return 'error';
+              }
+            }
+            });
+    }
 }

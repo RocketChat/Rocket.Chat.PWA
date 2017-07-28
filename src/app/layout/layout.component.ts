@@ -7,6 +7,7 @@ import {CreatechannelComponent} from '../layout/createchannel/createchannel.comp
 import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
 import {RoomObject} from '../shared/roomobject/roomobject';
 import 'rxjs/Rx';
 @Component({
@@ -23,7 +24,8 @@ export class LayoutComponent implements OnInit {
 
   constructor(public media: ObservableMedia,
               private createchanneldialogue: CreatechannelService,
-              private ws: WebsocketService, private snackBar: MdSnackBar) {
+              private ws: WebsocketService, private snackBar: MdSnackBar,
+              private router: Router) {
 
       this.channellist$ = this.getSubscription();
   }
@@ -33,6 +35,10 @@ export class LayoutComponent implements OnInit {
 
   openDialog() {
     this.createchanneldialogue.confirm().subscribe(res => this.result = res);
+  }
+  signout(){
+    localStorage.clear();
+    this.router.navigate(['/']);
   }
 
   foo() {

@@ -1,7 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="container">
   <img class="rcimage" src="../../assets/images/rc-with-title.svg" />
-  <md-card class="hostname-card">
-
+  <md-card class="hostname-card" *ngIf="!authenticated">
     <md-card-content>
       <div class="input-div">
         <md-input-container class="input-field">
@@ -15,6 +14,9 @@
       </md-card-actions>
     </md-card-content>
   </md-card>
+  <div *ngIf="authenticated">
+    <md-spinner color="warn"></md-spinner>
+  </div>
 
 </div>
 

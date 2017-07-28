@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
   logIn(username: string, password: string) {
     console.log(username, password);
-    this.loginObs = this._ws.alternateLogin(username, password).subscribe(
+    this.loginObs = this._ws.signIn(username, password).subscribe(
       (data) => {
         console.log(data);
         this.snackBar.open(data, 'Ok' ,{
