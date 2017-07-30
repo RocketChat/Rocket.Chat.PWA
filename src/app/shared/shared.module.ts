@@ -9,6 +9,7 @@ import { UnixTimeToStringPipe } from '../../pipes/unix-time-to-string';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { PushNotificationsService } from './services/push-notifications.service';
 import { LoginPageService } from './services/login-page.service';
+import { DefaultAvatarPipe } from './pipes/default-avatar/default-avatar.pipe';
 
 @NgModule({
   imports: [
@@ -23,9 +24,10 @@ import { LoginPageService } from './services/login-page.service';
     FormsModule,
     IonicModule,
     ApolloModule,
-    UnixTimeToStringPipe
+    UnixTimeToStringPipe,
+    DefaultAvatarPipe
   ],
-  declarations: [UnixTimeToStringPipe],
+  declarations: [UnixTimeToStringPipe, DefaultAvatarPipe],
   providers: [PushNotificationsService, LoginPageService],
 })
 export class SharedModule {
