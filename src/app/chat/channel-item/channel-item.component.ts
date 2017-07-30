@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MyChannelsQuery } from '../../graphql/types/types';
 
 @Component({
-  selector: 'channel-item',
-  templateUrl: './channel-item.component.html',
-  styleUrls: ['./channel-item.component.scss']
+  selector : 'channel-item',
+  templateUrl : './channel-item.component.html',
+  styleUrls : ['./channel-item.component.scss']
 })
 export class ChannelItemComponent implements OnInit {
 
@@ -19,10 +19,12 @@ export class ChannelItemComponent implements OnInit {
   }
 
   gotoChannel(channelName: string) {
-    if (this.channel.direct) {
-      this.router.navigate(['direct', channelName]);
-    } else {
-      this.router.navigate(['channel', channelName]);
+    if (channelName) {
+      if (this.channel.direct) {
+        this.router.navigate(['direct', channelName]);
+      } else {
+        this.router.navigate(['channel', channelName]);
+      }
     }
   }
 
