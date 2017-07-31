@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { RealTimeAPI } from 'rocket.chat.realtime.api.rxjs';
 import { SHA256 } from 'crypto-js';
 import {Observable} from 'rxjs/Observable';
+import {convertToParamMap} from "@angular/router";
 
 @Injectable()
 export class WebsocketService {
@@ -35,7 +36,8 @@ export class WebsocketService {
             {
               console.log(data.result.token);
                 localStorage.setItem('auth-token', data.result.token);
-                return 'Logging In..';
+                localStorage.setItem('user-id', data.result.id);
+              return 'Logging In..';
             } else {
               data = data;
             }
@@ -100,9 +102,8 @@ export class WebsocketService {
         }];
         return this.realTimeapi.callMethod('openRoom', ...params);
   }
-  sendChatMessage(msg_id: string, room_id: string , msg: string){
+  sendChatMessage( room_id: string , msg: string){
     const params = [{
-      '_id': msg_id,
       'rid': room_id,
       'msg': msg
     }
@@ -135,9 +136,10 @@ export class WebsocketService {
         console.log('data' + JSON.stringify(data));
         if (data.hasOwnProperty('result'))
         {
-          if (data.result.hasOwnProperty('token') === true)
+          if (data.result.hasOwnProperty('token') === true && data.result.hasOwnProperty('id') === true)
           {
             console.log(data.result.token);
+            console.log('User-id :' , data.result.id);
             localStorage.setItem('token', data.result.token);
             return 'Logging In..';
           } else {
@@ -178,11 +180,25 @@ export class WebsocketService {
     ];
     return this.realTimeapi.callMethod('stream-room-messages', ...params);
   }
+  streamnotifyUser(event: string){
+    const paramVal = localStorage.getItem('user-id') + '/' + event;
+    console.log('Param Val:' + paramVal);
+    return this.realTimeapi.getSubscription('stream-notify-user', paramVal, false);
+  }
   loadhistory(roomid: string, olddate: number, msgquantity: number, newdate: number){
     const params = [
       roomid, olddate, msgquantity, { '$date': newdate
     }];
-    return this.realTimeapi.callMethod('loadHistory', ...params);
+    return this.realTimeapi.callMethod('loadHistory', ...params)
+      .map((data) => {
+      if (data.hasOwnProperty('result') !== null) {
+        if(data.result.hasOwnProperty('messages') !== null){
+          return data.result.messages;
+        }
+      } else {
+        return 'Error Occured';
+      }
+      });
     }
 
     resumeLogin(authToken: any){
@@ -194,6 +210,7 @@ export class WebsocketService {
             .map((data) => {
             if(data.hasOwnProperty('result') === true){
               if(data.result.hasOwnProperty('token') === true){
+                localStorage.setItem('user-id', data.result.id);
                 return 'Success';
               }else {
                 return 'error';

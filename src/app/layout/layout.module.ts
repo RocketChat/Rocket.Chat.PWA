@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Subscription} from 'rxjs/Subscription';
+import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import {CreatechannelModule} from './createchannel/createchannel.module';
-import {CreatechannelComponent} from '../layout/createchannel/createchannel.component';
 import {LayoutComponent} from './layout.component'
 import { LayoutRoutingModule } from './layout-routing.module';
+import {ReversePipe} from  './reversepipe';
+
 import {
   MdToolbarModule, MdSidenavModule, MdIconModule,
   MdButtonModule, MdMenuModule, MdListModule, MdInputModule, MdCardModule,
@@ -14,6 +15,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     LayoutRoutingModule,
     MdToolbarModule,
     MdSidenavModule,
@@ -31,7 +33,8 @@ import {
     MdSnackBarModule
 
   ],
-  declarations: [LayoutComponent]
+  declarations: [LayoutComponent, ReversePipe],
+  providers:[]
 })
 export class LayoutModule{
   constructor(){
