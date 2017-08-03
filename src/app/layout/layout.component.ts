@@ -34,11 +34,15 @@ export class LayoutComponent implements OnInit {
               private ws: WebsocketService, private snackBar: MdSnackBar,
               private router: Router) {
       this.searchValue = null;
-      localStorage.setItem('ts',null);
+      localStorage.setItem('ts', null);
       this.channellist$ = this.getSubscription();
+      this.ws.streamnotifyUser('message')
+        .subscribe(
+          (data => console.log(data)),
+          (err => console.log(err)),
+          () => console.log('Completed'));
   }
   ngOnInit() {
-    this.ws.streamnotifyUser('message').subscribe((data) => console.log('Notify Room User' + JSON.stringify(data)));
 
   }
 
