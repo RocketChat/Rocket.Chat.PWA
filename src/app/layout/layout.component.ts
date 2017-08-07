@@ -36,11 +36,13 @@ export class LayoutComponent implements OnInit {
       this.searchValue = null;
       localStorage.setItem('ts', null);
       this.channellist$ = this.getSubscription();
-      this.ws.streamnotifyUser('message')
-        .subscribe(
-          (data => console.log(data)),
-          (err => console.log(err)),
-          () => console.log('Completed'));
+    this.ws.streamnotifyUser('message')
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (err) => console.log(err),
+        () => console.log('Completed'));
   }
   ngOnInit() {
 

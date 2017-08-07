@@ -1,10 +1,10 @@
 {
-  "name": "Rocket.Chat",
-  "short_name": "Rocket.Chat",
-  "start_url": ".",
+  "name": "Rocket.Chat Lite",
+  "short_name": "RC Lite",
+  "start_url": "./?utm_source=web_app_manifest",
   "display": "standalone",
   "background_color": "#fff",
-  "description": "Rocket Chap Progressive Web App",
+  "description": "Rocket Chat Progressive Web App",
   "icons": [{
     "src": "assets/images/icon-32x32.png",
     "sizes": "32x32",
@@ -36,7 +36,7 @@
     "platform": "play",
     "url": "https://play.google.com/store/apps/details?id=com.konecty.rocket.chat"
   },{
-    "platform": "iTunes",
+    "platform": "itunes",
     "url": "https://itunes.apple.com/us/app/rocket-chat/id1028869439"
   }
   ]

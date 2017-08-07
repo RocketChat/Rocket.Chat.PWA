@@ -181,9 +181,11 @@ export class WebsocketService {
     return this.realTimeapi.callMethod('stream-room-messages', ...params);
   }
   streamnotifyUser(event: string){
+
     const paramVal = localStorage.getItem('user-id') + '/' + event;
-    console.log('Param Val:' + paramVal);
-    return this.realTimeapi.getSubscription('stream-notify-user', paramVal, false);
+    const params = [ paramVal, false];
+    console.log('Param Val:' + typeof (paramVal));
+    return this.realTimeapi.getSubscription('stream-notify-user', paramVal, false).share();
   }
   loadhistory(roomid: string, olddate: number, msgquantity: number, newdate: number){
     const params = [
