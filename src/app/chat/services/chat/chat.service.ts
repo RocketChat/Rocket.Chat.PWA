@@ -31,6 +31,7 @@ export class ChatService {
         id: 'tempId',
         content: content,
         creationTime: new Date().getTime().toString(),
+        fromServer: false,
         author: {
           __typename: 'User',
           name: this.user.name || this.user.username,
@@ -145,11 +146,13 @@ export class ChatService {
   }
 
   private pushNewMessage(prev, newMessage) {
+    let result;
+
     if (prev.messages.messagesArray[prev.messages.messagesArray.length - 1].id === newMessage.id) {
-      return prev;
+      result = prev;
     }
     else {
-      return Object.assign({}, prev, {
+      result = Object.assign({}, prev, {
         messages: {
           cursor: prev.messages.cursor || null,
           channel: prev.messages.channel,
@@ -158,5 +161,7 @@ export class ChatService {
         }
       });
     }
+
+    return result;
   }
 }
