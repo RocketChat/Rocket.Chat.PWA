@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import {CreatechannelModule} from './createchannel/createchannel.module';
+import {AttachfileModule} from './attachfile/attachfile.module';
 import {LayoutComponent} from './layout.component'
 import { LayoutRoutingModule } from './layout-routing.module';
 import {ReversePipe} from  './reversepipe';
@@ -30,7 +31,8 @@ import {
     MdTooltipModule,
     MdSlideToggleModule,
     CreatechannelModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    AttachfileModule
 
   ],
   declarations: [LayoutComponent, ReversePipe],

@@ -84,10 +84,11 @@
     </md-card>
         <div class="msg-box">
           <md-card class="msg-card mat-elevation-z2">
+            <div class="attachFileButton"><button md-mini-fab color="primary"  (click)="attachFile()"><md-icon>attach_file</md-icon></button></div>
             <md-input-container class="full-width" >
               <textarea #msg [(ngModel)]="searchValue" mdInput mdTextareaAutosize md-autosize type="text"></textarea>
             </md-input-container>
-            <button md-mini-fab color="primary" class="send-button" (click)="sendMessage(msg.value)"><md-icon>send</md-icon></button>
+            <div class="send-button" ><button md-mini-fab color="primary"  (click)="sendMessage(msg.value)"><md-icon>send</md-icon></button></div>
           </md-card>
         </div>
     </div>

@@ -1,0 +1,21 @@
+<div>
+  <p><strong>Do You Want To Attach Files ?</strong></p>
+  <div>
+    <md-dialog-actions align="center">
+      <button md-raised-button (click)="toggleUpload()" color="primary">{{userConsent}}</button>
+      <!--<button md-raised-button [md-dialog-close]="true" color="primary">Yes</button> -->
+      <button md-raised-button md-dialog-close>Cancel</button>
+    </md-dialog-actions>
+  </div>
+  <br>
+  <div *ngIf="uploadFile">
+  <p>Selected File: {{fileSelectMsg}}</p>
+  <p>Uploaded File: {{fileUploadMsg}}</p>
+  <td-file-upload align="center" #singleFileUpload (select)="selectEvent($event)" (upload)="uploadEvent($event)" (cancel)="cancelEvent()">
+    <md-icon>file_upload</md-icon><span>{{ singleFileUpload.files?.name }}</span>
+    <ng-template td-file-input-label>
+      <md-icon>attach_file</md-icon><span>Choose a file...</span>
+    </ng-template>
+  </td-file-upload>
+  </div>
+</div>

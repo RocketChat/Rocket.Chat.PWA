@@ -3,6 +3,7 @@ import { FlexLayoutModule} from '@angular/flex-layout';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {CreatechannelService} from '../shared/createchannelservice/createchannel.service';
+import {AttachfileService} from '../shared/attachfile/attachfile.service';
 import {CreatechannelComponent} from '../layout/createchannel/createchannel.component';
 import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
@@ -12,7 +13,8 @@ import {ReversePipe} from './reversepipe';
 import {RoomObject} from '../shared/roomobject/roomobject';
 
 import 'rxjs/Rx';
-import {observable} from "rxjs/symbol/observable";
+import {observable} from 'rxjs/symbol/observable';
+import {Subject} from "rxjs/Subject";
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -22,38 +24,83 @@ import {observable} from "rxjs/symbol/observable";
 export class LayoutComponent implements OnInit {
   @ViewChild('latestDate') latestDate;
   public roomID: any;
+
+  public tempArray: Array<any>;
+  public rawChannelArray$: Observable<any>;
   public messages: Object[] = [];
   public selectedOption: string;
   public result: any
   public channellist$: Observable<any>;
+  public newChannelList$ :Subject<any>;
   public messages$: Observable<any>;
   public searchValue: string;
 
   constructor(public media: ObservableMedia,
               private createchanneldialogue: CreatechannelService,
+              private attachfile: AttachfileService,
               private ws: WebsocketService, private snackBar: MdSnackBar,
               private router: Router) {
       this.searchValue = null;
       localStorage.setItem('ts', null);
-      this.channellist$ = this.getSubscription();
+       this.channellist$ = this.getSubscription();
+    /*this.rawChannelArray$ = this.getSubscription();
+
+
+    this.rawChannelArray$
+      .map((res) => {
+      for (const i in res){
+        if (res[i].hasOwnProperty('t') !== null) {
+          if (res[i].t === 'c') {
+                this.logChannel(res[i]);
+          }else {
+            this.logDirect(res[i]);
+          }
+        }
+      }
+      })
+      .subscribe((data) => console.log(data));
+
+
+
+
+*/
     this.ws.streamnotifyUser('message')
       .subscribe(
-        (data) => {
-          console.log(data);
-        },
+        (data) => console.log(data),
         (err) => console.log(err),
         () => console.log('Completed'));
   }
+
+
   ngOnInit() {
 
   }
 
-  openDialog() {
+  openDialog(){
     this.createchanneldialogue.confirm().subscribe(res => this.result = res);
+  }
+
+  logChannel(data: any){
+        Observable.defer(() => Observable.from(data))
+  }
+  logDirect(data: any){
+
+    Observable.of(data).subscribe((res) => console.log(res));
+
+  }
+
+    attachFile(){
+    console.log('Attach file clicked');
+    this.attachfile.confirm().subscribe((data) => {
+      if (data === true)
+      {
+        console.log('Hell yeah');
+      }
+    });
   }
   signout(){
     localStorage.clear();
-    this.router.navigate(['../']);
+    window.open('/', '_self')
   }
 
 
