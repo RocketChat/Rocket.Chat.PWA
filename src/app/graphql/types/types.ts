@@ -273,7 +273,6 @@ export interface PasswordType {
 export namespace ChannelByNameQuery {
   export type Variables = {
       name: string;
-      isDirect: boolean;
   }
 
   export type Result = {
@@ -299,6 +298,24 @@ export namespace ChatMessageAddedSubscription {
 
   export type ChatMessageAdded = {
   } & MessageFragment.Fragment 
+}
+
+export namespace DirectChannelQuery {
+  export type Variables = {
+      username: string | null;
+      channelId: string | null;
+  }
+
+  export type Result = {
+    directChannel: DirectChannel;
+  } 
+
+  export type DirectChannel = {
+    id: string;
+    name: string;
+    direct: boolean;
+    privateChannel: boolean;
+  } 
 }
 
 export namespace GetAllProvidersQuery {
