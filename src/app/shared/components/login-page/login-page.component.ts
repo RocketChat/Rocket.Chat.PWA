@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
-import { LoginPageService } from '../../services/login-page.service';
 import { environment } from '../../../../environments/environment';
+import { OauthProvider } from '../../../graphql/types/types';
 
 @Component({
   moduleId: module.id,
@@ -13,6 +14,7 @@ import { environment } from '../../../../environments/environment';
 
 export class LoginPageComponent implements OnInit {
   model: any = {};
+  providers: Observable<OauthProvider[]>;
   loading = false;
   returnUrl: string;
   showSpinner = false;
@@ -20,46 +22,61 @@ export class LoginPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private authenticationService: AuthenticationService,
-              private toastCtrl: ToastController,
-              private loginService: LoginPageService) {
+              private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    const accessToken = this.route.snapshot.queryParams['access_token'];
-    const service = this.route.snapshot.queryParams['service'];
-    if (accessToken && service) {
+    // available providers
+    this.providers = this.authenticationService.availableProviders();
+
+    // params
+    const params = this.route.snapshot.queryParamMap;
+
+    this.returnUrl = params.has('returnUrl') ? params.get('returnUrl') : '/';
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+    const service = params.get('service');
+    const error = params.get('error');
+
+    if (accessToken && refreshToken && service) {
       this.showSpinner = true;
-      this.loginWithServiceAccessToken(service, accessToken);
+      this.handleAccessToken(service, accessToken, refreshToken);
+    }
+
+    if (error && service) {
+      this.handleError(service, error);
     }
   }
 
-  getServiceUrl(service: string): string {
-    return environment.server + '/auth/connect/' + service;
+  getServiceClass(service: string): string {
+    return service + '-login';
   }
 
-  loginWithServiceAccessToken(service, accessToken) {
-    this.loginService.loginWithServiceAccessToken(service, accessToken).subscribe(async ({ data }) => {
-      const accountsAccessToken = data.loginWithServiceAccessToken.accessToken;
-      const accountsRefreshToken = data.loginWithServiceAccessToken.refreshToken;
-      try {
-        this.loading = true;
-        const loggedIn = await this.authenticationService.refreshWithNewTokens(accountsAccessToken, accountsRefreshToken);
-        if (loggedIn) {
-          this.router.navigate([this.returnUrl]);
-        }
-        else {
-          this.showToast(`Failed to login with ${service}`);
-        }
+  getServiceUrl(service: string): string {
+    return environment.server + '/_oauth_apps/connect/' + service + '/pwa';
+  }
+
+  handleError(service: string, error: string): void {
+    console.error(`Login with ${service} failed`, error);
+    this.showToast(`Failed to login with ${service}`);
+  }
+
+  async handleAccessToken(service, accessToken, refreshToken) {
+    try {
+      this.loading = true;
+      const loggedIn = await this.authenticationService.refreshWithNewTokens(accessToken, refreshToken);
+
+      if (loggedIn) {
+        this.router.navigate([this.returnUrl]);
+      } else {
+        this.showToast(`Failed to login with ${service}`);
       }
-      catch (e) {
-        console.error(`Login with ${service} failed`, e);
-      }
-      finally {
-        this.loading = false;
-        this.showSpinner = false;
-      }
-    });
+    } catch (e) {
+      console.error(`Login with ${service} failed`, e);
+    } finally {
+      this.loading = false;
+      this.showSpinner = false;
+    }
   }
 
   async login() {

@@ -9,5 +9,6 @@ fragment MessageFragment on Message {
   }
   content
   creationTime
+  fromServer
 }
 `;

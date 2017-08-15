@@ -72,7 +72,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           channelDetails: { name: channelName, direct: isDirect },
           count: this.PAGE_MESSAGE_COUNT,
           cursor: null,
-          searchRegex: null
+          searchRegex: null,
+          excludeServer: true
         }
       );
 
