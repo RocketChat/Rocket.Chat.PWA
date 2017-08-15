@@ -7,10 +7,10 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ChatService } from '../services/chat/chat.service';
-import { MessagesQuery } from '../../graphql/types/types';
-import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ChatService} from '../services/chat/chat.service';
+import {MessagesQuery} from '../../graphql/types/types';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -23,24 +23,22 @@ import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
 export class ChatViewComponent implements OnInit, OnDestroy {
 
   @ViewChild('chatContent') chatContent: any;
-  @ViewChild(VirtualScrollComponent) virtualScroll: VirtualScrollComponent;
   @ViewChild('messageInput') messageInput: any;
 
-  private readonly PAGE_MESSAGE_COUNT = 100;
-  private readonly LOAD_ITEMS_NUM_TRIGGER = 40;
+  private readonly PAGE_MESSAGE_COUNT = 80;
+  private readonly PAGE_PERCENT_LOAD_MORE_TRIGGER = 0.3;
+  private readonly MAX_PAGE_LOAD_MORE_PIXEL_LEN = 3500;
+
 
   public channel: MessagesQuery.Channel;
-  private routeParamsSub;
-  private messagesSub;
   public model = {message: undefined};
-  private chatContentScrollSubscription;
   public isFirstLoad = true;
   public messages;
-  private scrollValue: ChangeEvent;
-  public isLoadingMore;
   public keepIndexOnItemsChange = false;
-  public scrollItems: any;
-  public loadingMessages = false;
+  public initialLoading = false;
+  private routeParamsSub;
+  private messagesSub;
+  private chatContentScrollSubscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -76,8 +74,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       );
 
       this.messagesSub = messagesQueryObservable.subscribe(({data, loading}) => {
-        this.loadingMessages = loading && !data;
-        if (this.loadingMessages) {
+        this.initialLoading = loading && !data;
+        if (this.initialLoading) {
           this.cd.markForCheck();
           return;
         }
@@ -87,6 +85,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           return;
         }
 
+        const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
         this.messages = data.messages.messagesArray;
 
         if (this.isFirstLoad) {
@@ -94,28 +93,66 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           this.channel = data.messages.channel;
           this.chatService.subscribeToMessageAdded(this.channel.id);
 
-          this.scrollToBottom();
+          setTimeout(() => {
+            this.addScrollListener();
+            this.scrollToBottom();
+          }, 0);
+        }
+
+        if (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom()) {
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 0);
+        }
+
+        if (this.isScrolledToTop()) {
+          setTimeout(() => {
+            this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
+          }, 0);
         }
 
         if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
           this.scrollToBottom();
         }
-
         this.cd.markForCheck();
       });
+
+      this.scrollToBottom();
       this.cd.markForCheck();
     });
   }
 
-  isScrolledToBottom(): boolean {
-    if (this.scrollValue) {
-      return this.scrollValue.end === this.messages.length - 1;
+  addScrollListener() {
+    const currentPageHeight = this.chatContent.nativeElement.scrollHeight;
+    const pagePixelLenForLoadMore = Math.min(currentPageHeight * this.PAGE_PERCENT_LOAD_MORE_TRIGGER , this.MAX_PAGE_LOAD_MORE_PIXEL_LEN);
+
+    if (!this.chatContentScrollSubscription) {
+      this.chatContentScrollSubscription = Observable.fromEvent(this.chatContent.nativeElement, 'scroll').subscribe(() => {
+        this.onScrollChange(pagePixelLenForLoadMore);
+      });
     }
-    return false;
+  }
+
+  onScrollChange(pagePixelLenForLoadMore) {
+    if (this.chatContent.nativeElement.scrollTop < pagePixelLenForLoadMore) {
+      if (!this.chatService.isLoadingMoreMessages()) {
+        this.loadMoreMessages();
+        this.cd.markForCheck();
+      }
+    }
+  }
+
+  isScrolledToBottom(): boolean {
+    const chatElement = this.chatContent.nativeElement;
+    return chatElement.scrollTop + chatElement.clientHeight >= chatElement.scrollHeight;
+  }
+
+  isScrolledToTop(): boolean {
+    return this.chatContent.nativeElement.scrollTop === 0;
   }
 
   scrollToBottom() {
-    setTimeout(() => this.virtualScroll.scrollInto(this.messages[this.messages.length - 1]), 1);
+    this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight;
   }
 
   sendMessage() {
@@ -127,26 +164,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  isLoadMoreNeeded() {
-    const scrollValue = this.scrollValue;
-    return !this.isLoadingMore && scrollValue && scrollValue.start < this.LOAD_ITEMS_NUM_TRIGGER;
-  }
-
   loadMoreMessages() {
     return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
   }
-
-  scrollValueChanged(scrollValue) {
-    this.scrollValue = scrollValue;
-    if (this.messages && !this.isFirstLoad && this.isLoadMoreNeeded()) {
-      this.isLoadingMore = true;
-      this.keepIndexOnItemsChange = true;
-      this.loadMoreMessages().then(() => {
-        this.isLoadingMore = false;
-      });
-    }
-  }
-
 
   unsubscribeChannel() {
     this.chatService.unsubscribeMessagesSubscription();
