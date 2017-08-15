@@ -32,7 +32,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
   private messagesSub;
-  public model = { message: undefined };
+  public model = {message: undefined};
   private chatContentScrollSubscription;
   public isFirstLoad = true;
   public messages;
@@ -57,9 +57,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeParamsSub = this.route.params.subscribe(params => {
-      if (this.messagesSub) {
-        this.messagesSub.unsubscribe();
-      }
+      this.unsubscribeChannel();
       this.isFirstLoad = true;
       this.messages = undefined;
 
@@ -69,7 +67,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
       const messagesQueryObservable = this.chatService.getMessages({
           channelId: null,
-          channelDetails: { name: channelName, direct: isDirect },
+          channelDetails: {name: channelName, direct: isDirect},
           count: this.PAGE_MESSAGE_COUNT,
           cursor: null,
           searchRegex: null,
@@ -77,7 +75,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
+      this.messagesSub = messagesQueryObservable.subscribe(({data, loading}) => {
         this.loadingMessages = loading && !data;
         if (this.loadingMessages) {
           this.cd.markForCheck();
@@ -149,13 +147,19 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  unsubscribeChannel() {
+    this.chatService.unsubscribeMessagesSubscription();
+    if (this.messagesSub) {
+      this.messagesSub.unsubscribe();
+    }
+  }
+
   ngOnDestroy() {
     if (this.chatContentScrollSubscription) {
       this.chatContentScrollSubscription.unsubscribe();
     }
-    if (this.messagesSub) {
-      this.messagesSub.unsubscribe();
-    }
+    this.unsubscribeChannel();
     if (this.routeParamsSub) {
       this.routeParamsSub.unsubscribe();
     }
