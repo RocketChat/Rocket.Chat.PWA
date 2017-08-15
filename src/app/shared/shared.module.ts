@@ -29,7 +29,7 @@ import { DefaultAvatarPipe } from './pipes/default-avatar/default-avatar.pipe';
     DefaultAvatarPipe
   ],
   declarations: [UnixTimeToStringPipe, DefaultAvatarPipe],
-  providers: [PushNotificationsService, LoginPageService],
+  providers: [PushNotificationsService],
 })
 export class SharedModule {
 }
