@@ -174,11 +174,8 @@ export class WebsocketService {
     ];
     return this.realTimeapi.callMethod('openRoom', ...params);
   }
-  streamRoomMessages(roomId: string){
-    const params = [
-      roomId, false
-    ];
-    return this.realTimeapi.callMethod('stream-room-messages', ...params);
+  streamRoomMessages(roomId: string) {
+    return this.realTimeapi.getSubscription('stream-room-messages', roomId, false).share();
   }
   streamnotifyUser(event: string){
 

@@ -68,11 +68,11 @@
 
     </md-sidenav>
     <!--<router-outlet></router-outlet>-->
-    <div #content class="chat-layout">
+    <div class="chat-layout">
     <md-card class="main-card">
       <md-card-content class="card-content">
       <md-list class="chat-container">
-        <md-list-item #messages *ngFor="let message of messages$ | async | reverse">
+        <md-list-item *ngFor="let message of messages | reverse">
           <!--<img md-list-avatar src="{{message.from.avatar}}">-->
           <h2 md-line> <b>{{message.u.username}} </b> </h2>
           <p md-line>
