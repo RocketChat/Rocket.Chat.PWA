@@ -68,11 +68,7 @@ export class LayoutComponent implements AfterViewInit {
 
 
 
-*/this.streamingRoomMessages(localStorage.getItem('room-id')).subscribe(
-      (data) => console.log('room-message' + JSON.stringify(data)),
-      (err) => console.log(err),
-      () => console.log('Completed')
-    );
+*/
 
     this.ws.streamnotifyUser('message')
       .subscribe(
