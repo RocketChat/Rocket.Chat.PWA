@@ -136,7 +136,11 @@ export class LayoutComponent implements AfterViewInit {
     this.messages$ = this.loadingHistory(rid, null , 50, Number(localStorage.getItem('ts')));
     this.getLastMsgTimestamp(rid);
     console.log('rid' + rid);
-    localStorage.setItem('room-id', rid);
+    this.streamingRoomMessages(rid).subscribe(
+      (data) => console.log('room-message' + JSON.stringify(data)),
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
 
     setTimeout(function () {
       console.log('Timestamp', localStorage.getItem('ts'));
