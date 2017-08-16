@@ -67,20 +67,11 @@ export class ChatService {
     this.noMoreToLoad = false;
     this.cursor = null;
 
-    if (messagesQueryVariables.channelDetails.direct) {
-      this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
-        query: messagesQuery,
-        variables: messagesQueryVariables,
-        fetchPolicy: 'cache-and-network',
-      });
-    }
-    else {
-      this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
-        query: messagesQuery,
-        variables: messagesQueryVariables,
-        fetchPolicy: 'cache-and-network',
-      });
-    }
+    this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
+      query: messagesQuery,
+      variables: messagesQueryVariables,
+      fetchPolicy: 'cache-and-network',
+    });
 
     return this.messagesQueryObservable.do(({ data, loading }) => {
       if (!loading && data && data.messages) {
