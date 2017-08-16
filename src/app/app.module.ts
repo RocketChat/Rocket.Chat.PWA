@@ -18,7 +18,8 @@ import { AttachfileComponent } from './layout/attachfile/attachfile.component';
 
 // oauth
 
-import {NgxOAuthModule} from 'ngx-oauth-client';
+import {SocialLoginService} from './shared/SocialLogin/social-login.service';
+
 
 
 @NgModule({
@@ -30,11 +31,10 @@ import {NgxOAuthModule} from 'ngx-oauth-client';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    NgxOAuthModule,
     HttpModule, HttpClientModule, JsonpModule, MdSnackBarModule,
     CovalentLayoutModule, CovalentStepsModule, MdInputModule, MdIconModule, BrowserAnimationsModule,
   ],
-  providers: [WebsocketService, ValueService, AuthgaurdService],
+  providers: [WebsocketService, ValueService, AuthgaurdService, SocialLoginService],
   bootstrap: [AppComponent, ]
 })
 export class AppModule {

@@ -3,6 +3,7 @@ import {WebsocketService} from '../shared/websocket/websocket.service';
 import {Observable} from 'rxjs/Observable';
 import {MdSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
+import {SocialLoginService} from '.././shared/SocialLogin/social-login.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   ac_token: any;
 
   constructor(private _ws: WebsocketService, private router: Router,
-              private snackBar: MdSnackBar) {
+              private _socialLogin: SocialLoginService , private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
@@ -46,7 +47,8 @@ export class LoginComponent implements OnInit {
   }
 
   githubLogin(){
-
+        console.log('Github Login Clicked');
+        this._socialLogin.login();
   }
 }
 
