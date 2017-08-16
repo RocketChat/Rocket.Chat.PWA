@@ -36,6 +36,7 @@
     "auth0-js": "^8.9.1",
     "core-js": "^2.4.1",
     "crypto-js": "^3.1.9-1",
+    "ngx-auto-scroll": "^1.0.15",
     "ngx-oauth-client": "^0.2.3",
     "ngx-pipes": "^1.6.2",
     "rocket.chat.realtime.api.rxjs": "^0.0.4",

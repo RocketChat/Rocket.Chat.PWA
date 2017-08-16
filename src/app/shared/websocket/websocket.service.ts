@@ -176,13 +176,13 @@ export class WebsocketService {
   }
   streamRoomMessages(roomId: string){
     const params = [
-      roomId
+      roomId, false
     ];
     return this.realTimeapi.callMethod('stream-room-messages', ...params);
   }
   streamnotifyUser(event: string){
 
-    const paramVal = localStorage.getItem('user-id') + '/' + event;
+    const paramVal = localStorage.getItem('user-id');
     const params = [ paramVal, false];
     console.log('Param Val:' + typeof (paramVal));
     return this.realTimeapi.getSubscription('stream-notify-user', paramVal, false).share();

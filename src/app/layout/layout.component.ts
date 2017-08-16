@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, ElementRef, QueryList} from '@angular/core';
 import { FlexLayoutModule} from '@angular/flex-layout';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {MdDialog, MdDialogRef} from '@angular/material';
@@ -9,6 +9,8 @@ import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
+import {NgxAutoScroll} from "ngx-auto-scroll/lib/ngx-auto-scroll.directive";
+
 import {ReversePipe} from './reversepipe';
 import {RoomObject} from '../shared/roomobject/roomobject';
 
@@ -19,15 +21,18 @@ import {Subject} from "rxjs/Subject";
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],
-  providers: []
+  providers: [],
+
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements AfterViewInit {
   @ViewChild('latestDate') latestDate;
+  @ViewChild('messages') messages: QueryList<any>;
+  @ViewChild('content') content: ElementRef;
+
   public roomID: any;
 
   public tempArray: Array<any>;
   public rawChannelArray$: Observable<any>;
-  public messages: Object[] = [];
   public selectedOption: string;
   public result: any
   public channellist$: Observable<any>;
@@ -63,7 +68,12 @@ export class LayoutComponent implements OnInit {
 
 
 
-*/
+*/this.streamingRoomMessages(localStorage.getItem('room-id')).subscribe(
+      (data) => console.log('room-message' + JSON.stringify(data)),
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
+
     this.ws.streamnotifyUser('message')
       .subscribe(
         (data) => console.log(data),
@@ -74,6 +84,15 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+  ngAfterViewInit() {
+    // this.messages.changes.subscribe(this.scrollToBottom);
+  }
+
+  scrollToBottom = (): void => {
+    try {
+      this.content.nativeElement.scrollTop = this.content.nativeElement.scrollHeight;
+    } catch (err) {}
   }
 
   openDialog(){
@@ -116,6 +135,9 @@ export class LayoutComponent implements OnInit {
     this.roomID = rid;
     this.messages$ = this.loadingHistory(rid, null , 50, Number(localStorage.getItem('ts')));
     this.getLastMsgTimestamp(rid);
+    console.log('rid' + rid);
+    localStorage.setItem('room-id', rid);
+
     setTimeout(function () {
       console.log('Timestamp', localStorage.getItem('ts'));
     }, 3000);
@@ -147,7 +169,7 @@ export class LayoutComponent implements OnInit {
   sendMessage(text: string){
     this.searchValue = '';
     console.log('I am sending :' + text);
-    this.ws.sendChatMessage(this.roomID, text).subscribe((data) => console.log('Send message response :' + data));
+    this.ws.sendChatMessage(this.roomID, text).subscribe((data) => console.log('Send message response :' + JSON.stringify(data)));
 
   }
 
@@ -155,7 +177,7 @@ export class LayoutComponent implements OnInit {
     return this.ws.getsubscription();
   }
   streamingRoomMessages(roomId: string){
-      return this.ws.streamRoomMessages(roomId);
+      return this.ws.streamRoomMessages(roomId).share();
   }
   loadingHistory(roomid: string, olddate: number, msgquantity: number, newdate: number){
     return this.ws.loadhistory(roomid, olddate, msgquantity, newdate);
