@@ -1,0 +1,99 @@
+/*toolbar css*/
+.white-text {
+  color: #ffffff;
+}
+
+blue-grey-text {
+  color: #759cb3;
+}
+.toolbar-shadow {
+  z-index: 1000;
+  position: relative;
+}
+.app-toolbar-filler {
+  flex:1 1 auto;
+}
+/*toolbar css*/
+
+.channel-header {
+  display: flex;
+  flex-direction: row;
+  jutify-content:center;
+}
+.channels-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  height: 20px;
+  /*border: 2px solid black;*/
+}
+.channel-name {
+  flex-grow: 1;
+}
+.addbutton {
+  align-self: flex-end;
+  margin-bottom: 4%;
+}
+.attachFileButton {
+  padding-top: 1%;
+  padding-left: 1%;
+}
+
+.screen-container {
+  max-width: 100%;
+  max-height: 100%;
+}
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  align-content: flex-end;
+}
+.main-card {
+  display: flex;
+  flex-direction: column;
+}
+.card-content {
+  max-width: 100%;
+  overflow-y: scroll;
+}
+.msg-box {
+  width: 100%;
+}
+.msg-card {
+  display: flex;
+  flex-direction: row;
+}
+
+.full-width{
+  padding-left: 1%;
+  flex-grow: 1;
+}
+.send-button {
+  padding-top: 1%;
+  padding-right: 1%;
+  padding-left: 1%;
+}
+.sidenav-class {
+  /*border: 2px yellow solid;*/
+}
+.sidenav-container {
+  /*border: 2px red solid;*/
+}
+.channel-list-items-container {
+  display: flex;
+  width: 100%;
+}
+.channel-list-items-container:hover{
+  cursor: pointer;
+  color:white;
+  background-color: #001d3f;
+}
+.channel-list-items-container::selection {
+  color:deeppink;
+}
+
+
+
+

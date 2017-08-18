@@ -1,0 +1,23 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="container">
+  <img class="rcimage" src="../../assets/images/rc-with-title.svg" alt="Rocket.Chat"/>
+  <md-card class="hostname-card" *ngIf="!authenticated">
+    <md-card-content>
+      <div class="input-div">
+        <md-input-container class="input-field">
+          <input mdInput #hostname placeholder="Your Hostname" type="url" name="demo.rocket.chat" autocomplete="true" id="hostname"/>
+          <md-hint align="start"><strong style="color:#04436b">Ex: demo.rocket.chat</strong> </md-hint>
+        </md-input-container>
+
+      </div><br>
+      <md-card-actions align="center">
+        <a md-mini-fab routerLink="/login" color="primary" (click)="loadhostname(hostname.value)"><md-icon>check</md-icon></a>
+      </md-card-actions>
+    </md-card-content>
+  </md-card>
+  <div *ngIf="authenticated">
+    <md-spinner color="warn"></md-spinner>
+  </div>
+
+</div>
+
+
