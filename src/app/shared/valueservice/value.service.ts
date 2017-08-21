@@ -6,10 +6,10 @@ export class ValueService {
   public authenticate: boolean;
   constructor() {
   }
-  setVal(val: boolean){
+  setVal(val: boolean) {
     this.authenticate = val;
   }
-  getVal(){
+  getVal() {
     return this.authenticate;
   }
 

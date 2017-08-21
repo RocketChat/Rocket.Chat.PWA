@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
-import {MdDialogModule, MdSlideToggleModule} from '@angular/material';
+import { MdDialogModule, MdSlideToggleModule } from '@angular/material';
 @Component({
   selector: 'app-createchannel',
   templateUrl: './createchannel.component.html',

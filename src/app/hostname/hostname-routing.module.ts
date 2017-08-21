@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HostnameComponent} from './hostname.component';
+import { HostnameComponent } from './hostname.component';
 const routes: Routes = [
-  { path: '', component: HostnameComponent}
+  { path: '', component: HostnameComponent }
 ];
 
 @NgModule({

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CreatechannelComponent} from './createchannel.component';
-import {MdSlideToggleModule, MdDialogModule, MdInputModule, MdButtonModule} from  '@angular/material';
-import {CreatechannelService} from '../../shared/createchannelservice/createchannel.service';
+import { CreatechannelComponent } from './createchannel.component';
+import { MdSlideToggleModule, MdDialogModule, MdInputModule, MdButtonModule } from '@angular/material';
+import { CreatechannelService } from '../../shared/createchannelservice/createchannel.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -11,11 +11,11 @@ import {CreatechannelService} from '../../shared/createchannelservice/createchan
     MdInputModule,
     MdSlideToggleModule
   ],
-  exports:[
+  exports: [
     CreatechannelComponent
   ],
   declarations: [CreatechannelComponent],
-  providers:[CreatechannelService],
-  entryComponents:[CreatechannelComponent]
+  providers: [CreatechannelService],
+  entryComponents: [CreatechannelComponent]
 })
 export class CreatechannelModule { }

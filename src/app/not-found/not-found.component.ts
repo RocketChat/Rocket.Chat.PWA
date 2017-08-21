@@ -12,7 +12,7 @@ export class NotFoundComponent implements OnInit {
   ngOnInit() {
   }
 
-  goHome(){
+  goHome() {
     window.open('/', '_self')
 
   }

@@ -4,8 +4,8 @@ import { CanActivate } from '@angular/router';
 export class AuthgaurdService implements CanActivate {
 
   constructor() { }
-  canActivate(){
-    if(localStorage.getItem('auth-token') !== null && localStorage.getItem('hostname') !== null){
+  canActivate() {
+    if (localStorage.getItem('auth-token') !== null && localStorage.getItem('hostname') !== null) {
       return true;
     }
   }

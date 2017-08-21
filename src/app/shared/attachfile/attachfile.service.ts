@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { AttachfileComponent } from '../../layout/attachfile/attachfile.component';
-import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
+import { MdDialogRef, MdDialog } from '@angular/material';
 import { Injectable } from '@angular/core';
 
 @Injectable()

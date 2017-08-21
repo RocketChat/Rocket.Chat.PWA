@@ -26,7 +26,6 @@ blue-grey-text {
   flex-direction: column;
   text-decoration: none;
   height: 20px;
-  /*border: 2px solid black;*/
 }
 .channel-name {
   flex-grow: 1;
@@ -75,12 +74,7 @@ blue-grey-text {
   padding-right: 1%;
   padding-left: 1%;
 }
-.sidenav-class {
-  /*border: 2px yellow solid;*/
-}
-.sidenav-container {
-  /*border: 2px red solid;*/
-}
+
 .channel-list-items-container {
   display: flex;
   width: 100%;

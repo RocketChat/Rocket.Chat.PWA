@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AttachfileComponent implements OnInit {
   fileSelectMsg = 'No file selected yet.';
   fileUploadMsg = 'No file uploaded yet.';
-  uploadFile: boolean ;
+  uploadFile: boolean;
   userConsent = 'Yes'
   constructor() {
     this.uploadFile = false;
@@ -16,10 +16,9 @@ export class AttachfileComponent implements OnInit {
 
   ngOnInit() {
   }
-  toggleUpload(){
+  toggleUpload() {
     this.uploadFile = !this.uploadFile;
-    if(this.userConsent ==='Yes')
-    {
+    if (this.userConsent === 'Yes') {
       this.userConsent = 'No';
     } else {
       this.userConsent = 'Yes';

@@ -1,21 +1,15 @@
-import {Component, OnInit, ViewChild, AfterViewChecked, AfterViewInit, ElementRef, QueryList, Directive} from '@angular/core';
-import { FlexLayoutModule} from '@angular/flex-layout';
-import {MediaChange, ObservableMedia} from '@angular/flex-layout';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {Component, AfterViewInit} from '@angular/core';
+import { ObservableMedia} from '@angular/flex-layout';
 import {CreatechannelService} from '../shared/createchannelservice/createchannel.service';
 import {AttachfileService} from '../shared/attachfile/attachfile.service';
-import {CreatechannelComponent} from '../layout/createchannel/createchannel.component';
 import {WebsocketService} from '../shared/websocket/websocket.service';
 import {MdSnackBar} from '@angular/material';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 
-import {ReversePipe} from './reversepipe';
-import {RoomObject} from '../shared/roomobject/roomobject';
 
 import 'rxjs/Rx';
-import {observable} from 'rxjs/symbol/observable';
-import {Subject} from "rxjs/Subject";
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-layout',
@@ -24,13 +18,8 @@ import {Subject} from "rxjs/Subject";
 })
 export class LayoutComponent implements AfterViewInit {
   public roomID: any;
-
-  public tempArray: Array<any>;
-  public rawChannelArray$: Observable<any>;
-  public selectedOption: string;
   public result: any
   public channellist$: Observable<any>;
-  public newChannelList$ :Subject<any>;
   public messages: Array<any>;
   public searchValue: string;
 
@@ -42,6 +31,8 @@ export class LayoutComponent implements AfterViewInit {
       this.searchValue = null;
       localStorage.setItem('ts', null);
        this.channellist$ = this.getSubscription();
+
+       // writing code for displaying channel and direct message name seperately
     /*this.rawChannelArray$ = this.getSubscription();
 
 

@@ -7,7 +7,7 @@ export class RoomObject {
   muted?: any;
   jitsiTimeout?: any;
 
-  constructor(){}
+  constructor() { }
 }
 
 

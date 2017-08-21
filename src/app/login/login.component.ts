@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {WebsocketService} from '../shared/websocket/websocket.service';
+import { WebsocketService } from '../shared/websocket/websocket.service';
 import { ActivatedRoute } from '@angular/router';
-
-import {Observable} from 'rxjs/Observable';
-import {MdSnackBar} from '@angular/material';
-import {Router} from '@angular/router';
-import {SocialLoginService} from '.././shared/SocialLogin/social-login.service';
+import { MdSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+import { SocialLoginService } from '.././shared/SocialLogin/social-login.service';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +18,8 @@ export class LoginComponent implements OnInit {
   ac_token: any;
 
   constructor(private _ws: WebsocketService, private router: Router,
-              private _socialLogin: SocialLoginService , private snackBar: MdSnackBar,
-              private route: ActivatedRoute) {
+    private _socialLogin: SocialLoginService, private snackBar: MdSnackBar,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -38,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.loginObs = this._ws.signIn(username, password).subscribe(
       (data) => {
         console.log(data);
-        this.snackBar.open(data, 'Ok' , {
+        this.snackBar.open(data, 'Ok', {
           duration: 2000
         });
         if (data === 'Logging In..') {
@@ -58,9 +56,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  socialLogin(){
-        console.log('Github Login Clicked');
-        this._socialLogin.login();
+  socialLogin() {
+    console.log('Github Login Clicked');
+    this._socialLogin.login();
   }
 }
 
