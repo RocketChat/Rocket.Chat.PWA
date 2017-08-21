@@ -2,6 +2,10 @@
 
 Rocketchat progressive web app built on Angular and apollo graphql stack using angular CLI.
 
+```bash
+npm install -g yarn @angular/cli
+```
+
 * mock server requires mongo for the accounts 
 * mock users to login with: 
   * username: eitan pass: eitan
