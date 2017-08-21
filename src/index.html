@@ -2,13 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>RocketChat</title>
+  <title>RocketchatPwa</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#04436a">
+  <meta name="msapplication-TileColor" content="#04436a">
+  <meta name="msapplication-TileImage" content="assets/images/mstile-150x150.png">
+  <meta name="msapplication-config" content="assets/images/browserconfig.xml">
+
+  <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+  <link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#5bbad5">
 </head>
 <body>
-  <app-root>Loading...</app-root>
+<ion-app></ion-app>
+<div class="loading-splash" style="
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to top, #022235, #04436a);">
+  <img class="splash-img" src="assets/images/android-chrome-384x384.png" style="max-width: 250px; width: 60%" alt="splash screen">
+  <noscript>
+    <h4 style="font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;">
+      Sorry, JavaScript needs to be enabled in order to run this application.
+    </h4>
+  </noscript>
+</div>
+
 </body>
 </html>

@@ -1,0 +1,23 @@
+{
+  "static.ignore": [
+    "^\/assets\/ignore.*$"
+  ],
+  "routing": {
+    "index": "/index.html",
+    "routes": {
+      "/": {
+        "match": "exact"
+      },
+      "^/.*$": {
+        "match": "regex"
+      }
+    }
+  },
+  "_comment": "for external content cache (like fonts)",
+  "external": {
+  },
+  "push": {
+    "showNotifications": true,
+    "backgroundOnly": false
+  }
+}

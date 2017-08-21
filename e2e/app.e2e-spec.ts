@@ -1,10 +1,10 @@
-import { RocketChatPage } from './app.po';
+import { RocketchatPwaPage } from './app.po';
 
-describe('rocket-chat App', () => {
-  let page: RocketChatPage;
+describe('rocketchat-pwa App', () => {
+  let page: RocketchatPwaPage;
 
   beforeEach(() => {
-    page = new RocketChatPage();
+    page = new RocketchatPwaPage();
   });
 
   it('should display message saying app works', () => {

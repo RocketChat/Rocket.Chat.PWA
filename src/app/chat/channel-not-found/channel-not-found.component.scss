@@ -1,0 +1,11 @@
+.page-not-found-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon-button{
+  @media screen and (min-width: 767px) {
+    display: none;
+  }
+}

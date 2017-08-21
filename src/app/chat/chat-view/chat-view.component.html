@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <button class="menu-icon-button" ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title># {{channel?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="message-scroller">
+    <div class="loading-spinner-container" *ngIf="loadingMessages && isFirstLoad">
+      <ion-spinner class="loading-spinner"></ion-spinner>
+    </div>
+
+    <virtual-scroll
+      [items]="messages"
+      [childHeight]="66"
+      [keepIndexOnChange]="keepIndexOnItemsChange"
+      (update)="scrollItems = $event"
+      (change)="scrollValueChanged($event)">
+
+      <div class="loading-more-spinner" *ngIf="isLoadingMore">
+        <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+
+      <ion-item *ngFor="let message of scrollItems" no-lines>
+        <chat-message [message]="message"></chat-message>
+      </ion-item>
+
+    </virtual-scroll>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-row class="message-row">
+    <ion-input #messageInput class="message-input" type="text" placeholder="Message"
+               [(ngModel)]="model.message" (keyup.enter)="sendMessage()"></ion-input>
+    <button item-right class="send-button" ion-item (click)="sendMessage()" (focus)="sendMessageButtonFocus($event)">
+      <ion-icon name="paper-plane"></ion-icon>
+    </button>
+  </ion-row>
+</ion-footer>

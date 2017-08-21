@@ -1,0 +1,23 @@
+.home-page{
+  position: absolute;
+  width:100%;
+  height: 100%
+}
+
+@media screen and (min-width: 767px) {
+  .home-page {
+    width: calc(100% - 260px) !important;
+    transform: translateX(260px) !important;
+  }
+
+  .main-menu{
+    display: block !important;
+    width: 260px !important;
+    z-index: 1 !important;
+  }
+
+  .menu-inner {
+    transform: translateX(0px) translateZ(0px) !important;
+    width: 260px !important;
+  }
+}

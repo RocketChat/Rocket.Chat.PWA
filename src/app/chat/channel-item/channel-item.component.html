@@ -1,0 +1,19 @@
+<div class="channel-item" (click)="channelPress()">
+  <div class="channel-title">
+
+    <span *ngIf="channelSymbol === 'hashtag'; else iconBlock" class="channel-icon hashtag">#</span>
+    <ng-template #iconBlock><ion-icon  class="channel-icon" [name]="channelSymbol" is-active="false"></ion-icon></ng-template>
+    <div class="title-container">
+      <div class="overflow-text" [title]="channel.name">{{channel.name}}</div>
+    </div>
+  </div>
+  <span class="channel-buttons">
+    <button title="Hide channel" class="button-icon" ion-button clear color="light" icon-only>
+      <ion-icon  name="eye-off" is-active="false" (click)="hideChannel()" ></ion-icon>
+    </button>
+    <button title="Exit channel" class="button-icon" ion-button clear color="light" icon-only>
+       <ion-icon name="exit" (click)="exitChannel()" ></ion-icon>
+    </button>
+  </span>
+</div>
+

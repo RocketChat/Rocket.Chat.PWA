@@ -1,0 +1,30 @@
+<div class="login-page">
+  <img padding class="login-logo hide-on-keyboard" src="./assets/images/rocketchat.logo.svg" alt="logo">
+  <ion-card class="login-card" center *ngIf="!showSpinner; else spinner">
+    <ion-row class="login-buttons">
+      <a class="google-login" ion-button href="{{getServiceUrl('google')}}">
+        <ion-icon class="service-login-icon" name="logo-google"></ion-icon>
+      </a>
+    </ion-row>
+
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="model.username" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
+    </ion-item>
+
+    <ion-row class="login-buttons">
+      <button ion-button (click)="login()">
+        <ion-spinner name="bubbles" color="white" *ngIf="loading; else btnText"></ion-spinner>
+        <ng-template #btnText>Login</ng-template>
+      </button>
+    </ion-row>
+  </ion-card>
+  <ng-template #spinner>
+    <ion-spinner class="oauth-spinner"></ion-spinner>
+  </ng-template>
+</div>

@@ -1,0 +1,52 @@
+.channel-item {
+  display: flex;
+  height: 40px;
+  justify-content: space-between;
+  font-size: 1em;
+  padding: 0 5px;
+}
+
+.channel-item:hover {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.channel-icon {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 16px;
+  margin: 5px;
+}
+
+.hashtag {
+  font-weight: 700;
+}
+
+.channel-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button-icon {
+  height: auto;
+  ion-icon{
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 0 0.1em;
+  }
+}
+
+.hide-channel-icon {
+  margin-right: 10px;
+}
+
+.title-container{
+  width: 150px;
+}
+
+.channel-buttons{
+  display: flex;
+  width: 50px;
+  align-items: center;
+  justify-content: space-between;
+}

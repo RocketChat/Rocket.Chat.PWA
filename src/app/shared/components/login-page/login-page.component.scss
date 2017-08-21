@@ -1,0 +1,57 @@
+.login-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, #022235, #04436a)
+}
+
+.login-card {
+  margin: 50px;
+  max-width: 500px;
+  overflow: auto;
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.login-logo {
+  width: 80%;
+  max-width: 700px;
+}
+
+@media screen and (max-height: 320px) {
+  .hide-on-keyboard {
+    display: none;
+  }
+  .login-card {
+    margin: 0;
+  }
+}
+
+.service-login-icon{
+  font-size: 2em;
+}
+
+.google-login{
+  background-color: #dd4b39;
+}
+
+.facebook-login{
+  background-color: #325c99;
+}
+
+.oauth-spinner{
+  width: 100px;
+  height: 100px;
+}
+
+.spinner-md-crescent {
+  stroke: #ffffff !important;
+}
+

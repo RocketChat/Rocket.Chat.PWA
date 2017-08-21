@@ -1,0 +1,25 @@
+.loading-splash {
+  opacity: 0;
+  transition: opacity .8s, z-index .8s ease-in-out;
+  position: fixed;
+  z-index: -1;
+}
+
+ion-app:empty + .loading-splash {
+  opacity: 1;
+  z-index: 100;
+}
+
+.rounded-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: gainsboro;
+}
+
+.overflow-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
