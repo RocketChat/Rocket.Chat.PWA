@@ -1,0 +1,23 @@
+
+.container {
+  background-color: #04436b;
+  height:100vh;
+}
+.rcimage {
+  max-width:80%;
+}
+.mid {
+  text-align: center;
+}
+.input-field {
+  width: 90%;
+  padding: 10px;
+}
+.input-div {
+  margin-top: 10px;
+  width: 280px;
+}
+
+.white-text {
+  color: #ffffff !important;
+}

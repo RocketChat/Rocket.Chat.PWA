@@ -1,0 +1,93 @@
+<div class="screen-container">
+  <div class="toolbar-shadow mat-elevation-z4">
+    <md-toolbar color="primary">
+      <button md-icon-button color="primary" (click)="sidenav.toggle()"><md-icon><span class="white-text">menu</span></md-icon></button>
+      <span style="margin-left: 10px">Rocket.Chat</span>
+      <span class="app-toolbar-filler"></span>
+      <button md-icon-button class="side-button">
+    <md-icon class="search-button">search</md-icon>
+  </button>
+      <button md-icon-button [mdMenuTriggerFor]="menu" class="side-button">
+    <md-icon mdTooltip="More Option" class="menu-button">more_vert</md-icon>
+  </button>
+      <md-menu #menu="mdMenu">
+        <button md-menu-item>
+      <md-icon>info_outline</md-icon>
+      <span>Room Info</span>
+    </button>
+        <button md-menu-item (click)="foo()">
+      <md-icon>account_circle</md-icon>
+      <span>User Info</span>
+    </button>
+        <button md-menu-item (click)="foo()">
+      <md-icon>notifications</md-icon>
+      <span>Notifications</span>
+    </button>
+        <button md-menu-item (click)="foo()">
+      <md-icon>attach_file</md-icon>
+      <span>Files List</span>
+    </button>
+        <button md-menu-item (click)="foo()">
+    <md-icon>star_rate</md-icon>
+    <span>Starred Messages</span>
+    </button>
+        <button md-menu-item (click)="foo()">
+      <md-icon>settings</md-icon>
+      <span>Settings</span>
+    </button>
+        <md-divider></md-divider>
+        <button md-menu-item (click)="signout()">
+      <span style="color: #001d3f"><md-icon>motorcycle</md-icon></span>
+      <span style="color: #001d3f"><strong>Sign Out</strong></span>
+    </button>
+      </md-menu>
+    </md-toolbar>
+  </div>
+
+  <!--sidenav-->
+
+  <md-sidenav-container fullscreen style="top: 64px !important;" class="sidenav-class">
+
+    <md-sidenav [mode]="media.isActive('lg') ? 'side' : 'push'" [opened]="media.isActive('lg') ? true : false" #sidenav class="sidenav-container"
+      style="width: 240px; box-shadow: 3px 0 6px rgba(0,0,0,.24);background-color: #04436b">
+      <div class="channel-header">
+        <h3 md-subheader class="sidebar-header sidebar-title channel-name"><span style="padding-left: 4px;color: #759cb3"> Channels</span></h3>
+        <button md-icon-button mdTooltip="Create Channel" color="primary" class="addbutton" (click)="openDialog()"><md-icon><span class="white-text">add</span></md-icon></button>
+      </div>
+      <md-list style="padding-top: 0;" class="channels-list">
+        <md-list-item class="channel-list-items-container" *ngFor=" let channel of channellist$ | async" (click)="openingRooms(channel.rid)">
+          <span class="channel-list-items">{{channel.name}}</span>
+        </md-list-item>
+      </md-list>
+
+
+      <md-divider></md-divider>
+
+    </md-sidenav>
+    <div class="chat-layout">
+      <md-card class="main-card">
+        <md-card-content class="card-content">
+          <md-list class="chat-container">
+            <md-list-item *ngFor="let message of messages | reverse">
+              <!--<img md-list-avatar src="{{message.from.avatar}}">-->
+              <h2 md-line> <b>{{message.u.username}} </b> </h2>
+              <p md-line>
+                <span> {{message.msg}} </span>
+              </p>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+      <div class="msg-box">
+        <md-card class="msg-card mat-elevation-z2">
+          <div class="attachFileButton"><button md-mini-fab color="primary" (click)="attachFile()"><md-icon>attach_file</md-icon></button></div>
+          <md-input-container class="full-width">
+            <textarea #msg [(ngModel)]="searchValue" mdInput mdTextareaAutosize md-autosize type="text"></textarea>
+          </md-input-container>
+          <div class="send-button"><button md-mini-fab color="primary" (click)="sendMessage(msg.value)"><md-icon>send</md-icon></button></div>
+        </md-card>
+      </div>
+    </div>
+
+  </md-sidenav-container>
+</div>

@@ -1,0 +1,20 @@
+<div class="dialog-container">
+  <h2 md-dialog-title><span style="color: #001d3f">Create Channel</span></h2>
+  <md-input-container class="channel-name">
+    <input mdInput placeholder="Channel Name" autocomplete="off" />
+  </md-input-container>
+  <md-dialog-content class="dialogue-content">
+    <div>
+      <md-slide-toggle class="private-channel" color="primary" checked=false>
+        Private
+      </md-slide-toggle><br><br>
+      <md-slide-toggle class="read-only-channel" color="primary" checked="false">
+        Read Only Channel
+      </md-slide-toggle>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions align="center">
+    <button md-button [md-dialog-close]="true" color="primary">Create</button>
+    <button md-button md-dialog-close>Cancel</button>
+  </md-dialog-actions>
+</div>
