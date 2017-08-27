@@ -73,7 +73,7 @@ export class ChatService {
       fetchPolicy: 'cache-and-network',
     });
 
-    return this.messagesQueryObservable.do(({ data, loading}) => {
+    return this.messagesQueryObservable.do(({ data, loading }) => {
       if (!loading && data && data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {

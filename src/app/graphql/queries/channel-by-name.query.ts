@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const channelByNameQuery = gql`
-  query channelByName($name: String!, $isDirect: Boolean!){
-    channelByName(name: $name, isDirect: $isDirect){
+  query channelByName($name: String!){
+    channelByName(name: $name){
       id
       name
       direct
