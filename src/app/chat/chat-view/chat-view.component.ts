@@ -78,8 +78,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       this.channelSub = channelObservable.subscribe((result) => {
         const channelData = result.data;
         const channelLoading = result.loading;
-        this.loadingMessages = channelLoading && !channelData;
-        if (this.loadingMessages) {
+        this.initialLoading = channelLoading && !channelData;
+        if (this.initialLoading) {
           this.cd.markForCheck();
           return;
         }
