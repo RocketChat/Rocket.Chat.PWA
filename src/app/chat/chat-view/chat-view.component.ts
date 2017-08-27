@@ -7,10 +7,12 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ChatService} from '../services/chat/chat.service';
-import {MessagesQuery} from '../../graphql/types/types';
-import {Observable} from 'rxjs/Observable';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ChatService } from '../services/chat/chat.service';
+import { MessagesQuery } from '../../graphql/types/types';
+import { ChannelsService } from '../services/channels/channels.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -31,18 +33,20 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
 
   public channel: MessagesQuery.Channel;
-  public model = {message: undefined};
+  private routeParamsSub;
+  private messagesSub: Subscription;
+  private channelSub: Subscription;
+  public model = { message: undefined };
+  private chatContentScrollSubscription;
   public isFirstLoad = true;
   public messages;
   public keepIndexOnItemsChange = false;
   public initialLoading = false;
-  private routeParamsSub;
-  private messagesSub;
-  private chatContentScrollSubscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               public chatService: ChatService,
+              private channelsService: ChannelsService,
               private cd: ChangeDetectorRef) {
   }
 
@@ -63,62 +67,82 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       const isDirect = url.value[0].path === 'direct';
       const channelName = params['id'];
 
-      const messagesQueryObservable = this.chatService.getMessages({
-          channelId: null,
-          channelDetails: {name: channelName, direct: isDirect},
-          count: this.PAGE_MESSAGE_COUNT,
-          cursor: null,
-          searchRegex: null,
-          excludeServer: true
-        }
-      );
+      let channelObservable;
+      if (isDirect) {
+        channelObservable = this.channelsService.getDirectChannelByUsername(channelName);
+      }
+      else {
+        channelObservable = this.channelsService.getChannelByName(channelName);
+      }
 
-      this.messagesSub = messagesQueryObservable.subscribe(({data, loading}) => {
-        this.initialLoading = loading && !data;
-        if (this.initialLoading) {
+      this.channelSub = channelObservable.subscribe((result) => {
+        const channelData = result.data;
+        const channelLoading = result.loading;
+        this.loadingMessages = channelLoading && !channelData;
+        if (this.loadingMessages) {
           this.cd.markForCheck();
           return;
         }
+        this.channel = isDirect ? channelData.directChannel : channelData.channelByName;
+        this.cd.markForCheck();
 
-        if (data.messages === null) {
-          this.router.navigate(['channel-not-found']);
-          return;
-        }
+        const messagesQueryObservable = this.chatService.getMessages({
+            channelId: this.channel.id ,
+            channelDetails: {name: this.channel.name , direct: isDirect} ,
+            count: this.PAGE_MESSAGE_COUNT ,
+            cursor: null ,
+            searchRegex: null ,
+            excludeServer: true
+          }
+        );
 
-        const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
-        this.messages = data.messages.messagesArray;
+        this.messagesSub = messagesQueryObservable.subscribe(({data , loading}) => {
+          this.initialLoading = loading && !data;
+          if (this.initialLoading) {
+            this.cd.markForCheck();
+            return;
+          }
 
-        if (this.isFirstLoad) {
-          this.isFirstLoad = false;
-          this.channel = data.messages.channel;
-          this.chatService.subscribeToMessageAdded(this.channel.id);
+          if (data.messages === null) {
+            this.router.navigate(['channel-not-found']);
+            return;
+          }
 
-          setTimeout(() => {
-            this.addScrollListener();
+          const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
+          this.messages = data.messages.messagesArray;
+
+          if (this.isFirstLoad) {
+            this.isFirstLoad = false;
+            this.channel = data.messages.channel;
+            this.chatService.subscribeToMessageAdded(this.channel.id);
+
+            setTimeout(() => {
+              this.addScrollListener();
+              this.scrollToBottom();
+            }, 0);
+          }
+
+          if (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom()) {
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 0);
+          }
+
+          if (this.isScrolledToTop()) {
+            setTimeout(() => {
+              this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
+            }, 0);
+          }
+
+          if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
             this.scrollToBottom();
-          }, 0);
-        }
+          }
+          this.cd.markForCheck();
+        });
 
-        if (!this.chatService.isLoadingMoreMessages() && this.isScrolledToBottom()) {
-          setTimeout(() => {
-            this.scrollToBottom();
-          }, 0);
-        }
-
-        if (this.isScrolledToTop()) {
-          setTimeout(() => {
-            this.chatContent.nativeElement.scrollTop = this.chatContent.nativeElement.scrollHeight - oldScrollHeight;
-          }, 0);
-        }
-
-        if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
-          this.scrollToBottom();
-        }
+        this.scrollToBottom();
         this.cd.markForCheck();
       });
-
-      this.scrollToBottom();
-      this.cd.markForCheck();
     });
   }
 
@@ -172,6 +196,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     this.chatService.unsubscribeMessagesSubscription();
     if (this.messagesSub) {
       this.messagesSub.unsubscribe();
+    }
+    if (this.channelSub) {
+      this.channelSub.unsubscribe();
     }
   }
 
