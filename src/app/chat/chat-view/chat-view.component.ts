@@ -61,9 +61,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeParamsSub = this.route.params.subscribe(params => {
-      if (this.messagesSub) {
-        this.messagesSub.unsubscribe();
-      }
+      this.unsubscribeChannel();
       this.isFirstLoad = true;
       this.messages = undefined;
 
@@ -172,16 +170,22 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    if (this.chatContentScrollSubscription) {
-      this.chatContentScrollSubscription.unsubscribe();
-    }
+
+  unsubscribeChannel() {
+    this.chatService.unsubscribeMessagesSubscription();
     if (this.messagesSub) {
       this.messagesSub.unsubscribe();
     }
     if (this.channelSub) {
       this.channelSub.unsubscribe();
     }
+  }
+
+  ngOnDestroy() {
+    if (this.chatContentScrollSubscription) {
+      this.chatContentScrollSubscription.unsubscribe();
+    }
+    this.unsubscribeChannel();
     if (this.routeParamsSub) {
       this.routeParamsSub.unsubscribe();
     }
