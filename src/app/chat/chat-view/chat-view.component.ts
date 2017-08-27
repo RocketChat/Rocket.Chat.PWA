@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
 import { MessagesQuery } from '../../graphql/types/types';
 import { ChangeEvent, VirtualScrollComponent } from 'angular2-virtual-scroll';
+import { ChannelsService } from '../services/channels/channels.service';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -31,8 +33,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   public channel: MessagesQuery.Channel;
   private routeParamsSub;
-  private messagesSub;
-  public model = {message: undefined};
+  private messagesSub: Subscription;
+  private channelSub: Subscription;
+  public model = { message: undefined };
   private chatContentScrollSubscription;
   public isFirstLoad = true;
   public messages;
@@ -45,6 +48,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public chatService: ChatService,
+              private channelsService: ChannelsService,
               private cd: ChangeDetectorRef) {
   }
 
@@ -65,43 +69,62 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       const isDirect = url.value[0].path === 'direct';
       const channelName = params['id'];
 
-      const messagesQueryObservable = this.chatService.getMessages({
-          channelId: null,
-          channelDetails: {name: channelName, direct: isDirect},
-          count: this.PAGE_MESSAGE_COUNT,
-          cursor: null,
-          searchRegex: null,
-          excludeServer: true
-        }
-      );
+      let channelObservable;
+      if (isDirect) {
+        channelObservable = this.channelsService.getDirectChannelByUsername(channelName);
+      }
+      else {
+        channelObservable = this.channelsService.getChannelByName(channelName);
+      }
 
-      this.messagesSub = messagesQueryObservable.subscribe(({data, loading}) => {
-        this.loadingMessages = loading && !data;
+      this.channelSub = channelObservable.subscribe((result) => {
+        const channelData = result.data;
+        const channelLoading = result.loading;
+        this.loadingMessages = channelLoading && !channelData;
         if (this.loadingMessages) {
           this.cd.markForCheck();
           return;
         }
-
-        if (data.messages === null) {
-          this.router.navigate(['channel-not-found']);
-          return;
-        }
-
-        this.messages = data.messages.messagesArray;
-
-        if (this.isFirstLoad) {
-          this.isFirstLoad = false;
-          this.channel = data.messages.channel;
-          this.chatService.subscribeToMessageAdded(this.channel.id);
-
-          this.scrollToBottom();
-        }
-
-        if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
-          this.scrollToBottom();
-        }
-
+        this.channel = isDirect ? channelData.directChannel : channelData.channelByName;
         this.cd.markForCheck();
+
+        const messagesQueryObservable = this.chatService.getMessages({
+            channelId: this.channel.id,
+            channelDetails: { name: this.channel.name, direct: isDirect },
+            count: this.PAGE_MESSAGE_COUNT,
+            cursor: null,
+            searchRegex: null,
+            excludeServer: true
+          }
+        );
+
+        this.messagesSub = messagesQueryObservable.subscribe(({ data, loading }) => {
+          this.loadingMessages = loading && !data;
+          if (this.loadingMessages) {
+            this.cd.markForCheck();
+            return;
+          }
+
+          if (data.messages === null) {
+            this.router.navigate(['channel-not-found']);
+            return;
+          }
+
+          this.messages = data.messages.messagesArray;
+
+          if (this.isFirstLoad) {
+            this.isFirstLoad = false;
+            this.chatService.subscribeToMessageAdded(this.channel.id);
+
+            this.scrollToBottom();
+          }
+
+          if (!this.isFirstLoad && this.messages && this.isScrolledToBottom()) {
+            this.scrollToBottom();
+          }
+
+          this.cd.markForCheck();
+        });
       });
       this.cd.markForCheck();
     });
@@ -152,6 +175,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
     this.chatService.unsubscribeMessagesSubscription();
     if (this.messagesSub) {
       this.messagesSub.unsubscribe();
+    }
+    if (this.channelSub) {
+      this.channelSub.unsubscribe();
     }
   }
 
