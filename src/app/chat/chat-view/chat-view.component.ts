@@ -43,6 +43,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public keepIndexOnItemsChange = false;
   public initialLoading = false;
   public directTo: string;
+  public isDirect = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -65,11 +66,11 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       this.messages = undefined;
 
       const url: any = this.route.url;
-      const isDirect = url.value[0].path === 'direct';
+      this.isDirect = url.value[0].path === 'direct';
       const channelName = params['id'];
 
       let channelObservable;
-      if (isDirect) {
+      if (this.isDirect) {
         this.directTo = channelName;
         channelObservable = this.channelsService.getDirectChannelByUsername(this.directTo);
       }
@@ -85,7 +86,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
           return;
         }
-        this.channel = isDirect ? channelData.directChannel : channelData.channelByName;
+        this.channel = this.isDirect ? channelData.directChannel : channelData.channelByName;
         this.cd.markForCheck();
 
         const messagesQueryObservable = this.chatService.getMessages({
