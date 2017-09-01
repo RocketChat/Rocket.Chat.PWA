@@ -11,7 +11,7 @@
     <div class="loading-spinner" *ngIf="chatService.isLoadingMoreMessages() || initialLoading">
       <ion-spinner name="bubbles" ></ion-spinner>
     </div>
-    <ion-item *ngFor="let message of messages" no-lines>
+    <ion-item *ngFor="let message of messages; trackBy: trackMessage" no-lines>
       <chat-message [message]="message"></chat-message>
     </ion-item>
   </div>

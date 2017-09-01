@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
-import { MessagesQuery } from '../../graphql/types/types';
+import { MessagesQuery, Message } from '../../graphql/types/types';
 import { ChannelsService } from '../services/channels/channels.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -193,6 +193,10 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   loadMoreMessages() {
     return this.chatService.loadMoreMessages(this.channel.id, this.directTo, this.PAGE_MESSAGE_COUNT);
+  }
+
+  trackMessage(index: number, message: Message): string {
+    return message ? message.id : undefined;
   }
 
   unsubscribeChannel() {
