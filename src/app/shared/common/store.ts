@@ -18,7 +18,7 @@ export const store = createStore(
 
 let persistor;
 
-export const reduxPersist = () => new Promise((resolve, reject) => {
+export const reduxPersist = () => new Promise((resolve) => {
   persistor = persistStore(
     store,
     {

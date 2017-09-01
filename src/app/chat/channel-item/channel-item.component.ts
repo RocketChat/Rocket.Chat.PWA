@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MyChannelsQuery } from '../../graphql/types/types';
 
 @Component({
@@ -15,7 +15,7 @@ export class ChannelItemComponent implements OnInit {
   channelSymbol: string;
 
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router) {
   }
 
   gotoChannel(channelName: string) {

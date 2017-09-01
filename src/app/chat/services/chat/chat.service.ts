@@ -1,14 +1,14 @@
 import 'rxjs/add/operator/do';
-import {Injectable} from '@angular/core';
-import {Apollo, ApolloQueryObservable} from 'apollo-angular';
-import {AuthenticationService} from '../../../shared/services/authentication.service';
-import {ApolloQueryResult} from 'apollo-client';
-import {sendMessageMutation} from '../../../graphql/queries/send-message.mutation';
-import {messagesQuery} from '../../../graphql/queries/messages.query';
-import {chatMessageAddedSubscription} from '../../../graphql/queries/chat-message-added.subscription';
-import {ChannelByNameQuery, MessagesQuery} from '../../../graphql/types/types';
-import {channelByNameQuery} from '../../../graphql/queries/channel-by-name.query';
-import {Observable} from 'rxjs/Observable';
+
+import { Injectable } from '@angular/core';
+import { Apollo, ApolloQueryObservable } from 'apollo-angular';
+import { ApolloQueryResult } from 'apollo-client';
+import { Observable } from 'rxjs/Observable';
+
+import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
+import { messagesQuery } from '../../../graphql/queries/messages.query';
+import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
+import { MessagesQuery } from '../../../graphql/types/types';
 
 @Injectable()
 export class ChatService {
@@ -19,10 +19,7 @@ export class ChatService {
   private messagesSubscriptionObservable;
   private user;
 
-  constructor(private apollo: Apollo,
-              private authenticationService: AuthenticationService) {
-    this.user = authenticationService.getUser();
-  }
+  constructor(private apollo: Apollo) {}
 
   private optimisticSendMessage(content) {
     return {
@@ -149,17 +146,6 @@ export class ChatService {
           }
         });
       }
-    });
-  }
-
-  getChannelByName(name: string, isDirect: boolean) {
-    return this.apollo.watchQuery<ChannelByNameQuery.Result>({
-      query: channelByNameQuery,
-      variables: {
-        name,
-        isDirect
-      },
-      fetchPolicy: 'cache-and-network',
     });
   }
 

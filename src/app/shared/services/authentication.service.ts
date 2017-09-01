@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs/Observable';
 
@@ -9,7 +8,6 @@ import { UserFields, GetAllProvidersQuery, OauthProvider } from '../../graphql/t
 import { getAllProvidersQuery } from '../../graphql/queries/get-all-providers.query';
 import { getPersistor } from '../common/store';
 import { getApolloClient } from '../../graphql/client/apollo-client';
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
