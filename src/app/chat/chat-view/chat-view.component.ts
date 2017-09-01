@@ -113,7 +113,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           }
 
           const oldScrollHeight = this.chatContent.nativeElement.scrollHeight;
-          this.messages = data.messages.messagesArray;
+          this.messages = data.messages.messagesArray.slice().reverse();
 
           if (this.isFirstLoad) {
             this.isFirstLoad = false;

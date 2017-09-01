@@ -166,7 +166,7 @@ export class ChatService {
     let result;
 
     const prevMessagesLen = prev.messages.messagesArray.length;
-    if (prevMessagesLen && prev.messages.messagesArray[prevMessagesLen - 1].id === newMessage.id) {
+    if (prevMessagesLen && prev.messages.messagesArray[0].id === newMessage.id) {
       result = prev;
     }
     else {
@@ -174,7 +174,7 @@ export class ChatService {
         messages: {
           cursor: prev.messages.cursor || null,
           channel: prev.messages.channel,
-          messagesArray: [...prev.messages.messagesArray, newMessage],
+          messagesArray: [newMessage, ...prev.messages.messagesArray],
           __typename: prev.messages.__typename,
         }
       });
