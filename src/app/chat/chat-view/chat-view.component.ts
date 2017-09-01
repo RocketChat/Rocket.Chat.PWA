@@ -7,6 +7,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../services/chat/chat.service';
 import { MessagesQuery, Message } from '../../graphql/types/types';
@@ -36,7 +37,6 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   private routeParamsSub;
   private messagesSub: Subscription;
   private channelSub: Subscription;
-  public model = { message: undefined };
   private chatContentScrollSubscription;
   public isFirstLoad = true;
   public messages;
@@ -44,6 +44,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public initialLoading = false;
   public directTo: string;
   public isDirect = false;
+  public messageForm = new FormGroup({
+    message: new FormControl('', Validators.required)
+  });
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -184,9 +187,9 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    if (this.model.message) {
-      this.chatService.sendMessage(this.channel.id, this.directTo, this.model.message);
-      this.model.message = undefined;
+    if (this.messageForm.valid) {
+      this.chatService.sendMessage(this.channel.id, this.directTo, this.messageForm.get('message').value);
+      this.messageForm.reset();
       this.keepIndexOnItemsChange = false;
       this.scrollToBottom();
     }
