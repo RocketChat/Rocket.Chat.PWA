@@ -36,6 +36,7 @@ export class ChatService {
         fromServer: false,
         author: {
           __typename: 'User',
+          id: this.user.id,
           name: this.user.name,
           username: this.user.username,
           avatar: this.user.avatar,
