@@ -277,27 +277,28 @@ export namespace ChannelByNameQuery {
 
   export type Result = {
     channelByName: ChannelByName;
-  } 
+  }
 
   export type ChannelByName = {
     id: string;
     name: string;
     direct: boolean;
     privateChannel: boolean;
-  } 
+  }
 }
 
 export namespace ChatMessageAddedSubscription {
   export type Variables = {
       channelId: string;
+      directTo: string;
   }
 
   export type Result = {
     chatMessageAdded: ChatMessageAdded;
-  } 
+  }
 
   export type ChatMessageAdded = {
-  } & MessageFragment.Fragment 
+  } & MessageFragment.Fragment
 }
 
 export namespace DirectChannelQuery {
@@ -308,14 +309,14 @@ export namespace DirectChannelQuery {
 
   export type Result = {
     directChannel: DirectChannel;
-  } 
+  }
 
   export type DirectChannel = {
     id: string;
     name: string;
     direct: boolean;
     privateChannel: boolean;
-  } 
+  }
 }
 
 export namespace GetAllProvidersQuery {
@@ -324,11 +325,11 @@ export namespace GetAllProvidersQuery {
 
   export type Result = {
     oauthProviders: Array<OauthProviders>;
-  } 
+  }
 
   export type OauthProviders = {
     name: string;
-  } 
+  }
 }
 
 export namespace MessageFragment {
@@ -339,20 +340,23 @@ export namespace MessageFragment {
     id: string;
     author: Author;
     content: string;
+    type: string;
     creationTime: number;
     fromServer: boolean;
-  } 
+  }
 
   export type Author = {
     name: string;
+    username: string;
     avatar: string;
-  } 
+  }
 }
 
 export namespace MessagesQuery {
   export type Variables = {
       channelId: string | null;
-      channelDetails: ChannelNameAndDirect | null;
+      channelName: string | null;
+      directTo: string | null;
       cursor: string | null;
       count: number | null;
       searchRegex: string | null;
@@ -361,21 +365,21 @@ export namespace MessagesQuery {
 
   export type Result = {
     messages: Messages;
-  } 
+  }
 
   export type Messages = {
     cursor: string;
     channel: Channel;
     messagesArray: Array<MessagesArray>;
-  } 
+  }
 
   export type Channel = {
     id: string;
     name: string;
-  } 
+  }
 
   export type MessagesArray = {
-  } & MessageFragment.Fragment 
+  } & MessageFragment.Fragment
 }
 
 export namespace MyChannelsQuery {
@@ -385,29 +389,29 @@ export namespace MyChannelsQuery {
 
   export type Result = {
     channelsByUser: Array<ChannelsByUser>;
-  } 
+  }
 
   export type ChannelsByUser = {
     id: string;
     direct: boolean;
     name: string;
-    unseenMessages: number;
     privateChannel: boolean;
-  } 
+  }
 }
 
 export namespace SendMessageMutation {
   export type Variables = {
       channelId: string;
+      directTo: string;
       content: string;
   }
 
   export type Result = {
     sendMessage: SendMessage;
-  } 
+  }
 
   export type SendMessage = {
-  } & MessageFragment.Fragment 
+  } & MessageFragment.Fragment
 }
 
 export namespace UserFields {
@@ -419,5 +423,5 @@ export namespace UserFields {
     name: string;
     avatar: string;
     username: string;
-  } 
+  }
 }

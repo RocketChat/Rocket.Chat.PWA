@@ -92,6 +92,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
         const messagesQueryObservable = this.chatService.getMessages({
             channelId: this.channel.id ,
             directTo: this.directTo,
+            channelName: null,
             count: this.PAGE_MESSAGE_COUNT ,
             cursor: null ,
             searchRegex: null ,
