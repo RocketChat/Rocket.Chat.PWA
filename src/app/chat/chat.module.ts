@@ -12,6 +12,7 @@ import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
 import { ChannelsService } from './services/channels/channels.service';
 import { ChatService } from './services/chat/chat.service';
 import { ChannelNotFoundComponent } from './channel-not-found/channel-not-found.component';
+import { TranslateServerPipe } from './pipes/translate-server.pipe';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ChannelNotFoundComponent } from './channel-not-found/channel-not-found.
     ChannelItemComponent,
     MainSidenavComponent,
     ChannelNotFoundComponent,
+    TranslateServerPipe,
   ],
   providers: [
     ChannelsService,

@@ -95,7 +95,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
             count: this.PAGE_MESSAGE_COUNT ,
             cursor: null ,
             searchRegex: null ,
-            excludeServer: true
+            excludeServer: false
           }
         );
 

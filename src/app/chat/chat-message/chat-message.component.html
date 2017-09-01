@@ -5,6 +5,7 @@
       <div class="message-sender">{{message.author.name}}</div>
       <div class="message-timestamp">{{message.creationTime | timeToString:'LT'}}</div>
     </div>
-    <div class="message-text">{{message.content}}</div>
+    <div *ngIf="!message.type" class="message-text">{{message.content}}</div>
+    <div *ngIf="message.type" class="message-text">{{message | translateServer}}
   </div>
 </div>
