@@ -1,5 +1,6 @@
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { addGraphQLSubscriptions, SubscriptionClient } from 'subscriptions-transport-ws';
+
 import { environment } from '../../../environments/environment';
 import { AuthorizationMiddleware } from '../../shared/services/authorization-middleware';
 

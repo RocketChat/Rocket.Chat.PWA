@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
+
 import { ChannelByNameQuery, DirectChannelQuery, MyChannelsQuery } from '../../../graphql/types/types';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
 import { myChannelsQuery } from '../../../graphql/queries/my-channels.query';

@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+
 import { messageFragment } from './message.fragment';
 
 export const messagesQuery = gql`

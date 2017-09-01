@@ -9,11 +9,12 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+
 import { ChatService } from '../services/chat/chat.service';
 import { MessagesQuery, Message } from '../../graphql/types/types';
 import { ChannelsService } from '../services/channels/channels.service';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({

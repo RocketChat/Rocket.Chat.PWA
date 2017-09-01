@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AuthenticationService } from '../../services/authentication.service';
 import { ToastController } from 'ionic-angular';
+
+import { AuthenticationService } from '../../services/authentication.service';
 import { environment } from '../../../../environments/environment';
 import { OauthProvider } from '../../../graphql/types/types';
 

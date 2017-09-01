@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { MyChannelsQuery } from '../../graphql/types/types';
 
 @Component({

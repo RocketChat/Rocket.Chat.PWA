@@ -1,5 +1,6 @@
 import { GraphQLClient } from '@accounts/graphql-client';
 import { AccountsClient } from '@accounts/client';
+
 import { userFieldsFragment } from '../../graphql/queries/user.fragment';
 import { getApolloClient } from '../../graphql/client/apollo-client';
 import { store } from '../common/store';
