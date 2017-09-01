@@ -4,7 +4,8 @@ import { messageFragment } from './message.fragment';
 export const messagesQuery = gql`
   query messages(
     $channelId: String,
-    $channelDetails: ChannelNameAndDirect
+    $channelName: String,
+    $directTo: String,
     $cursor: String,
     $count: Int,
     $searchRegex: String,
@@ -12,7 +13,8 @@ export const messagesQuery = gql`
   ) {
     messages(
       channelId: $channelId,
-      channelDetails: $channelDetails,
+      channelName: $channelName,
+      directTo: $directTo,
       cursor: $cursor,
       count: $count,
       searchRegex: $searchRegex,
@@ -22,6 +24,7 @@ export const messagesQuery = gql`
       channel{
         id
         name
+        direct
       }
       messagesArray{
         ...MessageFragment

@@ -31,11 +31,13 @@ export class ChatService {
         __typename: 'Message',
         id: 'tempId',
         content: content,
+        type: null,
         creationTime: new Date().getTime().toString(),
         fromServer: false,
         author: {
           __typename: 'User',
-          name: this.user.name || this.user.username,
+          name: this.user.name,
+          username: this.user.username,
           avatar: this.user.avatar,
         }
       }
@@ -46,12 +48,13 @@ export class ChatService {
     return this.loadingMoreMessages;
   }
 
-  sendMessage(channelId: string, content: string) {
+  sendMessage(channelId: string, directTo: string, content: string) {
     this.apollo.mutate(
       {
         mutation: sendMessageMutation,
         variables: {
           channelId,
+          directTo,
           content,
         },
         optimisticResponse: this.optimisticSendMessage(content),
@@ -84,16 +87,22 @@ export class ChatService {
     });
   }
 
-  subscribeToMessageAdded(channelId: string) {
+  subscribeToMessageAdded(channelId: string, directTo: string) {
     if (!this.messagesQueryObservable) {
       throw new Error('call getMessages() first');
     }
 
+    let variables = {};
+
+    if (channelId) {
+      variables = { channelId };
+    } else {
+      variables = { directTo };
+    }
+
     this.messagesSubscriptionObservable = this.apollo.subscribe({
       query: chatMessageAddedSubscription,
-      variables: {
-        channelId,
-      },
+      variables,
     }).subscribe({
       next: (data) => {
         const message = data.chatMessageAdded;
@@ -109,7 +118,7 @@ export class ChatService {
     }
   }
 
-  loadMoreMessages(channelId: string, count: number): Promise<ApolloQueryResult<MessagesQuery.Result>> {
+  loadMoreMessages(channelId: string, directTo: string, count: number): Promise<ApolloQueryResult<MessagesQuery.Result>> {
     if (!this.messagesQueryObservable) {
       return Promise.reject('call getMessages() first');
     }
@@ -122,6 +131,7 @@ export class ChatService {
     return this.messagesQueryObservable.fetchMore({
       variables: {
         channelId,
+        directTo,
         cursor: this.cursor,
         count,
       },

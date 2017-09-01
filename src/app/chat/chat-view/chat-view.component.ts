@@ -42,6 +42,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   public messages;
   public keepIndexOnItemsChange = false;
   public initialLoading = false;
+  public directTo: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -69,7 +70,8 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
       let channelObservable;
       if (isDirect) {
-        channelObservable = this.channelsService.getDirectChannelByUsername(channelName);
+        this.directTo = channelName;
+        channelObservable = this.channelsService.getDirectChannelByUsername(this.directTo);
       }
       else {
         channelObservable = this.channelsService.getChannelByName(channelName);
@@ -88,7 +90,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
         const messagesQueryObservable = this.chatService.getMessages({
             channelId: this.channel.id ,
-            channelDetails: {name: this.channel.name , direct: isDirect} ,
+            directTo: this.directTo,
             count: this.PAGE_MESSAGE_COUNT ,
             cursor: null ,
             searchRegex: null ,
@@ -114,7 +116,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
           if (this.isFirstLoad) {
             this.isFirstLoad = false;
             this.channel = data.messages.channel;
-            this.chatService.subscribeToMessageAdded(this.channel.id);
+            this.chatService.subscribeToMessageAdded(this.channel.id, this.directTo);
 
             setTimeout(() => {
               this.addScrollListener();
@@ -181,7 +183,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     if (this.model.message) {
-      this.chatService.sendMessage(this.channel.id, this.model.message);
+      this.chatService.sendMessage(this.channel.id, this.directTo, this.model.message);
       this.model.message = undefined;
       this.keepIndexOnItemsChange = false;
       this.scrollToBottom();
@@ -189,7 +191,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   }
 
   loadMoreMessages() {
-    return this.chatService.loadMoreMessages(this.channel.id, this.PAGE_MESSAGE_COUNT);
+    return this.chatService.loadMoreMessages(this.channel.id, this.directTo, this.PAGE_MESSAGE_COUNT);
   }
 
   unsubscribeChannel() {
