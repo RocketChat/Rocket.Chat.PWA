@@ -1,7 +1,7 @@
 <ion-header class="home-menu-header">
   <ion-toolbar>
     <div class="toolbar-row">
-      <img class="rounded-img margin-left" [src]="user?.avatar | defaultAvatar" alt="">
+      <img class="rounded-img margin-left" [src]="user?.avatar | defaultAvatar : user?.name" alt="">
       <span class="text-title">{{user?.name}}</span>
     </div>
   </ion-toolbar>

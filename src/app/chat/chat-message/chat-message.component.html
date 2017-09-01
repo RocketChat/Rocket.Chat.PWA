@@ -1,5 +1,5 @@
 <div class="message-row">
-  <img class="rounded-img message-img" [src]="message.author.avatar | defaultAvatar" alt="">
+  <img class="rounded-img message-img" [src]="message.author.avatar | defaultAvatar: message.author.name" alt="">
   <div class="message-block">
     <div class="message-headers">
       <div class="message-sender">{{message.author.name}}</div>
