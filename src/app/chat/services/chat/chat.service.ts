@@ -104,7 +104,7 @@ export class ChatService {
   }
 
   unsubscribeMessagesSubscription() {
-    if ( this.messagesSubscriptionObservable){
+    if ( this.messagesSubscriptionObservable) {
       this.messagesSubscriptionObservable.unsubscribe();
     }
   }
