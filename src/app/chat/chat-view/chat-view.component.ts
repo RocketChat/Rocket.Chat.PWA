@@ -87,11 +87,14 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       this.channelSub = channelObservable.subscribe((result) => {
         const channelData = result.data;
         const channelLoading = result.loading;
+
         this.initialLoading = channelLoading && !channelData;
+
         if (this.initialLoading) {
           this.cd.markForCheck();
           return;
         }
+
         this.channel = this.isDirect ? channelData.directChannel : channelData.channelByName;
         this.cd.markForCheck();
 
@@ -105,6 +108,17 @@ export class ChatViewComponent implements OnInit, OnDestroy {
             excludeServer: false
           }
         );
+
+        this.scrolledList = this.scrollerService.mount(this.chatContent);
+        this.scrolledList.setTrigger(this.PAGE_PERCENT_LOAD_MORE_TRIGGER);
+        this.scrolledList.setMaxLoadMore(this.MAX_PAGE_LOAD_MORE_PIXEL_LEN);
+
+        this.scrolledList.onSuccess(() => {
+          if (!this.chatService.isLoadingMoreMessages()) {
+            this.loadMoreMessages();
+            this.cd.markForCheck();
+          }
+        });
 
         this.messagesSub = messagesQueryObservable.subscribe(({data , loading}) => {
           this.initialLoading = loading && !data;
@@ -127,18 +141,6 @@ export class ChatViewComponent implements OnInit, OnDestroy {
             this.chatService.subscribeToMessageAdded(this.channel.id, this.directTo);
 
             setTimeout(() => {
-              this.scrolledList = this.scrollerService.mount(this.chatContent.getElementRef());
-
-              this.scrolledList.setTrigger(this.PAGE_PERCENT_LOAD_MORE_TRIGGER);
-              this.scrolledList.setMaxLoadMore(this.MAX_PAGE_LOAD_MORE_PIXEL_LEN);
-
-              this.scrolledList.onSuccess(() => {
-                if (!this.chatService.isLoadingMoreMessages()) {
-                  this.loadMoreMessages();
-                  this.cd.markForCheck();
-                }
-              });
-
               this.scrolledList.toBottom();
             }, 0);
           }
