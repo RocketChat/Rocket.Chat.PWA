@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
-import { MessagesQuery } from '../../../graphql/types/types';
+import { MessagesQuery, UserFields } from '../../../graphql/types/types';
+import { AuthenticationService } from '../../../shared/services/authentication.service';
 
 @Injectable()
 export class ChatService {
@@ -17,9 +18,14 @@ export class ChatService {
   private loadingMoreMessages = false;
   private messagesQueryObservable: ApolloQueryObservable<MessagesQuery.Result>;
   private messagesSubscriptionObservable;
-  private user;
+  private user: UserFields.Fragment;
 
-  constructor(private apollo: Apollo) {}
+  constructor(
+    private apollo: Apollo,
+    authenticationService: AuthenticationService
+  ) {
+    this.user = authenticationService.getUser();
+  }
 
   private optimisticSendMessage(content) {
     return {
