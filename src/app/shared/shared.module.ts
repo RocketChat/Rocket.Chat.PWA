@@ -11,6 +11,7 @@ import { AppComponent } from '../app.component';
 import { UnixTimeToStringPipe } from './pipes/unix-time-to-string/unix-time-to-string.pipe';
 import { DefaultAvatarPipe } from './pipes/default-avatar/default-avatar.pipe';
 import { PushNotificationsService } from './services/push-notifications.service';
+import { ScrollerService } from './services/scroller.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { PushNotificationsService } from './services/push-notifications.service'
     DefaultAvatarPipe
   ],
   declarations: [UnixTimeToStringPipe, DefaultAvatarPipe],
-  providers: [PushNotificationsService],
+  providers: [PushNotificationsService, ScrollerService],
 })
 export class SharedModule {
 }
