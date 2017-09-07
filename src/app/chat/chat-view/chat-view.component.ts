@@ -11,9 +11,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ChatService } from '../services/chat/chat.service';
+import { ChatService } from './chat.service';
 import { MessagesQuery, Message } from '../../graphql/types/types';
-import { ChannelsService } from '../services/channels/channels.service';
+import { ChannelsService } from './channels.service';
 import { ScrollerService, Scrolled } from '../../shared/services/scroller.service';
 
 

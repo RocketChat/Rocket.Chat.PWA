@@ -5,11 +5,11 @@ import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { ApolloQueryResult } from 'apollo-client';
 import { Observable } from 'rxjs/Observable';
 
-import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
-import { messagesQuery } from '../../../graphql/queries/messages.query';
-import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
-import { MessagesQuery, UserFields } from '../../../graphql/types/types';
-import { AuthenticationService } from '../../../shared/services/authentication.service';
+import { sendMessageMutation } from '../../graphql/queries/send-message.mutation';
+import { messagesQuery } from '../../graphql/queries/messages.query';
+import { chatMessageAddedSubscription } from '../../graphql/queries/chat-message-added.subscription';
+import { MessagesQuery, UserFields } from '../../graphql/types/types';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Injectable()
 export class ChatService {
