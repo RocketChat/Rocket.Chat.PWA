@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { sendMessageMutation } from '../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../graphql/queries/chat-message-added.subscription';
-import { MessagesQuery, UserFields } from '../../graphql/types/types';
+import { MessagesQuery, UserFields, SendMessageMutation } from '../../graphql/types/types';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class ChatService {
   }
 
   sendMessage(channelId: string, directTo: string, content: string) {
-    this.apollo.mutate(
+    this.apollo.mutate<SendMessageMutation.Result>(
       {
         mutation: sendMessageMutation,
         variables: {
@@ -63,12 +63,12 @@ export class ChatService {
         },
         optimisticResponse: this.optimisticSendMessage(content),
         updateQueries: {
-          messages: (previousResult: any, {mutationResult}: any) => {
+          messages: (previousResult, {mutationResult}) => {
             const message = mutationResult.data.sendMessage;
             return this.pushNewMessage(previousResult, message);
           }
         }
-      });
+      }).subscribe();
   }
 
   getMessages(messagesQueryVariables: MessagesQuery.Variables): Observable<ApolloQueryResult<MessagesQuery.Result>> {
