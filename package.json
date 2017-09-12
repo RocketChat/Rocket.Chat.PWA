@@ -36,6 +36,7 @@
     "ionicons": "^3.0.0",
     "jsonwebtoken": "^8.0.0",
     "moment": "^2.18.1",
+    "offline-js": "^0.7.19",
     "redux": "^3.7.2",
     "redux-persist": "^4.9.1",
     "redux-persist-transform-immutable": "^4.3.0",

@@ -22,13 +22,9 @@
       "serviceWorker": true,
       "styles": [
         "theme/variables.scss",
-        "styles.scss",
-        "assets/offline/offline-language-english.css",
-        "assets/offline/offline-theme-dark.css"
+        "styles.scss"
       ],
-      "scripts": [
-        "assets/offline/offline.min.js"
-      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
