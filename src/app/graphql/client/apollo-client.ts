@@ -10,9 +10,14 @@ const networkInterface = createNetworkInterface({
 
 networkInterface.use([new AuthorizationMiddleware()]);
 
-const wsClient = new SubscriptionClient(environment.subscriptionServer + '/subscriptions', {
+export const wsClient = new SubscriptionClient(environment.subscriptionServer + '/subscriptions', {
   reconnect: true,
-  connectionParams: {}
+  connectionParams() {
+    return {
+      Authorization: AuthorizationMiddleware.token
+    }
+  },
+  lazy: true
 });
 
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
