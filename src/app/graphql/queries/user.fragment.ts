@@ -7,5 +7,4 @@ export const userFieldsFragment = gql`
     avatar
     username
   }
-  
 `;

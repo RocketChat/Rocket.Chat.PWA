@@ -15,7 +15,7 @@ export const wsClient = new SubscriptionClient(environment.subscriptionServer + 
   connectionParams() {
     return {
       Authorization: AuthorizationMiddleware.token
-    }
+    };
   },
   lazy: true
 });

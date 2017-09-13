@@ -4,20 +4,17 @@ import { Router } from '@angular/router';
 import { MyChannels } from '../../graphql/types/types';
 
 @Component({
-  selector : 'channel-item',
+  selector : 'app-channel-item',
   templateUrl : './channel-item.component.html',
   styleUrls : ['./channel-item.component.scss']
 })
 export class ChannelItemComponent implements OnInit {
-
   @Output() onClick = new EventEmitter<MyChannels.ChannelsByUser>();
   @Input() channel: MyChannels.ChannelsByUser;
 
   channelSymbol: string;
 
-
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   gotoChannel(channelName: string) {
     if (channelName) {
@@ -37,11 +34,9 @@ export class ChannelItemComponent implements OnInit {
   ngOnInit(): void {
     if (this.channel.direct) {
       this.channelSymbol = 'at';
-    }
-    else if (this.channel.privateChannel) {
+    } else if (this.channel.privateChannel) {
       this.channelSymbol = 'lock';
-    }
-    else {
+    } else {
       this.channelSymbol = 'hashtag';
     }
   }

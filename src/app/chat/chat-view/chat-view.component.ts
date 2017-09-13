@@ -18,7 +18,7 @@ import { ScrollerService, Scrolled } from '../../shared/services/scroller.servic
 
 
 @Component({
-  selector: 'chat-view',
+  selector: 'app-chat-view',
   templateUrl: './chat-view.component.html',
   styleUrls: ['./chat-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,8 +79,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
       if (this.isDirect) {
         this.directTo = channelName;
         channelObservable = this.channelsService.getDirectChannelByUsername(this.directTo);
-      }
-      else {
+      } else {
         channelObservable = this.channelsService.getChannelByName(channelName);
       }
 

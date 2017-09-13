@@ -30,4 +30,4 @@ export class TranslateServerPipe implements PipeTransform {
   public transform(message: Message): string {
     return translate(message);
   }
-};
+}

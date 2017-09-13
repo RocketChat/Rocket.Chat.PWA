@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
 @Component({
-  selector: 'main-sidenav',
+  selector: 'app-main-sidenav',
   templateUrl: './main-sidenav.component.html',
   styleUrls: ['./main-sidenav.component.scss'],
   encapsulation: ViewEncapsulation.None,

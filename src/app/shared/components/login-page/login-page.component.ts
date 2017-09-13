@@ -12,7 +12,6 @@ import { OauthProvider } from '../../../graphql/types/types';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-
 export class LoginPageComponent implements OnInit {
   model: any = {};
   providers: Observable<OauthProvider[]>;
@@ -86,12 +85,10 @@ export class LoginPageComponent implements OnInit {
         this.loading = true;
         await this.authenticationService.login(this.model.username, this.model.password);
         this.router.navigate([this.returnUrl]);
-      }
-      catch (e) {
+      } catch (e) {
         console.error('Login failed', e);
         this.showToast('Invalid username or password');
-      }
-      finally {
+      } finally {
         this.loading = false;
       }
     }

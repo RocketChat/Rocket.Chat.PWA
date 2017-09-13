@@ -12,7 +12,7 @@
       <ion-spinner name="bubbles" ></ion-spinner>
     </div>
     <ion-item *ngFor="let message of messages; trackBy: trackMessage" no-lines>
-      <chat-message [message]="message"></chat-message>
+      <app-chat-message [message]="message"></app-chat-message>
     </ion-item>
   </div>
 </ion-content>

@@ -161,8 +161,7 @@ export class ChatService {
     const prevMessagesLen = prev.messages.messagesArray.length;
     if (prevMessagesLen && prev.messages.messagesArray[0].id === newMessage.id) {
       result = prev;
-    }
-    else {
+    } else {
       result = Object.assign({}, prev, {
         messages: {
           cursor: prev.messages.cursor || null,
