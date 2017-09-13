@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build -prod",
+    "build": "ng build --prod",
     "build:serve": "ng build --prod --sourcemaps true && yarn serve:dist",
     "serve:dist": "lite-server --baseDir=dist",
     "test": "ng test",
