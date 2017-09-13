@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { sendMessageMutation } from '../../graphql/queries/send-message.mutation';
 import { messagesQuery } from '../../graphql/queries/messages.query';
 import { chatMessageAddedSubscription } from '../../graphql/queries/chat-message-added.subscription';
-import { MessagesQuery, UserFields, SendMessageMutation } from '../../graphql/types/types';
+import { Messages, UserFields, SendMessage } from '../../graphql/types/types';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ChatService {
   private cursor: any;
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
-  private messagesQueryObservable: ApolloQueryObservable<MessagesQuery.Result>;
+  private messagesQueryObservable: ApolloQueryObservable<Messages.Query>;
   private messagesSubscriptionObservable;
   private user: UserFields.Fragment;
 
@@ -53,7 +53,7 @@ export class ChatService {
   }
 
   sendMessage(channelId: string, directTo: string, content: string) {
-    this.apollo.mutate<SendMessageMutation.Result>(
+    this.apollo.mutate<SendMessage.Mutation>(
       {
         mutation: sendMessageMutation,
         variables: {
@@ -71,11 +71,11 @@ export class ChatService {
       }).subscribe();
   }
 
-  getMessages(messagesQueryVariables: MessagesQuery.Variables): Observable<ApolloQueryResult<MessagesQuery.Result>> {
+  getMessages(messagesQueryVariables: Messages.Variables): Observable<ApolloQueryResult<Messages.Query>> {
     this.noMoreToLoad = false;
     this.cursor = null;
 
-    this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
+    this.messagesQueryObservable = this.apollo.watchQuery<Messages.Query>({
       query: messagesQuery,
       variables: messagesQueryVariables,
       fetchPolicy: 'cache-and-network',
@@ -122,7 +122,7 @@ export class ChatService {
     }
   }
 
-  loadMoreMessages(channelId: string, directTo: string, count: number): Promise<ApolloQueryResult<MessagesQuery.Result>> {
+  loadMoreMessages(channelId: string, directTo: string, count: number): Promise<ApolloQueryResult<Messages.Query>> {
     if (!this.messagesQueryObservable) {
       return Promise.reject('call getMessages() first');
     }

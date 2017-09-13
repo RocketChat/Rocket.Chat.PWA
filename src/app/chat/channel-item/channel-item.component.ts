@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MyChannelsQuery } from '../../graphql/types/types';
+import { MyChannels } from '../../graphql/types/types';
 
 @Component({
   selector : 'channel-item',
@@ -10,8 +10,8 @@ import { MyChannelsQuery } from '../../graphql/types/types';
 })
 export class ChannelItemComponent implements OnInit {
 
-  @Output() onClick = new EventEmitter<MyChannelsQuery.ChannelsByUser>();
-  @Input() channel: MyChannelsQuery.ChannelsByUser;
+  @Output() onClick = new EventEmitter<MyChannels.ChannelsByUser>();
+  @Input() channel: MyChannels.ChannelsByUser;
 
   channelSymbol: string;
 

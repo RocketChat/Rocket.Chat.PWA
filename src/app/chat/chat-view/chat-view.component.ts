@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { ChatService } from './chat.service';
-import { MessagesQuery, Message } from '../../graphql/types/types';
+import { Messages, Message } from '../../graphql/types/types';
 import { ChannelsService } from './channels.service';
 import { ScrollerService, Scrolled } from '../../shared/services/scroller.service';
 
@@ -34,7 +34,7 @@ export class ChatViewComponent implements OnInit, OnDestroy {
   private readonly MAX_PAGE_LOAD_MORE_PIXEL_LEN = 3500;
 
 
-  public channel: MessagesQuery.Channel;
+  public channel: Messages.Channel;
   private routeParamsSub;
   private messagesSub: Subscription;
   private channelSub: Subscription;
