@@ -3,7 +3,7 @@ export const offlineCheck = () => new Promise((resolve) => {
   const [_onload, _onerror, _ontimeout, _onreadystatechange] =
     [xhr.onload, xhr.onerror, xhr.ontimeout, xhr.onreadystatechange];
 
-    if (_onload) {
+  if (_onload) {
     xhr.onload = () => resolve(_onload.call(xhr));
   }
 
