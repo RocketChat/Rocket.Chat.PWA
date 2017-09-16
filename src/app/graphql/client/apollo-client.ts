@@ -10,7 +10,7 @@ const networkInterface = createNetworkInterface({
 
 networkInterface.use([new AuthorizationMiddleware()]);
 
-export const wsClient = new SubscriptionClient(environment.subscriptionServer + '/subscriptions', {
+export const wsClient = new SubscriptionClient(environment.subscriptionServer, {
   reconnect: true,
   connectionParams() {
     return {
