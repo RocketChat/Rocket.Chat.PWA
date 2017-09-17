@@ -1,25 +1,29 @@
 import 'rxjs/add/operator/do';
+
 import { Injectable } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
-import { AuthenticationService } from '../../../shared/services/authentication.service';
 import { ApolloQueryResult } from 'apollo-client';
-import { sendMessageMutation } from '../../../graphql/queries/send-message.mutation';
-import { messagesQuery } from '../../../graphql/queries/messages.query';
-import { chatMessageAddedSubscription } from '../../../graphql/queries/chat-message-added.subscription';
-import { ChannelByNameQuery, MessagesQuery } from '../../../graphql/types/types';
-import { channelByNameQuery } from '../../../graphql/queries/channel-by-name.query';
 import { Observable } from 'rxjs/Observable';
+
+import { sendMessageMutation } from '../../graphql/queries/send-message.mutation';
+import { messagesQuery } from '../../graphql/queries/messages.query';
+import { chatMessageAddedSubscription } from '../../graphql/queries/chat-message-added.subscription';
+import { Messages, UserFields, SendMessage } from '../../graphql/types/types';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Injectable()
 export class ChatService {
   private cursor: any;
   private noMoreToLoad = false;
   private loadingMoreMessages = false;
-  private messagesQueryObservable: ApolloQueryObservable<MessagesQuery.Result>;
-  private user;
+  private messagesQueryObservable: ApolloQueryObservable<Messages.Query>;
+  private messagesSubscriptionObservable;
+  private user: UserFields.Fragment;
 
-  constructor(private apollo: Apollo,
-              private authenticationService: AuthenticationService) {
+  constructor(
+    private apollo: Apollo,
+    authenticationService: AuthenticationService
+  ) {
     this.user = authenticationService.getUser();
   }
 
@@ -30,10 +34,14 @@ export class ChatService {
         __typename: 'Message',
         id: 'tempId',
         content: content,
+        type: null,
         creationTime: new Date().getTime().toString(),
+        fromServer: false,
         author: {
           __typename: 'User',
-          name: this.user.name || this.user.username,
+          id: this.user.id,
+          name: this.user.name,
+          username: this.user.username,
           avatar: this.user.avatar,
         }
       }
@@ -44,35 +52,36 @@ export class ChatService {
     return this.loadingMoreMessages;
   }
 
-  sendMessage(channelId: string, content: string) {
-    this.apollo.mutate(
+  sendMessage(channelId: string, directTo: string, content: string) {
+    this.apollo.mutate<SendMessage.Mutation>(
       {
         mutation: sendMessageMutation,
         variables: {
           channelId,
+          directTo,
           content,
         },
         optimisticResponse: this.optimisticSendMessage(content),
         updateQueries: {
-          messages: (previousResult: any, { mutationResult }: any) => {
+          messages: (previousResult, {mutationResult}) => {
             const message = mutationResult.data.sendMessage;
             return this.pushNewMessage(previousResult, message);
           }
         }
-      });
+      }).subscribe();
   }
 
-  getMessages(messagesQueryVariables: MessagesQuery.Variables): Observable<ApolloQueryResult<MessagesQuery.Result>> {
+  getMessages(messagesQueryVariables: Messages.Variables): Observable<ApolloQueryResult<Messages.Query>> {
     this.noMoreToLoad = false;
     this.cursor = null;
 
-    this.messagesQueryObservable = this.apollo.watchQuery<MessagesQuery.Result>({
+    this.messagesQueryObservable = this.apollo.watchQuery<Messages.Query>({
       query: messagesQuery,
       variables: messagesQueryVariables,
       fetchPolicy: 'cache-and-network',
     });
 
-    return this.messagesQueryObservable.do(({ data, loading}) => {
+    return this.messagesQueryObservable.do(({ data, loading }) => {
       if (!loading && data && data.messages) {
         this.cursor = data.messages.cursor;
         if (this.cursor === null) {
@@ -82,16 +91,22 @@ export class ChatService {
     });
   }
 
-  subscribeToMessageAdded(channelId: string) {
+  subscribeToMessageAdded(channelId: string, directTo: string) {
     if (!this.messagesQueryObservable) {
       throw new Error('call getMessages() first');
     }
 
-    this.apollo.subscribe({
+    let variables = {};
+
+    if (channelId) {
+      variables = { channelId };
+    } else {
+      variables = { directTo };
+    }
+
+    this.messagesSubscriptionObservable = this.apollo.subscribe({
       query: chatMessageAddedSubscription,
-      variables: {
-        channelId,
-      },
+      variables,
     }).subscribe({
       next: (data) => {
         const message = data.chatMessageAdded;
@@ -101,7 +116,13 @@ export class ChatService {
     });
   }
 
-  loadMoreMessages(channelId: string, count: number): Promise<ApolloQueryResult<MessagesQuery.Result>> {
+  unsubscribeMessagesSubscription() {
+    if ( this.messagesSubscriptionObservable) {
+      this.messagesSubscriptionObservable.unsubscribe();
+    }
+  }
+
+  loadMoreMessages(channelId: string, directTo: string, count: number): Promise<ApolloQueryResult<Messages.Query>> {
     if (!this.messagesQueryObservable) {
       return Promise.reject('call getMessages() first');
     }
@@ -114,10 +135,11 @@ export class ChatService {
     return this.messagesQueryObservable.fetchMore({
       variables: {
         channelId,
+        directTo,
         cursor: this.cursor,
         count,
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
+      updateQuery: (prev, {fetchMoreResult}) => {
         this.cursor = fetchMoreResult.messages.cursor;
         this.loadingMoreMessages = false;
 
@@ -133,30 +155,23 @@ export class ChatService {
     });
   }
 
-  getChannelByName(name: string, isDirect: boolean) {
-    return this.apollo.watchQuery<ChannelByNameQuery.Result>({
-      query: channelByNameQuery,
-      variables: {
-        name,
-        isDirect
-      },
-      fetchPolicy: 'cache-and-network',
-    });
-  }
-
   private pushNewMessage(prev, newMessage) {
-    if (prev.messages.messagesArray[prev.messages.messagesArray.length - 1].id === newMessage.id) {
-      return prev;
-    }
-    else {
-      return Object.assign({}, prev, {
+    let result;
+
+    const prevMessagesLen = prev.messages.messagesArray.length;
+    if (prevMessagesLen && prev.messages.messagesArray[0].id === newMessage.id) {
+      result = prev;
+    } else {
+      result = Object.assign({}, prev, {
         messages: {
           cursor: prev.messages.cursor || null,
           channel: prev.messages.channel,
-          messagesArray: [...prev.messages.messagesArray, newMessage],
+          messagesArray: [newMessage, ...prev.messages.messagesArray],
           __typename: prev.messages.__typename,
         }
       });
     }
+
+    return result;
   }
 }

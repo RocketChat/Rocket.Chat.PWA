@@ -6,7 +6,6 @@ export const myChannelsQuery = gql`
       id
       direct
       name
-      unseenMessages
       privateChannel
     }
   }
