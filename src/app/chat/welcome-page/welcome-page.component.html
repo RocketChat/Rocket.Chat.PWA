@@ -1,14 +1,14 @@
-<ion-header>
+<ion-header class="home-header" no-border>
   <ion-toolbar>
     <button class="menu-icon-button" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Welcome
+      Home
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content padding class="content">
+<ion-content class="content">
   <img src="assets/images/rocketchat.logo-dark.svg" alt="logo">
   <p> Have your own web chat. Developed with Meteor.com, Rocket.Chat is a great solution for
     developers looking forward to build and evolve their own chat platform.</p>
@@ -20,12 +20,30 @@
       trello board.</p>
     <nav>
       <a ion-button color="light" target="_blank"
-         href="https://twitter.com/RocketChatApp"><span>Twitter</span></a>
+         href="https://twitter.com/RocketChatApp">
+         <ion-icon name="logo-twitter" class="icon-margin"></ion-icon>
+         <span>Twitter</span>
+      </a>
       <a ion-button color="light" target="_blank"
-         href="https://www.facebook.com/RocketChatApp"><span>Facebook</span></a>
-      <a ion-button color="light" target="_blank" href="https://plus.google.com/+RocketChatApp"><span>Google Plus</span></a>
-      <a ion-button color="light" target="_blank" href="https://github.com/RocketChat/Rocket.Chat"><span>Github</span></a>
-      <a ion-button color="light" target="_blank" href="https://www.linkedin.com/company/rocket-chat"><span>LinkedIn</span></a>
+         href="https://www.facebook.com/RocketChatApp">
+         <ion-icon name="logo-facebook" class="icon-margin"></ion-icon>
+         <span>Facebook</span>
+       </a>
+      <a ion-button color="light" target="_blank"
+         href="https://plus.google.com/+RocketChatApp">
+        <ion-icon name="logo-googleplus" class="icon-margin"></ion-icon>
+        <span>Google Plus</span>
+      </a>
+      <a ion-button color="light" target="_blank"
+         href="https://github.com/RocketChat/Rocket.Chat">
+        <ion-icon name="logo-github" class="icon-margin"></ion-icon>
+        <span>Github</span>
+      </a>
+      <a ion-button color="light" target="_blank"
+         href="https://www.linkedin.com/company/rocket-chat">
+         <ion-icon name="logo-linkedin" class="icon-margin"></ion-icon>
+         <span>LinkedIn</span>
+       </a>
     </nav>
   </div>
 </ion-content>

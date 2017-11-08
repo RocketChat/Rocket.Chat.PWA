@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"yarn server\" \"ng serve\" ",
+    "start": "concurrently \"yarn server\" \"ng serve --progress false\" ",
     "build": "ng build -prod",
     "build:serve": "ng build --prod --sourcemaps true && yarn serve:dist",
     "serve:dist": "lite-server --baseDir=dist",

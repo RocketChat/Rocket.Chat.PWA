@@ -18,7 +18,7 @@
 }
 
 .message-scroller {
-  overflow: scroll;
+  overflow: auto;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -56,4 +56,18 @@ virtual-scroll,
 
 .message-input {
   display: flex;
+}
+
+.toolbar-md {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.chat-header {
+  .toolbar-background-md {
+    background-color: #ffffff;
+  }
+}
+
+.scroll-content {
+    overflow-y: hidden;
 }

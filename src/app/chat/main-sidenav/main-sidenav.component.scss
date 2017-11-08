@@ -1,24 +1,25 @@
 .home-menu-content {
-  background-color: #044b76;
+  background-color: #2f343d; //side content background dark color
   height: 100%;
   padding-top: 56px;
   overflow: auto;
 }
 
 .home-menu-header {
-  color: #89aabe;
+  color: #ffffff; // user name text color
   .toolbar-background {
-    background: #04436a !important;
+    background: #2F343D !important;
   }
   .toolbar-title {
-    color: #89aabe;
+    color: #ffffff;
   }
 }
 
 .home-menu-footer {
-  background-color: #04436a;
+  background-color: #2f343d;
   display: flex;
   justify-content: center;
+  padding: 8px 16px;
 }
 
 .logout-button {
@@ -27,7 +28,7 @@
 }
 
 .menu-item {
-  color: #89aabe;
+  color: #9ea2a8; // side content text color
   background-color: #044b76;
 }
 
@@ -38,10 +39,11 @@
 
 .text-title {
   padding: 0.5em;
+  margin: 0 0.5rem;
 }
 
 .sub-sidenav-header {
-  color: #89aabe;
+  color: #9ea2a8; // side content sub heading color
   margin: 20px 10px 5px 10px;
   font-size: 1em;
   font-weight: 500;
@@ -49,4 +51,30 @@
 
 .margin-left {
   margin-left: 5px;
+}
+
+.toolbar-md[sidebar] {
+    border-bottom: 1px solid #2F343D;
+}
+
+.badge {
+  background-color: #414852;
+  color: #ffffff;
+  padding: 3px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.logo {
+  position: absolute;
+  bottom: 4px;
+  right: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Meiryo UI";
+  font-size: 14px;
+  color: #9ea2a8
+}
+
+.logo ion-icon {
+  width: 16px;
+  height: 14px;
 }
