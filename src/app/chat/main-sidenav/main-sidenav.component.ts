@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../shared/services/authentication.service';
-import { UserFields } from '../../graphql/types/types';
-import { ChannelsService } from '../services/channels/channels.service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
 import { MenuController } from 'ionic-angular';
 
+import { AuthenticationService } from '../../shared/services/authentication.service';
+import { UserFields } from '../../graphql/types/types';
+import { ChannelsService } from '../chat-view/channels.service';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+
 @Component({
-  selector: 'main-sidenav',
+  selector: 'app-main-sidenav',
   templateUrl: './main-sidenav.component.html',
   styleUrls: ['./main-sidenav.component.scss'],
   encapsulation: ViewEncapsulation.None,

@@ -1,10 +1,11 @@
 <div class="message-row">
-  <img class="rounded-img message-img" src="{{message.author.avatar}}" alt="avatar">
+  <img class="rounded-img message-img" [src]="message.author.avatar | defaultAvatar: message.author.name" alt="">
   <div class="message-block">
     <div class="message-headers">
       <div class="message-sender">{{message.author.name}}</div>
       <div class="message-timestamp">{{message.creationTime | timeToString:'LT'}}</div>
     </div>
-    <div class="message-text">{{message.content}}</div>
+    <div *ngIf="!message.type" class="message-text">{{message.content}}</div>
+    <div *ngIf="message.type" class="message-text">{{message | translateServer}}
   </div>
 </div>

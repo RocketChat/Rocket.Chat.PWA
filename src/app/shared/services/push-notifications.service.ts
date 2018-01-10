@@ -5,9 +5,9 @@ const FAKE_KEY = 'BCbCS1iuPOu9PjalqMC3QlnrKAy483SBaEcf0_ALu_jR4xX0F5Bhea3K5m17Wa
 @Injectable()
 export class PushNotificationsService {
 
-  constructor(private serviceWorker: NgServiceWorker){}
+  constructor(private serviceWorker: NgServiceWorker) {}
 
-  initPushNotification(){
+  initPushNotification() {
     this.serviceWorker.registerForPush({
       applicationServerKey: FAKE_KEY,
     }).subscribe((pushRegistration) => {
@@ -16,7 +16,7 @@ export class PushNotificationsService {
     });
   }
 
-  getPushMessages(){
+  getPushMessages() {
     this.serviceWorker.push.subscribe(msg => {
         console.log('push msg', msg);
       }

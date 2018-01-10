@@ -1,7 +1,7 @@
 <ion-header class="home-menu-header">
   <ion-toolbar>
     <div class="toolbar-row">
-      <img class="rounded-img margin-left" src="{{user?.avatar}}" alt="avatar">
+      <img class="rounded-img margin-left" [src]="user?.avatar | defaultAvatar : user?.name" alt="">
       <span class="text-title">{{user?.name}}</span>
     </div>
   </ion-toolbar>
@@ -9,11 +9,11 @@
 <div class="home-menu-content">
   <h4 class="sub-sidenav-header">CHANNELS ({{channelsNum}})</h4>
   <ion-list no-lines no-padding>
-    <channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel" (onClick)="closeSideNav()"></channel-item>
+    <app-channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel" (onClick)="closeSideNav()"></app-channel-item>
   </ion-list>
   <h4 class="sub-sidenav-header">DIRECT MESSAGES ({{directChannelsNum}})</h4>
   <ion-list no-lines no-padding>
-    <channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel" (onClick)="closeSideNav()"></channel-item>
+    <app-channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel" (onClick)="closeSideNav()"></app-channel-item>
   </ion-list>
 </div>
 <ion-footer class="home-menu-footer">
