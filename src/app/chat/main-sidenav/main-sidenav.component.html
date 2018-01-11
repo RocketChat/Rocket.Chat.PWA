@@ -1,21 +1,34 @@
-<ion-header class="home-menu-header">
-  <ion-toolbar>
-    <div class="toolbar-row">
+<ion-header class="home-menu-header" no-border>
+  <ion-toolbar sidebar>
+    <div class="toolbar-row" padding-horizontal>
       <img class="rounded-img margin-left" [src]="user?.avatar | defaultAvatar : user?.name" alt="">
-      <span class="text-title">{{user?.name}}</span>
+      <span class="text-title"><b>@{{user?.name}}</b></span>
+      <button title="Logout" (click)="logout()" class="button-icon" ion-button clear color="light" icon-only>
+       <ion-icon name="exit"></ion-icon>
+      </button>
     </div>
   </ion-toolbar>
 </ion-header>
 <div class="home-menu-content">
-  <h4 class="sub-sidenav-header">CHANNELS ({{channelsNum}})</h4>
-  <ion-list no-lines no-padding>
+  <h4 class="sub-sidenav-header" padding-horizontal>
+    <b>Channels <span class="badge">{{channelsNum}}</span></b>
+  </h4>
+  <ion-list no-lines padding-horizontal>
     <app-channel-item class="menu-item" *ngFor="let channel of channels | async" [channel]="channel" (onClick)="closeSideNav()"></app-channel-item>
   </ion-list>
-  <h4 class="sub-sidenav-header">DIRECT MESSAGES ({{directChannelsNum}})</h4>
-  <ion-list no-lines no-padding>
+  <h4 class="sub-sidenav-header" padding-horizontal>
+    <b>Direct Messages <span class="badge">{{directChannelsNum}}</span></b>
+  </h4>
+  <ion-list no-lines padding-horizontal>
     <app-channel-item class="menu-item" *ngFor="let channel of directChannels | async" [channel]="channel" (onClick)="closeSideNav()"></app-channel-item>
   </ion-list>
 </div>
 <ion-footer class="home-menu-footer">
-  <button class="logout-button" ion-button (click)="logout()">Logout</button>
+  <a href="https://github.com/RocketChat/Rocket.Chat" target="_blank">
+    <img src="assets/images/logo.svg?v=4">
+    <small class="logo">
+      <ion-icon name="logo-github"></ion-icon>
+      Fork it on github
+    </small>
+  </a>
 </ion-footer>
