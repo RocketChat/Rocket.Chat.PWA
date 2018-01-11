@@ -1,3 +1,6 @@
+@import '~offline-js/themes/offline-language-english';
+@import '~offline-js/themes/offline-theme-dark';
+
 .loading-splash {
   opacity: 0;
   transition: opacity .8s, z-index .8s ease-in-out;
@@ -26,4 +29,3 @@ ion-app:empty + .loading-splash {
 .toolbar-md {
     min-height: 61px;
 }
-

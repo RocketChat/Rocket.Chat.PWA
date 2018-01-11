@@ -1,28 +1,28 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MyChannelsQuery } from '../../graphql/types/types';
+import { Router } from '@angular/router';
+
+import { MyChannels } from '../../graphql/types/types';
 
 @Component({
-  selector: 'channel-item',
-  templateUrl: './channel-item.component.html',
-  styleUrls: ['./channel-item.component.scss']
+  selector : 'app-channel-item',
+  templateUrl : './channel-item.component.html',
+  styleUrls : ['./channel-item.component.scss']
 })
 export class ChannelItemComponent implements OnInit {
-
-  @Output() onClick = new EventEmitter<MyChannelsQuery.ChannelsByUser>();
-  @Input() channel: MyChannelsQuery.ChannelsByUser;
+  @Output() onClick = new EventEmitter<MyChannels.ChannelsByUser>();
+  @Input() channel: MyChannels.ChannelsByUser;
 
   channelSymbol: string;
 
-
-  constructor(private router: Router, private route: ActivatedRoute) {
-  }
+  constructor(private router: Router) {}
 
   gotoChannel(channelName: string) {
-    if (this.channel.direct) {
-      this.router.navigate(['direct', channelName]);
-    } else {
-      this.router.navigate(['channel', channelName]);
+    if (channelName) {
+      if (this.channel.direct) {
+        this.router.navigate(['direct', channelName]);
+      } else {
+        this.router.navigate(['channel', channelName]);
+      }
     }
   }
 
@@ -34,11 +34,9 @@ export class ChannelItemComponent implements OnInit {
   ngOnInit(): void {
     if (this.channel.direct) {
       this.channelSymbol = 'at';
-    }
-    else if (this.channel.privateChannel) {
+    } else if (this.channel.privateChannel) {
       this.channelSymbol = 'lock';
-    }
-    else {
+    } else {
       this.channelSymbol = 'hashtag';
     }
   }

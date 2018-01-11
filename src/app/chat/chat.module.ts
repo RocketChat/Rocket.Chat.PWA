@@ -8,18 +8,17 @@ import { SharedModule } from '../shared/shared.module';
 import { MainPageComponent } from './main-page/main-page.component';
 import { ChannelItemComponent } from './channel-item/channel-item.component';
 import { ChatViewComponent } from './chat-view/chat-view.component';
+import { ChatService } from './chat-view/chat.service';
 import { MainSidenavComponent } from './main-sidenav/main-sidenav.component';
-import { ChannelsService } from './services/channels/channels.service';
-import { ChatService } from './services/chat/chat.service';
+import { ChannelsService } from './chat-view/channels.service';
 import { ChannelNotFoundComponent } from './channel-not-found/channel-not-found.component';
-import { VirtualScrollModule } from 'angular2-virtual-scroll';
+import { TranslateServerPipe } from './pipes/translate-server.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     ChatRoutingModule,
-    VirtualScrollModule,
   ],
   declarations: [
     MainPageComponent,
@@ -29,6 +28,7 @@ import { VirtualScrollModule } from 'angular2-virtual-scroll';
     ChannelItemComponent,
     MainSidenavComponent,
     ChannelNotFoundComponent,
+    TranslateServerPipe,
   ],
   providers: [
     ChannelsService,

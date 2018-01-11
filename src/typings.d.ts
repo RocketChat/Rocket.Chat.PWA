@@ -4,10 +4,6 @@ interface NodeModule {
   id: string;
 }
 
-interface AsyncIterator<T> {
-  next(): Promise<T>;
-}
-
 declare var Offline: {
   options: OfflineOptions,
   state: 'up' | 'down',
