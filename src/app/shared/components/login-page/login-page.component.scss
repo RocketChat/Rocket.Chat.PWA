@@ -25,6 +25,11 @@
   max-width: 700px;
 }
 
+.login-input {
+  padding: 0 1em 0 1em;
+}
+
+
 @media screen and (max-height: 320px) {
   .hide-on-keyboard {
     display: none;
