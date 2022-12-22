@@ -35,7 +35,7 @@
     "graphql-tag": "^2.4.2",
     "ionic-angular": "^3.6.1",
     "ionicons": "^3.0.0",
-    "jsonwebtoken": "^8.0.0",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.19.3",
     "offline-js": "^0.7.19",
     "redux": "^3.7.2",
