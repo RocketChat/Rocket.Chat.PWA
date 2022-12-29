@@ -46,7 +46,7 @@
     "zone.js": "0.8.12"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.1",
+    "@angular/cli": "^15.0.4",
     "@angular/compiler-cli": "^4.3.6",
     "@angular/language-service": "^4.3.6",
     "@types/graphql": "^0.10.1",
